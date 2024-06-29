@@ -1,0 +1,26 @@
+<!-- views/comments.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Comments</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Comments</h2>
+    <div class="list-group">
+      <% comments.forEach(comment => { %>
+        <div class="list-group-item">
+          <h5><%= comment.User.firstName %> <%= comment.User.lastName %></h5>
+          <p><%= comment.content %></p>
+          <p>Rating: <%= comment.rating %> stars</p>
+          <% if (comment.photo) { %>
+            <img src="/<%= comment.photo %>" alt="User Photo" class="img-thumbnail" width="50">
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>

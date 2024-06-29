@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commentaires</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/nav') %>
+  <div class="container mt-5">
+    <h1>Commentaires pour <%= housing.title %></h1>
+    <div class="list-group">
+      <% housing.Comments.forEach(comment => { %>
+        <div class="list-group-item">
+          <h5><%= comment.User.firstName %> <%= comment.User.lastName %> - <%= comment.rating %> étoiles</h5>
+          <p><%= comment.content %></p>
+          <% if (comment.photo) { %>
+            <img src="/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
+          <% } %>
+          <% if (comment.UserId === user.id) { %>
+            <form action="/comments/<%= comment.id %>/edit" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="_method" value="PUT">
+              <div class="form-group">
+                <label for="content">Commentaire</label>
+                <textarea class="form-control" id="content" name="content" required><%= comment.content %></textarea>
+              </div>
+              <div class="form-group">
+                <label for="rating">Évaluation</label>
+                <input type="number" class="form-control" id="rating" name="rating" value="<%= comment.rating %>" min="0" max="5" required>
+              </div>
+              <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" class="form-control-file" id="photo" name="photo">
+              </div>
+              <button type="submit" class="btn btn-primary">Modifier</button>
+            </form>
+            <form action="/comments/<%= comment.id %>/delete" method="POST" class="mt-2">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+  <%- include('partials/footer') %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

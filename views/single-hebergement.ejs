@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= housing.title %></title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <%- include('partials/nav') %>
+  <div class="container mt-5">
+    <h1 class="text-center"><%= housing.title %></h1>
+    <div class="row">
+      <div class="col-md-8">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <% if (housing.image) { %>
+              <div class="carousel-item active">
+                <img src="/<%= housing.image %>" class="d-block w-100" alt="<%= housing.title %>">
+              </div>
+            <% } else { %>
+              <div class="carousel-item active">
+                <img src="/path/to/default-image.jpg" class="d-block w-100" alt="Default Image">
+              </div>
+            <% } %>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        <p class="mt-4"><%= housing.description %></p>
+      </div>
+      <div class="col-md-4">
+        <h3>Prix: <%= housing.price %> €</h3>
+        <h4>Capacité: <%= housing.capacity %> personnes</h4>
+        <form action="/bookings/add" method="POST">
+          <input type="hidden" name="housingId" value="<%= housing.id %>">
+          <div class="form-group">
+            <label for="startDate">Date d'arrivée</label>
+            <input type="date" class="form-control" id="startDate" name="startDate" required>
+          </div>
+          <div class="form-group">
+            <label for="endDate">Date de départ</label>
+            <input type="date" class="form-control" id="endDate" name="endDate" required>
+          </div>
+          <div class="form-group">
+            <label for="guests">Nombre de personnes</label>
+            <input type="number" class="form-control" id="guests" name="guests" min="1" max="<%= housing.capacity %>" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Réservez maintenant</button>
+        </form>
+      </div>
+    </div>
+    <hr>
+    <h3>Informations complémentaires</h3>
+    <ul>
+      <!-- Display additional information here -->
+    </ul>
+    
+    <!-- Résumé des évaluations -->
+    <div class="mt-5">
+      <h3>Résumé des évaluations</h3>
+      <% 
+        let totalRating = 0;
+        let totalComments = housing.Comments.length;
+        housing.Comments.forEach(comment => {
+          totalRating += comment.rating;
+        });
+        let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
+      %>
+      <div class="d-flex align-items-center">
+        <h4 class="mb-0"><%= averageRating %> / 5</h4>
+        <div class="ml-3">
+          <% for(let i = 1; i <= 5; i++) { %>
+            <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
+          <% } %>
+        </div>
+        <span class="ml-2">(<%= totalComments %> commentaires)</span>
+      </div>
+    </div>
+
+    <!-- Section des commentaires -->
+    <h3 class="mt-5">Commentaires</h3>
+    <div class="list-group">
+      <% housing.Comments.forEach(comment => { %>
+        <div class="list-group-item">
+          <div class="d-flex align-items-center">
+            <img src="/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+            <div>
+              <h5><%= comment.User.firstName %> <%= comment.User.lastName %></h5>
+              <div>
+                <% for(let i = 1; i <= 5; i++) { %>
+                  <i class="fas fa-star <%= i <= comment.rating ? 'text-warning' : 'text-muted' %>"></i>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <p class="mt-2"><%= comment.content %></p>
+          <% if (comment.photo) { %>
+            <img src="/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
+          <% } %>
+          <% if (comment.UserId === user.id) { %>
+            <form action="/comments/<%= housing.id %>/comments/<%= comment.id %>/edit" method="POST" enctype="multipart/form-data" class="mt-2">
+              <input type="hidden" name="_method" value="PUT">
+              <div class="form-group">
+                <label for="content">Commentaire</label>
+                <textarea class="form-control" id="content" name="content" required><%= comment.content %></textarea>
+              </div>
+              <div class="form-group">
+                <label for="rating">Évaluation</label>
+                <input type="number" class="form-control" id="rating" name="rating" value="<%= comment.rating %>" min="0" max="5" required>
+              </div>
+              <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" class="form-control-file" id="photo" name="photo">
+              </div>
+              <button type="submit" class="btn btn-primary">Modifier</button>
+            </form>
+            <form action="/comments/<%= housing.id %>/comments/<%= comment.id %>/delete" method="POST" class="mt-2">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-danger">Supprimer</button>
+            </form>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Formulaire d'ajout de commentaire -->
+    <h4>Ajouter un commentaire</h4>
+    <form action="/comments/<%= housing.id %>/comments" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="content">Commentaire</label>
+        <textarea class="form-control" id="content" name="content" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="rating">Évaluation</label>
+        <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" required>
+      </div>
+      <div class="form-group">
+        <label for="photo">Photo</label>
+        <input type="file" class="form-control-file" id="photo" name="photo">
+      </div>
+      <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+  </div>
+  <%- include('partials/footer') %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
