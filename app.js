@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 });
 
 // Servir les fichiers statiques depuis le répertoire 'public'
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Servir les fichiers statiques depuis le répertoire 'uploads'
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

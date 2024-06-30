@@ -4,19 +4,19 @@ const path = require('path');
 // Définir le stockage pour les fichiers uploadés
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Répertoire où les fichiers seront stockés
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nomme le fichier avec un timestamp
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 // Initialiser multer avec le stockage défini
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Limite de taille de fichier à 10MB
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/; // Types de fichiers acceptés
+    const filetypes = /jpeg|jpg|png/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
 
