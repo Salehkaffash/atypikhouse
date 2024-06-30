@@ -6,15 +6,15 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require('./user')(sequelize, Sequelize);
-db.Owner = require('./owner')(sequelize, Sequelize);
-db.Housing = require('./housing')(sequelize, Sequelize);
-db.Booking = require('./booking')(sequelize, Sequelize);
-db.Comment = require('./comment')(sequelize, Sequelize);
-db.Equipment = require('./equipment')(sequelize, Sequelize);
-db.Notification = require('./notification')(sequelize, Sequelize);
-db.Theme = require('./theme')(sequelize, Sequelize);
-db.Destination = require('./destination')(sequelize, Sequelize); // Ajout du modèle Destination
+db.User = require('./user');
+db.Owner = require('./owner');
+db.Housing = require('./housing');
+db.Booking = require('./booking');
+db.Comment = require('./comment');
+db.Equipment = require('./equipment');
+db.Notification = require('./notification');
+db.Theme = require('./theme');
+db.Destination = require('./destination');
 
 // Associations
 

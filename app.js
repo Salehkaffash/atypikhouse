@@ -76,6 +76,7 @@ db.sequelize.sync({ alter: true }).then(() => {
   console.error('Error synchronizing database:', err);
 });
 
+
 // Démarrer le serveur
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
