@@ -12,7 +12,7 @@ router.get('/', ensureAuthenticated, async (req, res) => {
       include: [
         {
           model: db.Housing,
-          as: 'housing' // Utilisez l'alias correct ici
+          as: 'housing'
         }
       ]
     });
