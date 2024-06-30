@@ -14,9 +14,9 @@
       <% bookings.forEach(booking => { %>
         <div class="col-md-4">
           <div class="card mb-4">
-            <img src="<%= booking.Housing.image %>" class="card-img-top" alt="<%= booking.Housing.title %>">
+            <img src="/uploads/<%= booking.housing.image %>" class="card-img-top" alt="<%= booking.housing.title %>">
             <div class="card-body">
-              <h5 class="card-title"><%= booking.Housing.title %></h5>
+              <h5 class="card-title"><%= booking.housing.title %></h5>
               <p class="card-text">Début : <%= booking.startDate %></p>
               <p class="card-text">Fin : <%= booking.endDate %></p>
               <p class="card-text">Status : <%= booking.status %></p>

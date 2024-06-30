@@ -7,10 +7,10 @@ const flash = require('connect-flash');
 require('dotenv').config();
 const db = require('./models');
 const initializePassport = require('./config/passport');
+const path = require('path');
 
 const app = express();
 initializePassport(passport);
-
 
 // Middleware pour parser les requêtes URL-encoded et JSON
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 
 // Servir les fichiers statiques depuis le répertoire 'uploads'
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Définir le moteur de vue sur EJS
 app.set('view engine', 'ejs');
@@ -75,7 +75,6 @@ db.sequelize.sync({ alter: true }).then(() => {
 }).catch(err => {
   console.error('Error synchronizing database:', err);
 });
-
 
 // Démarrer le serveur
 const PORT = process.env.PORT || 3000;

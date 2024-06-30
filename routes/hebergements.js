@@ -1,4 +1,3 @@
-// routes/hebergements.js
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
@@ -6,33 +5,6 @@ const multer = require('multer');
 const path = require('path');
 const { ensureAuthenticated } = require('../middleware/auth');
 const { Housing, Comment, User } = require('../models');
-
-// Route pour afficher tous les hébergements
-router.get('/', async (req, res) => {
-  try {
-    const housings = await Housing.findAll();
-    res.render('hebergements', { housings });
-  } catch (err) {
-    console.error('Error fetching housings:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-// Route pour afficher un hébergement spécifique avec ses commentaires
-router.get('/:id', async (req, res) => {
-  try {
-    const housing = await Housing.findByPk(req.params.id, {
-      include: [{
-        model: Comment,
-        include: [User]
-      }]
-    });
-    res.render('single-hebergement', { housing });
-  } catch (err) {
-    console.error('Error fetching housing:', err);
-    res.status(500).send('Server Error');
-  }
-});
 
 // Configuration de multer pour le stockage des fichiers
 const storage = multer.diskStorage({
@@ -82,6 +54,33 @@ router.post('/add', ensureAuthenticated, upload.single('image'), async (req, res
     res.redirect('/hebergements');
   } catch (error) {
     console.error('Error adding housing:', error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Route pour afficher tous les hébergements
+router.get('/', async (req, res) => {
+  try {
+    const housings = await Housing.findAll();
+    res.render('hebergements', { housings });
+  } catch (err) {
+    console.error('Error fetching housings:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Route pour afficher un hébergement spécifique avec ses commentaires
+router.get('/:id', async (req, res) => {
+  try {
+    const housing = await Housing.findByPk(req.params.id, {
+      include: [{
+        model: Comment,
+        include: [User]
+      }]
+    });
+    res.render('single-hebergement', { housing });
+  } catch (err) {
+    console.error('Error fetching housing:', err);
     res.status(500).send('Server Error');
   }
 });

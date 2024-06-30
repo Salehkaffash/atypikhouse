@@ -9,7 +9,12 @@ router.get('/', ensureAuthenticated, async (req, res) => {
   try {
     const bookings = await db.Booking.findAll({
       where: { UserId: req.user.id },
-      include: [db.Housing]
+      include: [
+        {
+          model: db.Housing,
+          as: 'housing' // Utilisez l'alias correct ici
+        }
+      ]
     });
     res.render('bookings', { bookings });
   } catch (err) {

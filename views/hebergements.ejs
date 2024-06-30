@@ -15,9 +15,9 @@
         <div class="col-md-4">
           <div class="card mb-4">
             <% if (housing.image) { %>
-              <img src="/<%= housing.image %>" class="card-img-top" alt="<%= housing.title %>">
+              <img src="/uploads/<%= housing.image %>" class="card-img-top" alt="<%= housing.title %>">
             <% } else { %>
-              <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+              <img src="/uploads/default-image.jpg" class="card-img-top" alt="Default Image">
             <% } %>
             <div class="card-body">
               <h5 class="card-title"><%= housing.title %></h5>

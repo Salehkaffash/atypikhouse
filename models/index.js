@@ -6,40 +6,21 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require('./user');
-db.Owner = require('./owner');
-db.Housing = require('./housing');
-db.Booking = require('./booking');
-db.Comment = require('./comment');
-db.Equipment = require('./equipment');
-db.Notification = require('./notification');
-db.Theme = require('./theme');
-db.Destination = require('./destination');
+db.User = require('./user')(sequelize, Sequelize.DataTypes);
+db.Owner = require('./owner')(sequelize, Sequelize.DataTypes);
+db.Housing = require('./housing')(sequelize, Sequelize.DataTypes);
+db.Booking = require('./booking')(sequelize, Sequelize.DataTypes);
+db.Comment = require('./comment')(sequelize, Sequelize.DataTypes);
+db.Equipment = require('./equipment')(sequelize, Sequelize.DataTypes);
+db.Notification = require('./notification')(sequelize, Sequelize.DataTypes);
+db.Theme = require('./theme')(sequelize, Sequelize.DataTypes);
+db.Destination = require('./destination')(sequelize, Sequelize.DataTypes);
 
 // Associations
-
-db.Owner.hasMany(db.Housing);
-db.Housing.belongsTo(db.Owner);
-
-db.Housing.hasMany(db.Booking);
-db.Booking.belongsTo(db.Housing);
-
-db.User.hasMany(db.Booking);
-db.Booking.belongsTo(db.User);
-
-db.User.hasMany(db.Comment);
-db.Comment.belongsTo(db.User);
-
-db.Housing.hasMany(db.Comment);
-db.Comment.belongsTo(db.Housing);
-
-db.Housing.belongsToMany(db.Equipment, { through: 'HousingEquipments' });
-db.Equipment.belongsToMany(db.Housing, { through: 'HousingEquipments' });
-
-db.Housing.belongsTo(db.Theme, { foreignKey: 'themeId', as: 'theme' });
-db.Theme.hasMany(db.Housing, { foreignKey: 'themeId', as: 'housings' });
-
-db.User.hasMany(db.Notification);
-db.Notification.belongsTo(db.User);
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 module.exports = db;

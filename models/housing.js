@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     Housing.belongsTo(models.Owner, { foreignKey: 'OwnerId' });
     Housing.belongsTo(models.Theme, { foreignKey: 'themeId' });
     Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
+    Housing.hasMany(models.Booking, { foreignKey: 'HousingId' });  // Ajout de l'association
   };
 
   return Housing;

@@ -13,9 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('published', 'draft', 'archived'),
       defaultValue: 'draft'
     }
-  }, {});
+  });
+
   Page.associate = function(models) {
     // associations can be defined here
   };
+
   return Page;
 };

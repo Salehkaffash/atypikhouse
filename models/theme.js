@@ -1,4 +1,3 @@
-// models/theme.js
 module.exports = (sequelize, DataTypes) => {
   const Theme = sequelize.define('Theme', {
     name: {

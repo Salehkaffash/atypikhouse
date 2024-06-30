@@ -1,4 +1,3 @@
-// models/owner.js
 module.exports = (sequelize, DataTypes) => {
   const Owner = sequelize.define('Owner', {
     name: {

@@ -17,11 +17,11 @@
           <div class="carousel-inner">
             <% if (housing.image) { %>
               <div class="carousel-item active">
-                <img src="/<%= housing.image %>" class="d-block w-100" alt="<%= housing.title %>">
+                <img src="/uploads/<%= housing.image %>" class="d-block w-100" alt="<%= housing.title %>">
               </div>
             <% } else { %>
               <div class="carousel-item active">
-                <img src="/path/to/default-image.jpg" class="d-block w-100" alt="Default Image">
+                <img src="/uploads/default-image.jpg" class="d-block w-100" alt="Default Image">
               </div>
             <% } %>
           </div>
@@ -91,7 +91,7 @@
       <% housing.Comments.forEach(comment => { %>
         <div class="list-group-item">
           <div class="d-flex align-items-center">
-            <img src="/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+            <img src="/uploads/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
             <div>
               <h5><%= comment.User.firstName %> <%= comment.User.lastName %></h5>
               <div>
@@ -103,7 +103,7 @@
           </div>
           <p class="mt-2"><%= comment.content %></p>
           <% if (comment.photo) { %>
-            <img src="/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
+            <img src="/uploads/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
           <% } %>
           <% if (comment.UserId === user.id) { %>
             <form action="/comments/<%= housing.id %>/comments/<%= comment.id %>/edit" method="POST" enctype="multipart/form-data" class="mt-2">
