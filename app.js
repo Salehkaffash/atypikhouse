@@ -11,6 +11,7 @@ const initializePassport = require('./config/passport');
 const app = express();
 initializePassport(passport);
 
+
 // Middleware pour parser les requêtes URL-encoded et JSON
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -51,7 +52,9 @@ const hoteRoutes = require('./routes/hote');
 const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const themesRoutes = require('./routes/themes');
-const commentsRoutes = require('./routes/comments'); // Nouvelle ligne pour les commentaires
+const commentsRoutes = require('./routes/comments');
+const adminRoutes = require('./routes/admin');
+const pagesRoutes = require('./routes/pages'); // Nouvelle ligne pour pages
 
 // Utiliser les fichiers de routes
 app.use('/', homeRoutes);
@@ -62,7 +65,9 @@ app.use('/hote', hoteRoutes);
 app.use(authRoutes);
 app.use('/bookings', bookingRoutes);
 app.use('/themes', themesRoutes);
-app.use('/comments', commentsRoutes); // Nouvelle ligne pour les commentaires
+app.use('/comments', commentsRoutes);
+app.use('/admin', adminRoutes);
+app.use('/admin/pages', pagesRoutes); // Nouvelle ligne pour pages
 
 // Synchroniser les modèles avec la base de données
 db.sequelize.sync({ alter: true }).then(() => {

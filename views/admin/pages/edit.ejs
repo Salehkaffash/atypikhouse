@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modifier une page</title>
+  <link href="/material-dashboard/css/material-dashboard.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/nav') %>
+  <div class="container mt-5">
+    <h1>Modifier la page</h1>
+    <form action="/admin/pages/edit/<%= page.id %>" method="POST">
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= page.title %>" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Contenu</label>
+        <textarea class="form-control" id="content" name="content" rows="10" required><%= page.content %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="status">Statut</label>
+        <select class="form-control" id="status" name="status">
+          <option value="published" <%= page.status === 'published' ? 'selected' : '' %>>Publié</option>
+          <option value="draft" <%= page.status === 'draft' ? 'selected' : '' %>>Brouillon</option>
+          <option value="archived" <%= page.status === 'archived' ? 'selected' : '' %>>Archivé</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+  </div>
+  <%- include('partials/footer') %>
+  <script src="/material-dashboard/js/material-dashboard.js"></script>
+</body>
+</html>

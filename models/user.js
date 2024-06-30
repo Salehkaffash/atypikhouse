@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role: {
-      type: DataTypes.STRING,
-      defaultValue: 'user',
-    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -29,15 +25,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: true,
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
     },
   });
 
