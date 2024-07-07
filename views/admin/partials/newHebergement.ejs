@@ -1,0 +1,50 @@
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Ajouter un nouvel hébergement</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/hebergements/new" method="POST">
+                            <div class="form-group">
+                                <label for="title">Titre</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <input type="text" class="form-control" id="type" name="type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Prix</label>
+                                <input type="number" class="form-control" id="price" name="price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="capacity">Capacité</label>
+                                <input type="number" class="form-control" id="capacity" name="capacity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="themeId">Thème</label>
+                                <input type="number" class="form-control" id="themeId" name="themeId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="OwnerId">Propriétaire</label>
+                                <input type="number" class="form-control" id="OwnerId" name="OwnerId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="text" class="form-control" id="image" name="image">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

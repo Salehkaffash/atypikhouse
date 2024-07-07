@@ -42,6 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Définir le moteur de vue sur EJS
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Importer les fichiers de routes
 const homeRoutes = require('./routes/home');

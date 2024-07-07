@@ -1,0 +1,27 @@
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Modifier l'avis</h4>
+            </div>
+            <div class="card-body">
+              <form action="/admin/avis/edit/<%= avis.id %>" method="POST">
+                <div class="form-group">
+                  <label for="content">Contenu</label>
+                  <textarea class="form-control" id="content" name="content" rows="5" required><%= avis.content %></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="rating">Note</label>
+                  <input type="number" class="form-control" id="rating" name="rating" value="<%= avis.rating %>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,27 @@
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Modifier l'article</h4>
+            </div>
+            <div class="card-body">
+              <form action="/admin/blog/edit/<%= article.id %>" method="POST">
+                <div class="form-group">
+                  <label for="title">Titre</label>
+                  <input type="text" class="form-control" id="title" name="title" value="<%= article.title %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="content">Contenu</label>
+                  <textarea class="form-control" id="content" name="content" rows="5" required><%= article.content %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  

@@ -1,0 +1,27 @@
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Modifier la page</h4>
+            </div>
+            <div class="card-body">
+              <form action="/admin/pages/edit/<%= page.id %>" method="POST">
+                <div class="form-group">
+                  <label for="name">Nom de la page</label>
+                  <input type="text" class="form-control" id="name" name="name" value="<%= page.name %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="content">Contenu</label>
+                  <textarea class="form-control" id="content" name="content" rows="5" required><%= page.content %></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  

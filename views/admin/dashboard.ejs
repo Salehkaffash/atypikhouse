@@ -1,72 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <!-- Material Dashboard CSS -->
-  <link href="/material-dashboard/css/material-dashboard.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/material-dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>Admin Dashboard</title>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="sidebar" data-color="purple" data-background-color="white" data-image="/material-dashboard/img/sidebar-1.jpg">
-      <div class="logo">
-        <a href="/" class="simple-text logo-normal">
-          Atypikhouse
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="/admin/dashboard">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <!-- Ajoutez d'autres éléments de navigation ici -->
-        </ul>
-      </div>
-    </div>
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Dashboard</a>
-          </div>
-        </div>
-      </nav>
-      <!-- Fin Navbar -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-              <h1 class="mt-5">Dashboard</h1>
-              <p>Bienvenue, <%= user.firstName %>!</p>
-              <p>Utilisez le menu latéral pour naviguer dans les différentes sections du tableau de bord.</p>
+    <div class="wrapper">
+        <div class="sidebar" data-color="purple" data-background-color="white">
+            <div class="logo">
+                <a href="#" class="simple-text logo-normal">Atypikhouse</a>
             </div>
-          </div>
+            <div class="sidebar-wrapper">
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/admin/pages">
+                            <i class="material-icons">dashboard</i>
+                            <p>Pages</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/hebergements">
+                            <i class="material-icons">house</i>
+                            <p>Hébergements</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/destinations">
+                            <i class="material-icons">place</i>
+                            <p>Destinations</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/blog">
+                            <i class="material-icons">article</i>
+                            <p>Blog</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/avis">
+                            <i class="material-icons">comment</i>
+                            <p>Avis</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">
+                            <i class="material-icons">person</i>
+                            <p>Utilisateurs</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="/">
-                  Atypikhouse
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="float-right">
-            &copy; 2024, fait avec <i class="material-icons">favorite</i> par Atypikhouse.
-          </div>
+        <div class="main-panel">
+            <%- include(`partials/${partial}`) %>
         </div>
-      </footer>
     </div>
-  </div>
-  <!-- Material Dashboard JS -->
-  <script src="/material-dashboard/js/material-dashboard.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap-material-design.min.js"></script>
 </body>
 </html>
