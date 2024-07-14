@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ajouter un Hébergement</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tiny.cloud/1/zdtcfe1fvgcryohoophq1f4hs9lv8tbcyklegpll2gkylova/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: 'textarea#description',
+      setup: function (editor) {
+        editor.on('change', function () {
+          editor.save();
+        });
+      }
+    });
+  </script>
 </head>
 <body>
   <%- include('partials/nav') %>
@@ -36,6 +47,14 @@
         <select class="form-control" id="themeId" name="themeId" required>
           <% themes.forEach(theme => { %>
             <option value="<%= theme.id %>"><%= theme.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="destinationId">Destination</label>
+        <select class="form-control" id="destinationId" name="destinationId" required>
+          <% destinations.forEach(destination => { %>
+            <option value="<%= destination.id %>"><%= destination.name %></option>
           <% }) %>
         </select>
       </div>

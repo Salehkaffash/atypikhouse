@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Owner.associate = function(models) {
     Owner.belongsTo(models.User, { foreignKey: 'UserId' });
-    Owner.hasMany(models.Housing, { foreignKey: 'OwnerId' });
+    Owner.hasMany(models.Housing, { foreignKey: 'ownerId' }); // Correction: foreignKey 'ownerId' should be lowercase
   };
 
   return Owner;

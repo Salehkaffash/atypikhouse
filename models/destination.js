@@ -22,5 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
+  Destination.associate = function(models) {
+    Destination.hasMany(models.Housing, { foreignKey: 'destinationId' }); // Correction: foreignKey 'destinationId' should be lowercase
+  };
+
   return Destination;
 };

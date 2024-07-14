@@ -15,6 +15,8 @@ db.Equipment = require('./equipment')(sequelize, Sequelize.DataTypes);
 db.Notification = require('./notification')(sequelize, Sequelize.DataTypes);
 db.Theme = require('./theme')(sequelize, Sequelize.DataTypes);
 db.Destination = require('./destination')(sequelize, Sequelize.DataTypes);
+db.Page = require('./page')(sequelize, Sequelize.DataTypes);
+db.Blog = require('./blog')(sequelize, Sequelize.DataTypes);
 
 // Associations
 Object.keys(db).forEach(modelName => {

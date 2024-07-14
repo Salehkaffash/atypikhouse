@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -12,39 +11,33 @@ const path = require('path');
 const app = express();
 initializePassport(passport);
 
-// Middleware pour parser les requêtes URL-encoded et JSON
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Middleware pour les sessions
 app.use(session({
   secret: process.env.SESSION_SECRET || 'defaultsecret',
   resave: false,
   saveUninitialized: false,
 }));
 
-app.use(flash()); // Ajouter connect-flash middleware
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware pour ajouter l'utilisateur aux variables locales de chaque vue
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
-  res.locals.error = req.flash('error'); // Ajouter les messages flash aux variables locales
+  res.locals.error = req.flash('error');
   next();
 });
 
-// Servir les fichiers statiques depuis le répertoire 'public'
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Servir les fichiers statiques depuis le répertoire 'uploads'
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Définir le moteur de vue sur EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Importer les fichiers de routes
 const homeRoutes = require('./routes/home');
 const destinationsRoutes = require('./routes/destinations');
 const hebergementsRoutes = require('./routes/hebergements');
@@ -55,9 +48,8 @@ const bookingRoutes = require('./routes/bookings');
 const themesRoutes = require('./routes/themes');
 const commentsRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
-const pagesRoutes = require('./routes/pages'); // Nouvelle ligne pour pages
+const pagesRoutes = require('./routes/pages');
 
-// Utiliser les fichiers de routes
 app.use('/', homeRoutes);
 app.use('/destinations', destinationsRoutes);
 app.use('/hebergements', hebergementsRoutes);
@@ -68,17 +60,14 @@ app.use('/bookings', bookingRoutes);
 app.use('/themes', themesRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/admin', adminRoutes);
-app.use('/admin/pages', pagesRoutes); // Nouvelle ligne pour pages
+app.use('/admin/pages', pagesRoutes);
 
-// Synchroniser les modèles avec la base de données
 db.sequelize.sync({ alter: true }).then(() => {
-  console.log('Database synchronized');
+  console.log('Database & tables updated!');
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 }).catch(err => {
   console.error('Error synchronizing database:', err);
-});
-
-// Démarrer le serveur
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });

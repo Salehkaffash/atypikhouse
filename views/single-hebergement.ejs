@@ -39,6 +39,9 @@
       <div class="col-md-4">
         <h3>Prix: <%= housing.price %> €</h3>
         <h4>Capacité: <%= housing.capacity %> personnes</h4>
+        <% if (housing.Destination) { %>
+          <p>Destination: <a href="/destinations/<%= housing.Destination.id %>"><%= housing.Destination.name %></a></p>
+        <% } %>
         <form action="/bookings/add" method="POST">
           <input type="hidden" name="housingId" value="<%= housing.id %>">
           <div class="form-group">
@@ -68,8 +71,8 @@
       <h3>Résumé des évaluations</h3>
       <% 
         let totalRating = 0;
-        let totalComments = housing.Comments.length;
-        housing.Comments.forEach(comment => {
+        let totalComments = housing.Comments ? housing.Comments.length : 0;
+        housing.Comments && housing.Comments.forEach(comment => {
           totalRating += comment.rating;
         });
         let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
@@ -88,7 +91,7 @@
     <!-- Section des commentaires -->
     <h3 class="mt-5">Commentaires</h3>
     <div class="list-group">
-      <% housing.Comments.forEach(comment => { %>
+      <% housing.Comments && housing.Comments.forEach(comment => { %>
         <div class="list-group-item">
           <div class="d-flex align-items-center">
             <img src="/uploads/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">

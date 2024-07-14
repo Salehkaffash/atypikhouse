@@ -9,27 +9,43 @@
             <div class="card-body">
               <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST">
                 <div class="form-group">
-                  <label for="name">Nom de l'hébergement</label>
-                  <input type="text" class="form-control" id="name" name="name" value="<%= hebergement.name %>" required>
+                  <label for="title">Titre</label>
+                  <input type="text" class="form-control" id="title" name="title" value="<%= hebergement.title %>" required>
                 </div>
                 <div class="form-group">
                   <label for="description">Description</label>
                   <textarea class="form-control" id="description" name="description" rows="5" required><%= hebergement.description %></textarea>
                 </div>
                 <div class="form-group">
+                  <label for="type">Type</label>
+                  <input type="text" class="form-control" id="type" name="type" value="<%= hebergement.type %>" required>
+                </div>
+                <div class="form-group">
                   <label for="price">Prix</label>
                   <input type="number" class="form-control" id="price" name="price" value="<%= hebergement.price %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="location">Emplacement</label>
-                  <input type="text" class="form-control" id="location" name="location" value="<%= hebergement.location %>" required>
+                  <label for="capacity">Capacité</label>
+                  <input type="number" class="form-control" id="capacity" name="capacity" value="<%= hebergement.capacity %>" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <div class="form-group">
+                  <label for="themeId">Thème</label>
+                  <input type="number" class="form-control" id="themeId" name="themeId" value="<%= hebergement.themeId %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="OwnerId">Propriétaire</label>
+                  <input type="number" class="form-control" id="OwnerId" name="OwnerId" value="<%= hebergement.OwnerId %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="text" class="form-control" id="image" name="image" value="<%= hebergement.image %>">
+                </div>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
   

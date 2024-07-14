@@ -1,40 +1,57 @@
-// models/housing.js
 module.exports = (sequelize, DataTypes) => {
   const Housing = sequelize.define('Housing', {
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     price: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: false
     },
     capacity: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: true
     },
     themeId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      references: {
+        model: 'Themes',
+        key: 'id'
+      }
     },
+    destinationId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Destinations',
+        key: 'id'
+      }
+    },
+    ownerId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Owners',
+        key: 'id'
+      }
+    }
   });
 
   Housing.associate = function(models) {
-    Housing.belongsTo(models.Owner, { foreignKey: 'OwnerId' });
     Housing.belongsTo(models.Theme, { foreignKey: 'themeId' });
-    Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
-    Housing.hasMany(models.Booking, { foreignKey: 'HousingId' });  // Ajout de l'association
+    Housing.belongsTo(models.Destination, { foreignKey: 'destinationId' });
+    Housing.belongsTo(models.Owner, { foreignKey: 'ownerId' });
+    Housing.hasMany(models.Comment, { foreignKey: 'HousingId' }); // Assurez-vous que cette ligne est présente
   };
 
   return Housing;

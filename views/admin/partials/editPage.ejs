@@ -9,19 +9,19 @@
             <div class="card-body">
               <form action="/admin/pages/edit/<%= page.id %>" method="POST">
                 <div class="form-group">
-                  <label for="name">Nom de la page</label>
-                  <input type="text" class="form-control" id="name" name="name" value="<%= page.name %>" required>
+                  <label for="title">Titre de la page</label>
+                  <input type="text" class="form-control" id="title" name="title" value="<%= page.title %>" required>
                 </div>
                 <div class="form-group">
                   <label for="content">Contenu</label>
                   <textarea class="form-control" id="content" name="content" rows="5" required><%= page.content %></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
   

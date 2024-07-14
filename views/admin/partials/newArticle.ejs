@@ -1,27 +1,38 @@
 <div class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Ajouter un nouvel article</h4>
-            </div>
-            <div class="card-body">
-              <form action="/admin/blog/new" method="POST">
-                <div class="form-group">
-                  <label for="title">Titre</label>
-                  <input type="text" class="form-control" id="title" name="title" required>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Ajouter un nouvel article</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/blog/new" method="POST">
+                            <div class="form-group">
+                                <label for="title">Titre</label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="url">URL</label>
+                                <input type="text" class="form-control" id="url" name="url" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Catégorie</label>
+                                <input type="text" class="form-control" id="category" name="category" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Contenu</label>
+                                <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="mainImage">Image principale</label>
+                                <input type="text" class="form-control" id="mainImage" name="mainImage">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="content">Contenu</label>
-                  <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Ajouter</button>
-              </form>
             </div>
-          </div>
         </div>
-      </div>
     </div>
 </div>
-  

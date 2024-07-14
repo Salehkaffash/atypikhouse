@@ -53,4 +53,20 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Route pour afficher une destination individuelle avec les hébergements associés
+router.get('/:id', async (req, res) => {
+  try {
+    const destination = await db.Destination.findByPk(req.params.id, {
+      include: [{ model: db.Housing }]
+    });
+    if (!destination) {
+      return res.status(404).send('Destination not found');
+    }
+    res.render('single-destination', { destination });
+  } catch (err) {
+    console.error('Error fetching destination:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
