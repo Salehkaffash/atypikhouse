@@ -10,6 +10,12 @@
   <%- include('partials/nav') %>
   <div class="container mt-5">
     <h1 class="text-center">Hébergements pour le thème <%= theme.name %></h1>
+    <div class="text-center mb-4">
+      <a href="/themes/<%= theme.id %>/hebergements?sortBy=recent" class="btn btn-info">Les plus récentes</a>
+      <a href="/themes/<%= theme.id %>/hebergements?sortBy=popular" class="btn btn-info">Les plus populaires</a>
+      <a href="/themes/<%= theme.id %>/hebergements?sortBy=expensive" class="btn btn-info">Les plus chères</a>
+      <a href="/themes/<%= theme.id %>/hebergements?sortBy=cheap" class="btn btn-info">Les moins chères</a>
+    </div>
     <div class="row">
       <% housings.forEach(housing => { %>
         <div class="col-md-4">
