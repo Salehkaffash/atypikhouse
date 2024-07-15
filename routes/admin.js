@@ -179,9 +179,19 @@ router.get('/destinations/new', ensureAdmin, async (req, res) => {
 });
 
 // Route pour créer une nouvelle destination
-router.post('/destinations/new', ensureAdmin, async (req, res) => {
+router.post('/destinations/new', ensureAdmin, upload.single('image'), async (req, res) => {
   try {
-    await db.Destination.create(req.body);
+    const { name, location, description, categories } = req.body;
+    const image = req.file ? req.file.path : null;
+
+    await db.Destination.create({
+      name,
+      location,
+      description,
+      categories,
+      image
+    });
+
     res.redirect('/admin/destinations');
   } catch (err) {
     console.error('Error creating destination:', err);
@@ -198,6 +208,40 @@ router.get('/destinations/edit/:id', ensureAdmin, async (req, res) => {
   } catch (err) {
     console.error('Error fetching destination:', err);
     res.status(500).send('Error fetching destination');
+  }
+});
+
+// Route pour mettre à jour une destination
+router.post('/destinations/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const { name, location, description, categories } = req.body;
+    const image = req.file ? req.file.path : req.body.existingImage;
+
+    const destination = await db.Destination.findByPk(req.params.id);
+    await destination.update({
+      name,
+      location,
+      description,
+      categories,
+      image
+    });
+
+    res.redirect('/admin/destinations');
+  } catch (err) {
+    console.error('Error updating destination:', err);
+    res.status(500).send('Error updating destination');
+  }
+});
+
+// Route pour supprimer une destination
+router.post('/destinations/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const destination = await db.Destination.findByPk(req.params.id);
+    await destination.destroy();
+    res.redirect('/admin/destinations');
+  } catch (err) {
+    console.error('Error deleting destination:', err);
+    res.status(500).send('Error deleting destination');
   }
 });
 

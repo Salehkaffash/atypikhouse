@@ -57,12 +57,13 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const destination = await db.Destination.findByPk(req.params.id, {
-      include: [{ model: db.Housing }]
+      include: [{ model: db.Housing, include: [db.Theme] }]
     });
     if (!destination) {
       return res.status(404).send('Destination not found');
     }
-    res.render('single-destination', { destination });
+    const themes = await db.Theme.findAll();
+    res.render('single-destination', { destination, themes });
   } catch (err) {
     console.error('Error fetching destination:', err);
     res.status(500).send('Server Error');
