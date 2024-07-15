@@ -9,7 +9,21 @@
 <body>
   <%- include('partials/nav') %>
   <div class="container mt-5">
-    <h1 class="text-center">Hébergements pour le thème <%= theme.name %></h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="/themes">Thèmes</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= theme.name %></li>
+      </ol>
+    </nav>
+    <h1 class="text-center"><%= theme.name %></h1>
+    <h2 class="text-center text-muted"><%= theme.subtitle %></h2>
+    <div class="text-center mb-4">
+      <% if (theme.image) { %>
+        <img src="/<%= theme.image %>" class="img-fluid" alt="<%= theme.name %>">
+      <% } %>
+    </div>
+    <p><%= theme.description %></p>
     <div class="text-center mb-4">
       <a href="/themes/<%= theme.id %>/hebergements?sortBy=recent" class="btn btn-info">Les plus récentes</a>
       <a href="/themes/<%= theme.id %>/hebergements?sortBy=popular" class="btn btn-info">Les plus populaires</a>

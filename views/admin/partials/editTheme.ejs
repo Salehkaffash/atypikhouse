@@ -1,0 +1,39 @@
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Modifier le thème</h4>
+            </div>
+            <div class="card-body">
+              <form action="/admin/themes/edit/<%= theme.id %>" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="name">Nom du thème</label>
+                  <input type="text" class="form-control" id="name" name="name" value="<%= theme.name %>" required>
+                </div>
+                <div class="form-group">
+                  <label for="subtitle">Sous-titre</label>
+                  <input type="text" class="form-control" id="subtitle" name="subtitle" value="<%= theme.subtitle %>">
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" id="description" name="description" rows="5" required><%= theme.description %></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <input type="file" class="form-control-file" id="image" name="image">
+                  <% if (theme.image) { %>
+                    <img src="/<%= theme.image %>" alt="<%= theme.name %>" class="img-thumbnail" style="max-width: 100px;">
+                  <% } %>
+                  <input type="hidden" name="existingImage" value="<%= theme.image %>">
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

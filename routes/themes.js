@@ -48,7 +48,7 @@ router.get('/:id/hebergements', async (req, res) => {
 
     const theme = await db.Theme.findByPk(themeId);
 
-    res.render('theme-hebergements', { housings, theme });
+    res.render('single-theme', { housings, theme });
   } catch (err) {
     console.error('Error fetching housings by theme:', err);
     res.status(500).send('Server Error');

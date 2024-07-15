@@ -1,0 +1,53 @@
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Gestion des Thèmes</h4>
+              <p class="card-category">Gestion des Thèmes de votre site</p>
+              <a href="/admin/themes/new" class="btn btn-primary">Ajouter un nouveau thème</a>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-primary">
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Sous-titre</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                  </thead>
+                  <tbody>
+                    <% themes.forEach(theme => { %>
+                      <tr>
+                        <td><%= theme.id %></td>
+                        <td><%= theme.name %></td>
+                        <td><%= theme.subtitle %></td>
+                        <td><%= theme.description %></td>
+                        <td>
+                          <% if (theme.image) { %>
+                            <img src="/<%= theme.image %>" alt="<%= theme.name %>" class="img-thumbnail" style="max-width: 100px;">
+                          <% } else { %>
+                            Pas d'image
+                          <% } %>
+                        </td>
+                        <td>
+                          <a href="/admin/themes/edit/<%= theme.id %>" class="btn btn-warning">Modifier</a>
+                          <form action="/admin/themes/delete/<%= theme.id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

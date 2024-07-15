@@ -15,8 +15,12 @@
       <% themes.forEach(theme => { %>
         <div class="col-md-4">
           <div class="card mb-4">
+            <% if (theme.image) { %>
+              <img src="/<%= theme.image %>" class="card-img-top" alt="<%= theme.name %>">
+            <% } %>
             <div class="card-body">
               <h5 class="card-title"><%= theme.name %></h5>
+              <h6 class="card-subtitle mb-2 text-muted"><%= theme.subtitle %></h6>
               <p class="card-text"><%= theme.description %></p>
               <a href="/themes/<%= theme.id %>/hebergements" class="btn btn-primary">Voir les hébergements</a>
             </div>

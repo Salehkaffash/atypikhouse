@@ -1,3 +1,4 @@
+// routes/admin.js
 const express = require('express');
 const router = express.Router();
 const { ensureAdmin } = require('../middleware/auth');
@@ -16,6 +17,90 @@ router.get('/', ensureAdmin, async (req, res) => {
   const { themes, destinations } = await getCommonData();
   res.render('admin/dashboard', { title: 'Tableau de bord', partial: 'dashboard', themes, destinations });
 });
+
+// Thèmes -----------------------------------------------
+
+// Route pour afficher tous les thèmes
+router.get('/themes', ensureAdmin, async (req, res) => {
+  try {
+    const themes = await db.Theme.findAll();
+    const { destinations } = await getCommonData();
+    res.render('admin/dashboard', { title: 'Gestion des Thèmes', partial: 'theme', themes, destinations });
+  } catch (err) {
+    console.error('Error fetching themes:', err);
+    res.status(500).send('Error fetching themes');
+  }
+});
+
+// Route pour afficher le formulaire de création d'un nouveau thème
+router.get('/themes/new', ensureAdmin, async (req, res) => {
+  const { themes, destinations } = await getCommonData();
+  res.render('admin/dashboard', { title: 'Ajouter un nouveau thème', partial: 'newTheme', themes, destinations });
+});
+
+// Route pour créer un nouveau thème
+router.post('/themes/new', ensureAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const { name, subtitle, description } = req.body;
+    const image = req.file ? req.file.path : null;
+    await db.Theme.create({
+      name,
+      subtitle,
+      description,
+      image
+    });
+    res.redirect('/admin/themes');
+  } catch (err) {
+    console.error('Error creating theme:', err);
+    res.status(500).send('Error creating theme');
+  }
+});
+
+// Route pour afficher le formulaire d'édition d'un thème
+router.get('/themes/edit/:id', ensureAdmin, async (req, res) => {
+  try {
+    const theme = await db.Theme.findByPk(req.params.id);
+    const { themes, destinations } = await getCommonData();
+    res.render('admin/dashboard', { title: 'Modifier le thème', partial: 'editTheme', theme, themes, destinations });
+  } catch (err) {
+    console.error('Error fetching theme:', err);
+    res.status(500).send('Error fetching theme');
+  }
+});
+
+// Route pour mettre à jour un thème
+router.post('/themes/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const { name, subtitle, description } = req.body;
+    const image = req.file ? req.file.path : req.body.existingImage;
+
+    const theme = await db.Theme.findByPk(req.params.id);
+    await theme.update({
+      name,
+      subtitle,
+      description,
+      image
+    });
+
+    res.redirect('/admin/themes');
+  } catch (err) {
+    console.error('Error updating theme:', err);
+    res.status(500).send('Error updating theme');
+  }
+});
+
+// Route pour supprimer un thème
+router.post('/themes/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const theme = await db.Theme.findByPk(req.params.id);
+    await theme.destroy();
+    res.redirect('/admin/themes');
+  } catch (err) {
+    console.error('Error deleting theme:', err);
+    res.status(500).send('Error deleting theme');
+  }
+});
+
 
 // Pages -----------------------------------------------
 
