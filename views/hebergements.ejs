@@ -10,6 +10,31 @@
   <%- include('partials/nav') %>
   <div class="container mt-5">
     <h1 class="text-center">Nos Hébergements</h1>
+
+    <% if (user) { %>
+      <div class="text-right mb-4">
+        <a href="/hebergements/add" class="btn btn-primary">Ajouter un hébergement</a>
+      </div>
+    <% } %>
+
+    <div class="mb-4">
+      <form id="filter-form" class="form-inline">
+        <select class="form-control mr-2" id="sortBy" name="sortBy">
+          <option value="recent">Les plus récentes</option>
+          <option value="popular">Les plus populaires</option>
+          <option value="expensive">Les plus chères</option>
+          <option value="cheap">Les moins chères</option>
+        </select>
+        <select class="form-control mr-2" id="themeFilter" name="theme">
+          <option value="">Tous les thèmes</option>
+          <% themes.forEach(theme => { %>
+            <option value="<%= theme.id %>"><%= theme.name %></option>
+          <% }); %>
+        </select>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+      </form>
+    </div>
+
     <div class="row">
       <% housings.forEach(housing => { %>
         <div class="col-md-4">
@@ -18,15 +43,16 @@
               <img src="/<%= housing.image %>" class="card-img-top" alt="<%= housing.title %>">
             <% } else { %>
               <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
-            <% } %>            
+            <% } %>
             <div class="card-body">
               <h5 class="card-title"><%= housing.title %></h5>
-              <p class="card-text"><%= housing.description.substring(0, 100) %>...</p>
+              <p class="card-text">Thème: <a href="/themes/<%= housing.Theme.id %>/hebergements"><%= housing.Theme.name %></a></p>
+              <p class="card-text">Prix: <%= housing.price %> €</p>
               <a href="/hebergements/<%= housing.id %>" class="btn btn-primary">Voir plus</a>
             </div>
           </div>
         </div>
-      <% }) %>      
+      <% }) %>
     </div>
   </div>
   <%- include('partials/footer') %>

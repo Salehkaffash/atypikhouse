@@ -10,7 +10,21 @@
 <body>
   <%- include('partials/nav') %>
   <div class="container mt-5">
+
+    <!-- File d'Ariane -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="/hebergements">Hébergements</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= housing.title %></li>
+      </ol>
+    </nav>
+
     <h1 class="text-center"><%= housing.title %></h1>
+
+    <!-- Date de publication et auteur -->
+    <p class="text-muted">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %> par <%= housing.Owner ? housing.Owner.name : 'Inconnu' %></p>
+
     <div class="row">
       <div class="col-md-8">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -34,7 +48,16 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
-        <p class="mt-4"><%= housing.description %></p>
+        
+        <!-- Catégories -->
+        <p><strong>Catégories:</strong>
+          <% housing.type.split(',').forEach(category => { %>
+            <span class="badge badge-primary"><%= category.trim() %></span>
+          <% }); %>
+        </p>
+
+        <!-- Thème -->
+        <p><strong>Thème:</strong> <a href="/themes/<%= housing.Theme.id %>/hebergements"><%= housing.Theme.name %></a></p>
       </div>
       <div class="col-md-4">
         <h3>Prix: <%= housing.price %> €</h3>
@@ -62,9 +85,9 @@
     </div>
     <hr>
     <h3>Informations complémentaires</h3>
-    <ul>
-      <!-- Display additional information here -->
-    </ul>
+    <div class="mt-4">
+      <%= housing.description %>
+    </div>
     
     <!-- Résumé des évaluations -->
     <div class="mt-5">

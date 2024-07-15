@@ -45,13 +45,15 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     }
+  }, {
+    timestamps: true  // This will add createdAt and updatedAt fields
   });
 
   Housing.associate = function(models) {
     Housing.belongsTo(models.Theme, { foreignKey: 'themeId' });
     Housing.belongsTo(models.Destination, { foreignKey: 'destinationId' });
     Housing.belongsTo(models.Owner, { foreignKey: 'ownerId' });
-    Housing.hasMany(models.Comment, { foreignKey: 'HousingId' }); // Assurez-vous que cette ligne est présente
+    Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
   };
 
   return Housing;
