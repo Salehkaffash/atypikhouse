@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const path = require('path');
-const { ensureAuthenticated } = require('../middleware/auth');
+const { ensureAuthenticated, ensureAdmin } = require('../middleware/auth');
 const { Housing, Comment, User, Theme, Owner, Destination } = require('../models');
 const upload = require('../config/multer'); // Importation de multer depuis la configuration
-
 
 // Route pour afficher tous les hébergements
 router.get('/', async (req, res) => {
@@ -43,7 +42,7 @@ router.post('/add', ensureAuthenticated, upload.single('image'), async (req, res
     }
 
     // Créez le nouvel hébergement
-    const housing = await Housing.create({
+    await Housing.create({
       title,
       description,
       type,
@@ -83,7 +82,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
+// Route pour afficher les hébergements par thème
 router.get('/theme/:themeId', async (req, res) => {
   try {
     const housings = await Housing.findAll({
@@ -94,6 +93,31 @@ router.get('/theme/:themeId', async (req, res) => {
   } catch (error) {
     console.error('Error fetching housings by theme:', error);
     res.status(500).send('Server Error');
+  }
+});
+
+// Route pour mettre à jour un hébergement
+router.post('/hebergements/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const { title, description, type, price, capacity, themeId, destinationId } = req.body;
+    const image = req.file ? req.file.path : req.body.existingImage;
+
+    const hebergement = await Housing.findByPk(req.params.id);
+    await hebergement.update({
+      title,
+      description,
+      type,
+      price,
+      capacity,
+      image,
+      themeId,
+      destinationId
+    });
+
+    res.redirect('/admin/hebergements');
+  } catch (err) {
+    console.error('Error updating hebergement:', err);
+    res.status(500).send('Error updating hebergement');
   }
 });
 

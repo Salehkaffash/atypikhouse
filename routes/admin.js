@@ -1,10 +1,8 @@
-// routes/admin.js
 const express = require('express');
 const router = express.Router();
 const { ensureAdmin } = require('../middleware/auth');
 const db = require('../models');
-const upload = require('../config/multer'); // Importation de multer depuis la configuration
-
+const upload = require('../config/multer');
 
 // Fonction pour récupérer les thèmes et les destinations
 const getCommonData = async () => {
@@ -128,10 +126,35 @@ router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
   try {
     const hebergement = await db.Housing.findByPk(req.params.id);
     const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: 'Modifier l\'hébergement', partial: 'editHebergement', hebergement, themes, destinations });
+    res.render('admin/dashboard', { title: "Modifier l'hébergement", partial: 'editHebergement', hebergement, themes, destinations });
   } catch (err) {
     console.error('Error fetching hebergement:', err);
     res.status(500).send('Error fetching hebergement');
+  }
+});
+
+// Route pour mettre à jour un hébergement
+router.post('/hebergements/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const { title, description, type, price, capacity, themeId, destinationId } = req.body;
+    const image = req.file ? req.file.path : req.body.existingImage;
+
+    const hebergement = await db.Housing.findByPk(req.params.id);
+    await hebergement.update({
+      title,
+      description,
+      type,
+      price,
+      capacity,
+      image,
+      themeId,
+      destinationId
+    });
+
+    res.redirect('/admin/hebergements');
+  } catch (err) {
+    console.error('Error updating hebergement:', err);
+    res.status(500).send('Error updating hebergement');
   }
 });
 

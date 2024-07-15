@@ -1,51 +1,59 @@
 <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Modifier l'hébergement</h4>
-            </div>
-            <div class="card-body">
-              <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST">
-                <div class="form-group">
-                  <label for="title">Titre</label>
-                  <input type="text" class="form-control" id="title" name="title" value="<%= hebergement.title %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea class="form-control" id="description" name="description" rows="5" required><%= hebergement.description %></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="type">Type</label>
-                  <input type="text" class="form-control" id="type" name="type" value="<%= hebergement.type %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="price">Prix</label>
-                  <input type="number" class="form-control" id="price" name="price" value="<%= hebergement.price %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="capacity">Capacité</label>
-                  <input type="number" class="form-control" id="capacity" name="capacity" value="<%= hebergement.capacity %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="themeId">Thème</label>
-                  <input type="number" class="form-control" id="themeId" name="themeId" value="<%= hebergement.themeId %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="OwnerId">Propriétaire</label>
-                  <input type="number" class="form-control" id="OwnerId" name="OwnerId" value="<%= hebergement.OwnerId %>" required>
-                </div>
-                <div class="form-group">
-                  <label for="image">Image</label>
-                  <input type="text" class="form-control" id="image" name="image" value="<%= hebergement.image %>">
-                </div>
-                <button type="submit" class="btn btn-primary">Mettre à jour</button>
-              </form>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Modifier l'hébergement</h4>
+          </div>
+          <div class="card-body">
+            <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" class="form-control" id="title" name="title" value="<%= hebergement.title %>" required>
+              </div>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required><%= hebergement.description %></textarea>
+              </div>
+              <div class="form-group">
+                <label for="type">Type</label>
+                <input type="text" class="form-control" id="type" name="type" value="<%= hebergement.type %>" required>
+              </div>
+              <div class="form-group">
+                <label for="price">Prix</label>
+                <input type="number" class="form-control" id="price" name="price" value="<%= hebergement.price %>" required>
+              </div>
+              <div class="form-group">
+                <label for="capacity">Capacité</label>
+                <input type="number" class="form-control" id="capacity" name="capacity" value="<%= hebergement.capacity %>" required>
+              </div>
+              <div class="form-group">
+                <label for="themeId">Thème</label>
+                <select class="form-control" id="themeId" name="themeId" required>
+                  <% themes.forEach(theme => { %>
+                    <option value="<%= theme.id %>" <%= theme.id === hebergement.themeId ? 'selected' : '' %>><%= theme.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="destinationId">Destination</label>
+                <select class="form-control" id="destinationId" name="destinationId" required>
+                  <% destinations.forEach(destination => { %>
+                    <option value="<%= destination.id %>" <%= destination.id === hebergement.destinationId ? 'selected' : '' %>><%= destination.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" class="form-control-file" id="image" name="image">
+                <input type="hidden" name="existingImage" value="<%= hebergement.image %>">
+              </div>
+              <button type="submit" class="btn btn-primary">Mettre à jour</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

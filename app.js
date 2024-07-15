@@ -11,6 +11,7 @@ const path = require('path');
 const app = express();
 initializePassport(passport);
 
+// Configuration pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
