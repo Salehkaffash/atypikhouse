@@ -3,6 +3,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const { ensureAuthenticated } = require('../middleware/auth');
+const { Op } = require('sequelize');
+const moment = require('moment');
+
 
 // Route pour afficher les réservations de l'utilisateur
 router.get('/', ensureAuthenticated, async (req, res) => {
@@ -16,9 +19,43 @@ router.get('/', ensureAuthenticated, async (req, res) => {
         }
       ]
     });
-    res.render('bookings', { bookings });
+
+    // Trier les réservations par statut
+    const ongoingBookings = bookings.filter(booking => booking.status === 'pending' && moment(booking.endDate).isAfter(moment()));
+    const pastBookings = bookings.filter(booking => booking.status === 'pending' && moment(booking.endDate).isBefore(moment()));
+    const cancelledBookings = bookings.filter(booking => booking.status === 'cancelled');
+
+    res.render('bookings', { ongoingBookings, pastBookings, cancelledBookings });
   } catch (err) {
     console.error('Error fetching bookings:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Route pour annuler une réservation
+router.post('/cancel/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const booking = await db.Booking.findOne({
+      where: {
+        id: req.params.id,
+        UserId: req.user.id
+      }
+    });
+
+    if (!booking) {
+      return res.status(404).send('Reservation not found');
+    }
+
+    if (moment(booking.startDate).isBefore(moment())) {
+      return res.status(400).send('Cannot cancel a reservation that has already started or passed');
+    }
+
+    booking.status = 'cancelled';
+    await booking.save();
+
+    res.redirect('/bookings');
+  } catch (err) {
+    console.error('Error cancelling booking:', err);
     res.status(500).send('Server Error');
   }
 });
