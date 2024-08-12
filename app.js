@@ -50,6 +50,8 @@ const themesRoutes = require('./routes/themes');
 const commentsRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
 const pagesRoutes = require('./routes/pages');
+const contactRoutes = require('./routes/contact');
+
 
 app.use('/', homeRoutes);
 app.use('/destinations', destinationsRoutes);
@@ -62,6 +64,8 @@ app.use('/themes', themesRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin/pages', pagesRoutes);
+app.use('/contact', contactRoutes);
+
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('Database & tables updated!');
