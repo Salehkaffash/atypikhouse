@@ -494,4 +494,40 @@ router.post('/users/edit/:id', ensureAdmin, async (req, res) => {
   }
 });
 
+
+
+// Messages -----------------------------------------------
+
+// Route pour afficher les messages de contact
+router.get('/messages', ensureAdmin, async (req, res) => {
+  try {
+    const messages = await db.Message.findAll();
+    const themes = await db.Theme.findAll();
+    const destinations = await db.Destination.findAll();
+    res.render('admin/dashboard', { title: 'Messages reçus', partial: 'messages', messages, themes, destinations });
+  } catch (err) {
+    console.error('Error fetching messages:', err);
+    res.status(500).send('Error fetching messages');
+  }
+});
+
+// Route pour afficher les détails d'un message
+router.get('/messages/:id', ensureAdmin, async (req, res) => {
+  try {
+    const message = await db.Message.findByPk(req.params.id);
+    if (!message) {
+      return res.status(404).send('Message not found');
+    }
+    const themes = await db.Theme.findAll();
+    const destinations = await db.Destination.findAll();
+    res.render('admin/dashboard', { title: 'Détail du Message', partial: 'messageDetail', message, themes, destinations });
+  } catch (err) {
+    console.error('Error fetching message detail:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+
 module.exports = router;

@@ -18,6 +18,9 @@ db.Destination = require('./destination')(sequelize, Sequelize.DataTypes);
 db.Page = require('./page')(sequelize, Sequelize.DataTypes);
 db.Blog = require('./blog')(sequelize, Sequelize.DataTypes);
 
+// Ajout du modèle Message
+db.Message = require('./message')(sequelize, Sequelize.DataTypes);
+
 // Associations
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

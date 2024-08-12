@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contactez-nous</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <div class="container mt-5">
+    <h1>Contactez-nous</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <form action="/contact/send" method="POST">
+          <div class="form-group">
+            <label for="name">Nom et Prénom</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Numéro (facultatif)</label>
+            <input type="text" class="form-control" id="phone" name="phone">
+          </div>
+          <div class="form-group">
+            <label for="content">Message</label>
+            <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h3>Informations de contact</h3>
+        <p>Pour toute question ou réservation, n'hésitez pas à nous contacter. Nous sommes à votre disposition pour vous aider à planifier votre séjour inoubliable chez AtypikHouse.</p>
+        <p><strong>Adresse :</strong> 9 rue square de l'échiquier, Pierrefonds, Oise, France</p>
+        <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+        <p><strong>Email :</strong> contact@atypikhouse.fr</p>
+      </div>
+    </div>
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success mt-4">
+          Merci pour votre message. Nous vous répondrons dans les plus brefs délais.
+        </div>
+      <% } %>      
+  </div>
+
+  <%- include('partials/footer') %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
