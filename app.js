@@ -11,6 +11,8 @@ const path = require('path');
 const app = express();
 initializePassport(passport);
 
+app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
+
 // Configuration pour servir les fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
 

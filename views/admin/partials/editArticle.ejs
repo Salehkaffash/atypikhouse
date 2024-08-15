@@ -4,31 +4,42 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Modifier l'article</h4>
+                        <h4 class="card-title"><%= article ? 'Modifier l\'article' : 'Ajouter un nouvel article' %></h4>
                     </div>
                     <div class="card-body">
-                        <form action="/admin/blog/edit/<%= article.id %>" method="POST">
+                        <form action="<%= article ? '/admin/blog/edit/' + article.id : '/admin/blog/new' %>" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="title">Titre</label>
-                                <input type="text" class="form-control" id="title" name="title" value="<%= article.title %>" required>
+                                <input type="text" class="form-control" id="title" name="title" value="<%= article ? article.title : '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="url">URL</label>
-                                <input type="text" class="form-control" id="url" name="url" value="<%= article.url %>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="category">Catégorie</label>
-                                <input type="text" class="form-control" id="category" name="category" value="<%= article.category %>" required>
+                                <input type="text" class="form-control" id="url" name="url" value="<%= article ? article.url : '' %>" required>
                             </div>
                             <div class="form-group">
                                 <label for="content">Contenu</label>
-                                <textarea class="form-control" id="content" name="content" rows="10" required><%= article.content %></textarea>
+                                <textarea class="form-control" id="content" name="content" rows="10" required><%= article ? article.content : '' %></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="mainImage">Image principale</label>
-                                <input type="text" class="form-control" id="mainImage" name="mainImage" value="<%= article.mainImage %>">
+                                <label for="image">Photo</label>
+                                <input type="file" class="form-control-file" id="image" name="image">
                             </div>
-                            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                            <div class="form-group">
+                                <label for="categories">Catégories (séparées par des virgules)</label>
+                                <input type="text" class="form-control" id="categories" name="categories" value="<%= article ? article.categories : '' %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="publishedAt">Date de publication</label>
+                                <input type="datetime-local" class="form-control" id="publishedAt" name="publishedAt" value="<%= article ? new Date(article.publishedAt).toISOString().slice(0, 16) : '' %>">
+                            </div>
+                            <div class="form-group">
+                                <h5>SEO</h5>
+                                <label for="seoTitle">SEO Title</label>
+                                <input type="text" class="form-control" id="seoTitle" name="seoTitle" value="<%= article ? article.seoTitle : '' %>">
+                                <label for="seoDescription">Meta Description</label>
+                                <textarea class="form-control" id="seoDescription" name="seoDescription" rows="3"><%= article ? article.seoDescription : '' %></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Publier</button>
                         </form>
                     </div>
                 </div>
@@ -36,3 +47,21 @@
         </div>
     </div>
 </div>
+<script>
+  tinymce.init({
+    selector: 'textarea#content',
+    plugins: 'link image code',
+    toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | code',
+    setup: function (editor) {
+      editor.on('change', function () {
+        editor.save(); // Sync the content to the original textarea
+      });
+    }
+  });
+
+  // Ensure that TinyMCE content is properly submitted
+  document.querySelector('form').addEventListener('submit', function(e) {
+    // Ensure the editor content is updated in the textarea before submission
+    tinymce.triggerSave();
+  });
+</script>

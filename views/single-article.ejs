@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= article.title %></title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/nav') %>
+  <div class="container mt-5">
+    <h1 class="text-center"><%= article.title %></h1>
+    <img src="/<%= article.image %>" class="img-fluid" alt="<%= article.title %>">
+    <p class="text-muted text-center">Publié le <%= new Date(article.publishedAt).toLocaleDateString('fr-FR') %></p>
+    <div class="mt-4">
+      <%- article.content %>
+    </div>
+  </div>
+  <%- include('partials/footer') %>
+</body>
+</html>

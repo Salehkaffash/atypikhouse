@@ -4,22 +4,38 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Gestion des Blog</h4>
-                        <p class="card-category">Gestion des Blog de votre site</p>
+                        <h4 class="card-title">Gestion des Articles de Blog</h4>
+                        <p class="card-category">Gestion des articles de blog de votre site</p>
                     </div>
                     <div class="card-body">
-                        <!-- Ajouter le contenu de gestion des pages ici -->
+                        <a href="/admin/blog/new" class="btn btn-primary mb-3">Ajouter un article</a>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="text-primary">
                                     <th>ID</th>
-                                    <th>Nom</th>
+                                    <th>Titre</th>
+                                    <th>URL</th>
                                     <th>Actions</th>
                                 </thead>
                                 <tbody>
-                                    <!-- Les lignes de pages seront ajoutées ici -->
+                                    <% articles.forEach(article => { %>
+                                    <tr>
+                                        <td><%= article.id %></td>
+                                        <td><%= article.title %></td>
+                                        <td><a href="/blog/<%= article.url %>" target="_blank"><%= article.url %></a></td>
+                                        <td>
+                                            <a href="/admin/blog/edit/<%= article.id %>" class="btn btn-warning btn-sm">Modifier</a>
+                                            <form action="/admin/blog/delete/<%= article.id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
                                 </tbody>
                             </table>
+                            <% if (articles.length === 0) { %>
+                            <p class="text-center">Aucun article trouvé.</p>
+                            <% } %>
                         </div>
                     </div>
                 </div>

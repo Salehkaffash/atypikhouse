@@ -330,14 +330,15 @@ router.post('/destinations/delete/:id', ensureAdmin, async (req, res) => {
   }
 });
 
+
+
 // Blog -----------------------------------------------
 
 // Route pour afficher tous les articles de blog
 router.get('/blog', ensureAdmin, async (req, res) => {
   try {
     const articles = await db.Blog.findAll();
-    const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: 'Gestion des Articles de Blog', partial: 'blog', articles, themes, destinations });
+    res.render('admin/dashboard', { title: 'Gestion des Articles de Blog', partial: 'blog', articles });
   } catch (err) {
     console.error('Error fetching blog articles:', err);
     res.status(500).send('Error fetching blog articles');
@@ -345,15 +346,28 @@ router.get('/blog', ensureAdmin, async (req, res) => {
 });
 
 // Route pour afficher le formulaire de création d'un nouvel article
-router.get('/blog/new', ensureAdmin, async (req, res) => {
-  const { themes, destinations } = await getCommonData();
-  res.render('admin/dashboard', { title: 'Ajouter un nouvel article', partial: 'newArticle', themes, destinations });
+router.get('/blog/new', ensureAdmin, (req, res) => {
+  res.render('admin/dashboard', { title: 'Ajouter un nouvel article', partial: 'newArticle' });
 });
 
-// Route pour créer un nouvel article
-router.post('/blog/new', ensureAdmin, async (req, res) => {
+// Route pour créer un nouvel article de blog
+router.post('/blog/new', ensureAdmin, upload.single('image'), async (req, res) => {
   try {
-    await db.Blog.create(req.body);
+    const { title, content, categories, seoTitle, seoDescription, publishedAt } = req.body;
+    const url = req.body.url || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const image = req.file ? req.file.path : null;
+
+    await db.Blog.create({
+      title,
+      url,
+      content,
+      image,
+      categories,
+      seoTitle,
+      seoDescription,
+      publishedAt
+    });
+
     res.redirect('/admin/blog');
   } catch (err) {
     console.error('Error creating blog article:', err);
@@ -365,24 +379,51 @@ router.post('/blog/new', ensureAdmin, async (req, res) => {
 router.get('/blog/edit/:id', ensureAdmin, async (req, res) => {
   try {
     const article = await db.Blog.findByPk(req.params.id);
-    const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: 'Modifier l\'article', partial: 'editArticle', article, themes, destinations });
+    res.render('admin/dashboard', { title: 'Modifier l\'article', partial: 'editArticle', article });
   } catch (err) {
     console.error('Error fetching blog article:', err);
     res.status(500).send('Error fetching blog article');
   }
 });
 
-router.post('/blog/edit/:id', ensureAdmin, async (req, res) => {
+// Route pour mettre à jour un article de blog
+router.post('/blog/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
   try {
+    const { title, content, categories, seoTitle, seoDescription, publishedAt } = req.body;
+    const url = req.body.url || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const image = req.file ? req.file.path : req.body.existingImage;
+
     const article = await db.Blog.findByPk(req.params.id);
-    await article.update(req.body);
+    await article.update({
+      title,
+      url,
+      content,
+      image,
+      categories,
+      seoTitle,
+      seoDescription,
+      publishedAt
+    });
+
     res.redirect('/admin/blog');
   } catch (err) {
     console.error('Error updating blog article:', err);
     res.status(500).send('Error updating blog article');
   }
 });
+
+// Route pour supprimer un article de blog
+router.post('/blog/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const article = await db.Blog.findByPk(req.params.id);
+    await article.destroy();
+    res.redirect('/admin/blog');
+  } catch (err) {
+    console.error('Error deleting blog article:', err);
+    res.status(500).send('Error deleting blog article');
+  }
+});
+
 
 
 // Avis -----------------------------------------------

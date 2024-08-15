@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/material-dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdn.tiny.cloud/1/obuvcqs9576s28bsa9j1b7921z1gljr2khea3mo8hzbrdm5x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <title>Admin Dashboard</title>
 </head>
 <body>
@@ -60,12 +61,31 @@
             </div>
         </div>
         <div class="main-panel">
-            <%- include(`partials/${partial}`, { themes: themes, destinations: destinations }) %>
+            <%- include(`partials/${partial}`, { 
+                themes: typeof themes !== 'undefined' ? themes : [], 
+                destinations: typeof destinations !== 'undefined' ? destinations : [], 
+                article: typeof article !== 'undefined' ? article : null 
+            }) %>
         </div>
     </div>
-    <script src="/node_modules/tinymce/tinymce.min.js"></script>
-    <script src="/js/tinymce-config.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#content',
+            plugins: 'link image code',
+            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | code',
+            setup: function (editor) {
+                editor.on('change', function () {
+                    editor.save(); // Sync the content to the original textarea
+                });
+            }
+        });
+
+        // Ensure that TinyMCE content is properly submitted
+        document.querySelector('form').addEventListener('submit', function(e) {
+            tinymce.triggerSave(); // Sync TinyMCE content with the underlying textarea
+        });
+    </script>
 </body>
 </html>
