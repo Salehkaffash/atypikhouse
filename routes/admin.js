@@ -384,34 +384,23 @@ router.post('/blog/edit/:id', ensureAdmin, async (req, res) => {
   }
 });
 
+
 // Avis -----------------------------------------------
 
 // Route pour afficher tous les avis
 router.get('/avis', ensureAdmin, async (req, res) => {
   try {
-    const avis = await db.Comment.findAll();
+    const avis = await db.Comment.findAll({
+      include: [
+        { model: db.User, attributes: ['firstName', 'lastName'] },
+        { model: db.Housing, attributes: ['title'] }
+      ]
+    });
     const { themes, destinations } = await getCommonData();
     res.render('admin/dashboard', { title: 'Gestion des Avis', partial: 'avis', avis, themes, destinations });
   } catch (err) {
     console.error('Error fetching comments:', err);
     res.status(500).send('Error fetching comments');
-  }
-});
-
-// Route pour afficher le formulaire de création d'un nouvel avis
-router.get('/avis/new', ensureAdmin, async (req, res) => {
-  const { themes, destinations } = await getCommonData();
-  res.render('admin/dashboard', { title: 'Ajouter un nouvel avis', partial: 'newAvis', themes, destinations });
-});
-
-// Route pour créer un nouvel avis
-router.post('/avis/new', ensureAdmin, async (req, res) => {
-  try {
-    await db.Comment.create(req.body);
-    res.redirect('/admin/avis');
-  } catch (err) {
-    console.error('Error creating comment:', err);
-    res.status(500).send('Error creating comment');
   }
 });
 
@@ -438,6 +427,19 @@ router.post('/avis/edit/:id', ensureAdmin, async (req, res) => {
     res.status(500).send('Error updating comment');
   }
 });
+
+// Route pour supprimer un avis
+router.post('/avis/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const avis = await db.Comment.findByPk(req.params.id);
+    await avis.destroy();
+    res.redirect('/admin/avis');
+  } catch (err) {
+    console.error('Error deleting comment:', err);
+    res.status(500).send('Error deleting comment');
+  }
+});
+
 
 // Utilisateurs -----------------------------------------------
 

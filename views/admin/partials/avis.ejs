@@ -1,30 +1,46 @@
-
-    <div class="content">
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="card">
-                      <div class="card-header card-header-primary">
-                          <h4 class="card-title">Gestion des Avis</h4>
-                          <p class="card-category">Gestion des Avis de votre site</p>
-                      </div>
-                      <div class="card-body">
-                          <!-- Ajouter le contenu de gestion des pages ici -->
-                          <div class="table-responsive">
-                              <table class="table">
-                                  <thead class="text-primary">
-                                      <th>ID</th>
-                                      <th>Nom</th>
-                                      <th>Actions</th>
-                                  </thead>
-                                  <tbody>
-                                      <!-- Les lignes de pages seront ajoutées ici -->
-                                  </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">Gestion des Avis</h4>
+              <p class="card-category">Ici, vous pouvez gérer tous les avis sur les hébergements.</p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="text-primary">
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Hébergement</th>
+                    <th>Note</th>
+                    <th>Contenu</th>
+                    <th>Actions</th>
+                  </thead>
+                  <tbody>
+                    <% avis.forEach(avi => { %>
+                      <tr>
+                        <td><%= avi.id %></td>
+                        <td><%= avi.User.firstName %> <%= avi.User.lastName %></td>
+                        <td><%= avi.Housing.title %></td>
+                        <td><%= avi.rating %> / 5</td>
+                        <td><%= avi.content.substring(0, 50) %>...</td>
+                        <td>
+                          <a href="/admin/avis/edit/<%= avi.id %>" class="btn btn-warning btn-sm">Modifier</a>
+                          <form action="/admin/avis/delete/<%= avi.id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                          </form>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
               </div>
+            </div>
           </div>
+        </div>
       </div>
+    </div>
   </div>
+  
