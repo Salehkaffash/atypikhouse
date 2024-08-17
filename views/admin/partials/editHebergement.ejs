@@ -7,14 +7,14 @@
             <h4 class="card-title">Modifier l'hébergement</h4>
           </div>
           <div class="card-body">
-            <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">
+            <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="title">Titre</label>
                 <input type="text" class="form-control" id="title" name="title" value="<%= hebergement.title %>" required>
               </div>
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="5"><%= hebergement.description %></textarea>
+                <textarea class="form-control" id="description" name="description" rows="5" required><%= hebergement.description %></textarea>
               </div>
               <div class="form-group">
                 <label for="type">Type</label>
@@ -57,23 +57,21 @@
     </div>
   </div>
 </div>
-
-<script src="https://cdn.tiny.cloud/1/obuvcqs9576s28bsa9j1b7921z1gljr2khea3mo8hzbrdm5x/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
   tinymce.init({
-    selector: '#description',
+    selector: 'textarea#description',
     plugins: 'link image code',
     toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | code',
-    menubar: false
+    setup: function (editor) {
+      editor.on('change', function () {
+        editor.save(); // Sync the content to the original textarea
+      });
+    }
   });
 
-  function validateForm() {
-    // Assurer que TinyMCE a du contenu
-    var content = tinymce.get('description').getContent();
-    if (content === '') {
-      alert('La description est requise.');
-      return false; // Empêche l'envoi du formulaire
-    }
-    return true; // Permet l'envoi du formulaire
-  }
+  // Ensure that TinyMCE content is properly submitted
+  document.querySelector('form').addEventListener('submit', function(e) {
+    // Ensure the editor content is updated in the textarea before submission
+    tinymce.triggerSave();
+  });
 </script>

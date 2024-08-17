@@ -1,41 +1,40 @@
 <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Gestion des Pages</h4>
-              <p class="card-category">Liste des pages existantes</p>
-            </div>
-            <div class="card-body">
-              <a href="/admin/pages/new" class="btn btn-primary">Ajouter une nouvelle page</a>
-              <div class="table-responsive">
-                <table class="table">
-                  <thead class="text-primary">
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Actions</th>
-                  </thead>
-                  <tbody>
-                    <% pages.forEach(page => { %>
-                      <tr>
-                        <td><%= page.id %></td>
-                        <td><%= page.title %></td>
-                        <td>
-                          <a href="/admin/pages/edit/<%= page.id %>" class="btn btn-warning">Modifier</a>
-                          <form action="/admin/pages/delete/<%= page.id %>" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                          </form>
-                        </td>
-                      </tr>
-                    <% }) %>
-                  </tbody>
-                </table>
-              </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Gestion des Pages</h4>
+            <p class="card-category">Liste des pages existantes</p>
+          </div>
+          <div class="card-body">
+            <a href="/admin/pages/new" class="btn btn-primary">Ajouter une nouvelle page</a>
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <th>ID</th>
+                  <th>Titre</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody>
+                  <% pages.forEach(page => { %>
+                    <tr>
+                      <td><%= page.id %></td>
+                      <td><%= page.title %></td>
+                      <td>
+                        <a href="/admin/pages/edit/<%= page.id %>" class="btn btn-warning">Modifier</a>
+                        <form action="/admin/pages/delete/<%= page.id %>" method="POST" style="display:inline;">
+                          <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

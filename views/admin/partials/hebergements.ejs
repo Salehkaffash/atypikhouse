@@ -1,51 +1,50 @@
 <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Gestion des Hébergements</h4>
-              <p class="card-category">Liste des hébergements existants</p>
-            </div>
-            <div class="card-body">
-              <a href="/admin/hebergements/new" class="btn btn-primary">Ajouter un nouvel hébergement</a>
-              <div class="table-responsive">
-                <table class="table">
-                  <thead class="text-primary">
-                    <th>ID</th>
-                    <th>Titre</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <th>Prix</th>
-                    <th>Capacité</th>
-                    <th>Thème</th>
-                    <th>Actions</th>
-                  </thead>
-                  <tbody>
-                    <% hebergements.forEach(hebergement => { %>
-                      <tr>
-                        <td><%= hebergement.id %></td>
-                        <td><%= hebergement.title %></td>
-                        <td><%= hebergement.description %></td>
-                        <td><%= hebergement.type %></td>
-                        <td><%= hebergement.price %></td>
-                        <td><%= hebergement.capacity %></td>
-                        <td><%= hebergement.themeId %></td>
-                        <td>
-                          <a href="/admin/hebergements/edit/<%= hebergement.id %>" class="btn btn-warning">Modifier</a>
-                          <form action="/admin/hebergements/delete/<%= hebergement.id %>" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
-                          </form>
-                        </td>
-                      </tr>
-                    <% }) %>
-                  </tbody>
-                </table>
-              </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Gestion des Hébergements</h4>
+            <p class="card-category">Liste des hébergements existants</p>
+          </div>
+          <div class="card-body">
+            <a href="/admin/hebergements/new" class="btn btn-primary">Ajouter un nouvel hébergement</a>
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <th>ID</th>
+                  <th>Titre</th>
+                  <th>Description</th>
+                  <th>Type</th>
+                  <th>Prix</th>
+                  <th>Capacité</th>
+                  <th>Thème</th>
+                  <th>Actions</th>
+                </thead>
+                <tbody>
+                  <% hebergements.forEach(hebergement => { %>
+                    <tr>
+                      <td><%= hebergement.id %></td>
+                      <td><%= hebergement.title %></td>
+                      <td><%= hebergement.description %></td>
+                      <td><%= hebergement.type %></td>
+                      <td><%= hebergement.price %></td>
+                      <td><%= hebergement.capacity %></td>
+                      <td><%= hebergement.themeId %></td>
+                      <td>
+                        <a href="/admin/hebergements/edit/<%= hebergement.id %>" class="btn btn-warning">Modifier</a>
+                        <form action="/admin/hebergements/delete/<%= hebergement.id %>" method="POST" style="display:inline;">
+                          <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -206,6 +206,7 @@ router.post('/hebergements/new', ensureAdmin, upload.single('image'), async (req
   }
 });
 
+
 // Route pour afficher le formulaire d'édition d'un hébergement
 router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
   try {
@@ -242,6 +243,25 @@ router.post('/hebergements/edit/:id', ensureAdmin, upload.single('image'), async
     res.status(500).send('Error updating hebergement');
   }
 });
+
+// Route pour supprimer un hébergement
+router.post('/hebergements/delete/:id', ensureAdmin, async (req, res) => {
+  try {
+    const hebergement = await db.Housing.findByPk(req.params.id);
+    if (!hebergement) {
+      req.flash('error', 'Hébergement non trouvé');
+      return res.redirect('/admin/hebergements');
+    }
+    await hebergement.destroy();
+    req.flash('success', 'Hébergement supprimé avec succès');
+    res.redirect('/admin/hebergements');
+  } catch (err) {
+    console.error('Error deleting hebergement:', err.message);
+    req.flash('error', 'Erreur lors de la suppression de l\'hébergement');
+    res.status(500).redirect('/admin/hebergements');
+  }
+});
+
 
 // Destination -----------------------------------------------
 
@@ -569,8 +589,6 @@ router.get('/messages/:id', ensureAdmin, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-
 
 
 module.exports = router;
