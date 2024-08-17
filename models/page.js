@@ -5,19 +5,32 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
     content: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    seoTitle: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    seoDescription: {
+      type: DataTypes.TEXT,
+      allowNull: true
     },
     status: {
       type: DataTypes.ENUM('published', 'draft', 'archived'),
       defaultValue: 'draft'
     }
   });
-
-  Page.associate = function(models) {
-    // associations can be defined here
-  };
 
   return Page;
 };

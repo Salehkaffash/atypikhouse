@@ -67,6 +67,7 @@ app.use('/comments', commentsRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin/pages', pagesRoutes);
 app.use('/contact', contactRoutes);
+app.use('/pages', pagesRoutes);
 
 
 db.sequelize.sync({ alter: true }).then(() => {
