@@ -42,6 +42,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const homeRoutes = require('./routes/home');
+const pagesRoutes = require('./routes/pages');
 const destinationsRoutes = require('./routes/destinations');
 const hebergementsRoutes = require('./routes/hebergements');
 const blogRoutes = require('./routes/blog');
@@ -51,11 +52,13 @@ const bookingRoutes = require('./routes/bookings');
 const themesRoutes = require('./routes/themes');
 const commentsRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
-const pagesRoutes = require('./routes/pages');
 const contactRoutes = require('./routes/contact');
 
 
+// Route pour la page d'accueil
 app.use('/', homeRoutes);
+
+// Autres routes
 app.use('/destinations', destinationsRoutes);
 app.use('/hebergements', hebergementsRoutes);
 app.use('/blog', blogRoutes);
@@ -65,10 +68,11 @@ app.use('/bookings', bookingRoutes);
 app.use('/themes', themesRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/admin', adminRoutes);
-app.use('/admin/pages', pagesRoutes);
 app.use('/contact', contactRoutes);
-app.use('/pages', pagesRoutes);
+app.use('/admin/pages', pagesRoutes);
 
+// Routes pour les pages dynamiques
+app.use('/', pagesRoutes);
 
 db.sequelize.sync({ alter: true }).then(() => {
   console.log('Database & tables updated!');
