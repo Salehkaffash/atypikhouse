@@ -49,12 +49,16 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true  // This will add createdAt and updatedAt fields
   });
 
+  // Assurer l'association avec le modèle Equipment
   Housing.associate = function(models) {
     Housing.belongsTo(models.Theme, { foreignKey: 'themeId' });
     Housing.belongsTo(models.Destination, { foreignKey: 'destinationId' });
     Housing.belongsTo(models.Owner, { foreignKey: 'ownerId' });
     Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
+    Housing.hasMany(models.Photo, { foreignKey: 'housingId' });
+    Housing.belongsToMany(models.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId', as: 'Equipments' }); // Utilisez 'Equipments' comme alias
   };
 
+  
   return Housing;
 };

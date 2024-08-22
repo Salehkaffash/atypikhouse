@@ -156,12 +156,18 @@ router.post('/pages/edit/:id', ensureAdmin, async (req, res) => {
   }
 });
 
+
 // Hébergements -----------------------------------------------
 
 // Route pour afficher tous les hébergements
 router.get('/hebergements', ensureAdmin, async (req, res) => {
   try {
-    const hebergements = await db.Housing.findAll();
+    const hebergements = await db.Housing.findAll({
+      include: [
+        { model: db.Photo }, // Inclusion des photos
+        { model: db.Equipment } // Inclusion des équipements
+      ]
+    });
     const { themes, destinations } = await getCommonData();
     res.render('admin/dashboard', { title: 'Gestion des Hébergements', partial: 'hebergements', hebergements, themes, destinations });
   } catch (err) {
@@ -174,68 +180,126 @@ router.get('/hebergements', ensureAdmin, async (req, res) => {
 router.get('/hebergements/new', ensureAdmin, async (req, res) => {
   try {
     const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: 'Ajouter un nouvel hébergement', partial: 'newHebergement', themes, destinations });
+    const simpleEquipments = await db.Equipment.findAll({ where: { type: 'simple' } });
+    const premiumEquipments = await db.Equipment.findAll({ where: { type: 'premium' } });
+    
+    res.render('admin/dashboard', { 
+      title: 'Ajouter un nouvel hébergement', 
+      partial: 'newHebergement', 
+      themes, 
+      destinations,
+      simpleEquipments,
+      premiumEquipments
+    });
   } catch (err) {
-    console.error('Error fetching themes and destinations:', err);
-    res.status(500).send('Error fetching themes and destinations');
+    console.error('Error fetching themes, destinations, or equipments:', err);
+    res.status(500).send('Server Error');
   }
 });
 
-// Route pour créer un nouvel hébergement
-router.post('/hebergements/new', ensureAdmin, upload.single('image'), async (req, res) => {
-  try {
-    const { title, description, type, price, capacity, themeId, destinationId } = req.body;
-    const image = req.file ? req.file.path : null;
 
-    await db.Housing.create({
+// Route pour créer un nouvel hébergement
+router.post('/hebergements/new', ensureAdmin, upload.array('images', 10), async (req, res) => {
+  const transaction = await db.sequelize.transaction();
+
+  try {
+    const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
+
+    const allEquipments = [].concat(simpleEquipments, premiumEquipments).map(Number);
+
+    const housing = await db.Housing.create({
       title,
       description,
       type,
       price,
       capacity,
-      image,
       themeId,
       destinationId,
-      ownerId: req.user.id  // Assurez-vous que l'utilisateur est propriétaire
-    });
+      ownerId: req.user.id
+    }, { transaction });
 
+    if (req.files && req.files.length > 0) {
+      const images = req.files.map(file => ({
+        path: file.path,
+        housingId: housing.id
+      }));
+      await db.Photo.bulkCreate(images, { transaction });
+    }
+
+    if (allEquipments.length > 0) {
+      await housing.setEquipments(allEquipments, { transaction });
+    }
+
+    await transaction.commit();
     res.redirect('/admin/hebergements');
   } catch (err) {
-    console.error('Error creating hebergement:', err);
+    await transaction.rollback();
+    console.error('Error creating hebergement:', err.message);
     res.status(500).send('Error creating hebergement');
   }
 });
 
 
+
 // Route pour afficher le formulaire d'édition d'un hébergement
 router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
   try {
-    const hebergement = await db.Housing.findByPk(req.params.id);
+    const hebergement = await db.Housing.findByPk(req.params.id, {
+      include: [
+        { model: db.Photo }, // Inclusion des photos
+        { model: db.Equipment } // Inclusion des équipements associés
+      ]
+    });
     const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: "Modifier l'hébergement", partial: 'editHebergement', hebergement, themes, destinations });
+    const simpleEquipments = await db.Equipment.findAll({ where: { type: 'simple' } });
+    const premiumEquipments = await db.Equipment.findAll({ where: { type: 'premium' } });
+
+    if (!hebergement) {
+      return res.status(404).send('Hébergement non trouvé');
+    }
+    
+    res.render('admin/dashboard', { 
+      title: "Modifier l'hébergement", 
+      partial: 'editHebergement', 
+      hebergement, 
+      themes, 
+      destinations,
+      simpleEquipments,
+      premiumEquipments
+    });
   } catch (err) {
-    console.error('Error fetching hebergement:', err);
-    res.status(500).send('Error fetching hebergement');
+    console.error('Error fetching hebergement, themes, destinations, or equipments:', err);
+    res.status(500).send('Server Error');
   }
 });
 
 // Route pour mettre à jour un hébergement
-router.post('/hebergements/edit/:id', ensureAdmin, upload.single('image'), async (req, res) => {
+router.post('/hebergements/edit/:id', ensureAdmin, upload.array('images', 10), async (req, res) => {
   try {
-    const { title, description, type, price, capacity, themeId, destinationId } = req.body;
-    const image = req.file ? req.file.path : req.body.existingImage;
+    const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
 
     const hebergement = await db.Housing.findByPk(req.params.id);
+
     await hebergement.update({
       title,
       description,
       type,
       price,
       capacity,
-      image,
       themeId,
       destinationId
     });
+
+    if (req.files.length > 0) {
+      const images = req.files.map(file => ({
+        path: file.path,
+        housingId: hebergement.id
+      }));
+      await db.Photo.bulkCreate(images);
+    }
+
+    const allEquipments = [...simpleEquipments, ...premiumEquipments];
+    await hebergement.setEquipments(allEquipments);
 
     res.redirect('/admin/hebergements');
   } catch (err) {

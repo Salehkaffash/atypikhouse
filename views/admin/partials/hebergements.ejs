@@ -19,6 +19,7 @@
                   <th>Prix</th>
                   <th>Capacité</th>
                   <th>Thème</th>
+                  <th>Photo</th>
                   <th>Actions</th>
                 </thead>
                 <tbody>
@@ -32,13 +33,20 @@
                       <td><%= hebergement.capacity %></td>
                       <td><%= hebergement.themeId %></td>
                       <td>
+                        <% if (hebergement.Photos && hebergement.Photos.length > 0) { %>
+                          <img src="/<%= hebergement.Photos[0].path %>" class="img-thumbnail" style="width: 50px;">
+                        <% } else { %>
+                          <img src="/path/to/default-image.jpg" class="img-thumbnail" style="width: 50px;">
+                        <% } %>
+                      </td>
+                      <td>
                         <a href="/admin/hebergements/edit/<%= hebergement.id %>" class="btn btn-warning">Modifier</a>
                         <form action="/admin/hebergements/delete/<%= hebergement.id %>" method="POST" style="display:inline;">
                           <button type="submit" class="btn btn-danger">Supprimer</button>
                         </form>
                       </td>
                     </tr>
-                  <% }) %>
+                  <% }) %>                  
                 </tbody>
               </table>
             </div>

@@ -49,11 +49,11 @@
       <% destination.Housings.forEach(housing => { %>
         <div class="col-md-4">
           <div class="card mb-4">
-            <% if (housing.image) { %>
-              <img src="/<%= housing.image %>" class="card-img-top" alt="<%= housing.title %>">
+            <% if (housing.Photos && housing.Photos.length > 0) { %>
+              <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
             <% } else { %>
               <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
-            <% } %>
+            <% } %> 
             <div class="card-body">
               <h5 class="card-title"><%= housing.title %></h5>
               <p class="card-text">Thème: <%= housing.Theme.name %></p>
