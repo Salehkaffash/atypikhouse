@@ -164,8 +164,8 @@ router.get('/hebergements', ensureAdmin, async (req, res) => {
   try {
     const hebergements = await db.Housing.findAll({
       include: [
-        { model: db.Photo }, // Inclusion des photos
-        { model: db.Equipment } // Inclusion des équipements
+        { model: db.Photo, as: 'Photos' }, // Spécifiez l'alias ici
+        { model: db.Equipment }
       ]
     });
     const { themes, destinations } = await getCommonData();
@@ -175,6 +175,7 @@ router.get('/hebergements', ensureAdmin, async (req, res) => {
     res.status(500).send('Error fetching hebergements');
   }
 });
+
 
 // Route pour afficher le formulaire de création d'un nouvel hébergement
 router.get('/hebergements/new', ensureAdmin, async (req, res) => {
@@ -240,14 +241,13 @@ router.post('/hebergements/new', ensureAdmin, upload.array('images', 10), async 
 });
 
 
-
 // Route pour afficher le formulaire d'édition d'un hébergement
 router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
   try {
     const hebergement = await db.Housing.findByPk(req.params.id, {
       include: [
-        { model: db.Photo }, // Inclusion des photos
-        { model: db.Equipment } // Inclusion des équipements associés
+        { model: db.Photo, as: 'Photos' }, // Inclusion des photos
+        { model: db.Equipment, as: 'Equipments' } // Inclusion des équipements associés
       ]
     });
     const { themes, destinations } = await getCommonData();
@@ -272,6 +272,7 @@ router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 // Route pour mettre à jour un hébergement
 router.post('/hebergements/edit/:id', ensureAdmin, upload.array('images', 10), async (req, res) => {

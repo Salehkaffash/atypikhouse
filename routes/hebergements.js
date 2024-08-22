@@ -136,7 +136,7 @@ router.get('/:id', async (req, res) => {
         { model: Destination },
         { model: Theme },
         { model: Owner },
-        { model: Photo },
+        { model: Photo, as: 'Photos' },
         { model: Equipment }
       ]
     });

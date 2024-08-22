@@ -57,7 +57,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const destination = await db.Destination.findByPk(req.params.id, {
-      include: [{ model: db.Housing, include: [db.Theme] }]
+      include: [{ model: db.Housing, include: [{ model: db.Theme }, { model: db.Photo, as: 'Photos' }] }] // Spécifiez l'alias ici
     });
     if (!destination) {
       return res.status(404).send('Destination not found');
@@ -69,5 +69,6 @@ router.get('/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;

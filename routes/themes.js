@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 // Route pour afficher les hébergements par thème avec tri
 router.get('/:id/hebergements', async (req, res) => {
   try {
@@ -43,7 +44,10 @@ router.get('/:id/hebergements', async (req, res) => {
     const housings = await db.Housing.findAll({
       where: { themeId: themeId },
       order: order,
-      include: [db.Comment] // Inclure les commentaires pour le tri par popularité
+      include: [
+        { model: db.Comment },
+        { model: db.Photo, as: 'Photos' } // Spécifiez l'alias ici
+      ]
     });
 
     const theme = await db.Theme.findByPk(themeId);
