@@ -10,24 +10,27 @@
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table">
-                    <thead class="text-primary">
+                  <thead class="text-primary">
+                    <tr>
+                      <th>Nom</th>
+                      <th>Email</th>
+                      <th>Numéro</th>
+                      <th>Message</th>
+                      <th>Provenance</th> <!-- Nouvelle colonne -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% messages.forEach(message => { %>
                       <tr>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Numéro</th>
-                        <th>Message</th>
+                        <td><a href="/admin/messages/<%= message.id %>"><%= message.name %></a></td>
+                        <td><a href="/admin/messages/<%= message.id %>"><%= message.email %></a></td>
+                        <td><a href="/admin/messages/<%= message.id %>"><%= message.phone %></a></td>
+                        <td><a href="/admin/messages/<%= message.id %>"><%= message.content.substring(0, 50) %>...</a></td>
+                        <td><%= message.housingId ? 'Hébergement' : 'Contact Général' %></td> <!-- Source du message -->
                       </tr>
-                    </thead>
-                    <tbody>
-                      <% messages.forEach(message => { %>
-                        <tr>
-                          <td><a href="/admin/messages/<%= message.id %>"><%= message.name %></a></td>
-                          <td><a href="/admin/messages/<%= message.id %>"><%= message.email %></a></td>
-                          <td><a href="/admin/messages/<%= message.id %>"><%= message.phone %></a></td>
-                          <td><a href="/admin/messages/<%= message.id %>"><%= message.content.substring(0, 50) %>...</a></td>
-                        </tr>
-                      <% }) %>
-                    </tbody>
+                    <% }) %>
+                  </tbody>
+
                   </table>
               </div>
             </div>

@@ -90,9 +90,9 @@
             <h4>Équipements</h4>
           </div>
           <div class="card-body">
-            <% if (housing.Equipment && housing.Equipment.length > 0) { %>
+            <% if (housing.Equipments && housing.Equipments.length > 0) { %>
               <ul class="list-group">
-                <% housing.Equipment.forEach(equipment => { %>
+                <% housing.Equipments.forEach(equipment => { %>
                   <li class="list-group-item">
                     <%= equipment.name %> - <span class="badge <%= equipment.type === 'premium' ? 'badge-warning' : 'badge-secondary' %>"><%= equipment.type %></span>
                   </li>
@@ -113,6 +113,48 @@
     <div class="mt-4">
       <%- housing.description %>
     </div>
+
+    <!-- Bouton pour le formulaire de contact -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#contactFormModal">Contacter l'hebergeur</button>
+
+    
+    <!-- Modal du formulaire de contact -->
+    <div class="modal fade" id="contactFormModal" tabindex="-1" role="dialog" aria-labelledby="contactFormModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="contactFormModalLabel">Contacter l'hôte pour <%= housing.title %></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="contactForm" method="POST" action="/hebergements/sendMessage">
+              <div class="form-group">
+                <label for="name">Nom et Prénom</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Numéro (facultatif)</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="content">Message</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+              </div>
+                <!-- Les autres champs du formulaire -->
+                <input type="hidden" name="housingId" value="<%= housing.id %>">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     
     <!-- Résumé des évaluations -->
     <div class="mt-5">
@@ -142,9 +184,11 @@
       <% housing.Comments && housing.Comments.forEach(comment => { %>
         <div class="list-group-item">
           <div class="d-flex align-items-center">
-            <img src="/uploads/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+            <% if (comment.User && comment.User.photo) { %>
+              <img src="/uploads/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
+            <% } %>
             <div>
-              <h5><%= comment.User.firstName %> <%= comment.User.lastName %></h5>
+              <h5><%= comment.User ? comment.User.firstName + ' ' + comment.User.lastName : 'Anonyme' %></h5>
               <div>
                 <% for(let i = 1; i <= 5; i++) { %>
                   <i class="fas fa-star <%= i <= comment.rating ? 'text-warning' : 'text-muted' %>"></i>
@@ -156,7 +200,7 @@
           <% if (comment.photo) { %>
             <img src="/uploads/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
           <% } %>
-          <% if (comment.UserId === user.id) { %>
+          <% if (comment.User && comment.User.id === user.id) { %>
             <form action="/comments/<%= housing.id %>/comments/<%= comment.id %>/edit" method="POST" enctype="multipart/form-data" class="mt-2">
               <input type="hidden" name="_method" value="PUT">
               <div class="form-group">
@@ -201,6 +245,32 @@
     </form>
   </div>
   <%- include('partials/footer') %>
+
+<script>
+  $(document).ready(function() {
+    $('#contactFormModal form').on('submit', function(event) {
+      event.preventDefault(); // Empêcher le rechargement de la page
+
+      var formData = $(this).serialize(); // Récupérer les données du formulaire
+
+      $.ajax({
+        type: 'POST',
+        url: '/hebergements/sendMessage', // URL d'envoi du formulaire
+        data: formData,
+        success: function(response) {
+          $('#contactFormModal').modal('hide'); // Fermer le pop-up
+          alert('Message envoyé avec succès !'); // Afficher un message de succès
+          window.location.href = '/hebergements/' + $('input[name="housingId"]').val(); // Rediriger vers la page de l'hébergement
+        },
+        error: function() {
+          alert('Une erreur est survenue, veuillez réessayer.');
+        }
+      });
+    });
+  });
+</script>
+
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -22,7 +22,6 @@ db.Photo = require('./photo')(sequelize, Sequelize.DataTypes);
 db.Housing.belongsToMany(db.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId' });
 db.Equipment.belongsToMany(db.Housing, { through: 'HousingEquipments', foreignKey: 'EquipmentId' });
 
-
 // Ajout du modèle Message
 db.Message = require('./message')(sequelize, Sequelize.DataTypes);
 

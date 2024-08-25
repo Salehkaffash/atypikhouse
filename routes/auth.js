@@ -30,7 +30,7 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', upload.single('photo'), async (req, res) => {
-  const { username, email, password, firstName, lastName, phone, address } = req.body;
+  const { username, email, password, firstName, lastName, phone, address, role } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
@@ -41,8 +41,19 @@ router.post('/register', upload.single('photo'), async (req, res) => {
       lastName,
       phone,
       address,
-      photo: req.file ? req.file.path : null
+      photo: req.file ? req.file.path : null,
+      role // Enregistre le rôle choisi (hébergeur ou acheteur)
     });
+
+    // Si l'utilisateur s'inscrit en tant qu'hébergeur, créer une entrée dans Owners
+    if (role === 'hebergeur') {
+      await db.Owner.create({
+        name: user.username,
+        contact: user.email,
+        UserId: user.id
+      });
+    }
+
     req.flash('success', 'Registration successful! Please log in.');
     res.redirect('/login');
   } catch (error) {
@@ -50,6 +61,7 @@ router.post('/register', upload.single('photo'), async (req, res) => {
     res.render('register', { error: 'An error occurred during registration. Please try again.' });
   }
 });
+
 
 // Route de profile
 router.get('/profile', async (req, res) => {

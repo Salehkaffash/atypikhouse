@@ -23,18 +23,22 @@
                       <tr>
                         <td><%= avi.id %></td>
                         <td><%= avi.User.firstName %> <%= avi.User.lastName %></td>
-                        <td><%= avi.Housing.title %></td>
+                        <td>
+                          <a href="/hebergements/<%= avi.Housing.id %>"><%= avi.Housing.title %></a> <!-- Lien vers la page spécifique de l'hébergement -->
+                        </td>
                         <td><%= avi.rating %> / 5</td>
                         <td><%= avi.content.substring(0, 50) %>...</td>
                         <td>
-                          <a href="/admin/avis/edit/<%= avi.id %>" class="btn btn-warning btn-sm">Modifier</a>
-                          <form action="/admin/avis/delete/<%= avi.id %>" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                          </form>
+                          <% if (userRole === 'admin') { %>
+                            <a href="/admin/avis/edit/<%= avi.id %>" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="/admin/avis/delete/<%= avi.id %>" method="POST" style="display:inline;">
+                              <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                            </form>
+                          <% } %>
                         </td>
                       </tr>
                     <% }) %>
-                  </tbody>
+                  </tbody>                                                                      
                 </table>
               </div>
             </div>

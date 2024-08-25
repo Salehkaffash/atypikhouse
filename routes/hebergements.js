@@ -1,12 +1,10 @@
 // routes/hebergements.js
-
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const { ensureAuthenticated, ensureAdmin } = require('../middleware/auth');
-const { Housing, Comment, User, Theme, Owner, Destination, Equipment, Photo } = require('../models');
+const { Housing, Comment, User, Theme, Owner, Destination, Equipment, Photo, Message } = require('../models');
 const upload = require('../config/multer');
-
 
 // Route pour afficher tous les hébergements
 router.get('/', async (req, res) => {
@@ -18,7 +16,7 @@ router.get('/', async (req, res) => {
           model: Theme
         },
         {
-          model: Photo,  // Inclusion des photos
+          model: Photo,
           as: 'Photos'
         }
       ]
@@ -56,7 +54,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-
 // Route pour afficher le formulaire d'ajout d'un nouvel hébergement
 router.get('/add', ensureAuthenticated, async (req, res) => {
   try {
@@ -71,14 +68,10 @@ router.get('/add', ensureAuthenticated, async (req, res) => {
   }
 });
 
-
 // Route pour ajouter un nouvel hébergement
 router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, res) => {
   try {
     const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
-
-    console.log('Request body:', req.body); // Log the request body
-    console.log('Uploaded files:', req.files); // Log the uploaded files
 
     let owner = await Owner.findOne({ where: { UserId: req.user.id } });
     if (!owner) {
@@ -96,8 +89,6 @@ router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, 
       ownerId: owner.id,
     });
 
-    console.log('Housing created:', housing); // Log the created housing
-
     if (req.files) {
       const photos = req.files.map(file => ({
         path: file.path,
@@ -106,22 +97,15 @@ router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, 
       await Photo.bulkCreate(photos);
     }
 
-    // Combiner les deux types d'équipements en une seule liste
     const allEquipments = [].concat(simpleEquipments, premiumEquipments);
-
-    console.log('All equipments:', allEquipments); // Log all equipments
-
-    // Log to check if the method exists
-    console.log('Available methods on housing:', Object.keys(housing.__proto__));
     
     if (allEquipments.length > 0) {
-      await housing.addEquipment(allEquipments); // Log before this line to ensure the method exists
-      console.log('Equipments added to housing'); // Log after adding equipments
+      await housing.addEquipment(allEquipments);
     }
 
     res.redirect('/hebergements');
   } catch (error) {
-    console.error('Error adding housing:', error); // Log any error that occurs
+    console.error('Error adding housing:', error);
     res.status(500).send('Server Error');
   }
 });
@@ -129,27 +113,65 @@ router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, 
 // Route pour afficher un hébergement spécifique
 router.get('/:id', async (req, res) => {
   try {
-    console.log('Fetching housing with ID:', req.params.id); // Log the housing ID
+    console.log('Fetching housing with ID:', req.params.id);
+    
     const housing = await Housing.findByPk(req.params.id, {
       include: [
-        { model: Comment, include: [User] },
+        { model: Comment, include: [{ model: User }] },
         { model: Destination },
         { model: Theme },
-        { model: Owner },
+        { 
+          model: Owner,
+          as: 'Owner',  // Spécification de l'alias
+          include: [
+            {
+              model: User,
+              as: 'User',  // Spécification de l'alias ici aussi
+              attributes: ['id', 'firstName', 'lastName']
+            }
+          ]
+        },
         { model: Photo, as: 'Photos' },
-        { model: Equipment }
+        { model: Equipment, as: 'Equipments' }
       ]
     });
-    console.log('Fetched housing:', housing); // Log the fetched housing
+
     if (!housing) {
       return res.status(404).send('Housing not found');
     }
-    res.render('single-hebergement', { housing, user: req.user });
+
+    // Passez l'ID du propriétaire à la vue en utilisant l'alias 'Owner.User'
+    const receiver = housing.Owner ? housing.Owner.User : null;
+
+    res.render('single-hebergement', { housing, receiver, user: req.user });
   } catch (err) {
-    console.error('Error fetching housing:', err); // Log any error that occurs
+    console.error('Error fetching housing:', err);
     res.status(500).send('Server Error');
   }
 });
+
+// Nouvelle route pour gérer l'envoi du message depuis un hébergement
+router.post('/sendMessage', async (req, res) => {
+  try {
+    const { name, email, phone, content, housingId } = req.body;
+
+    // Créer un nouveau message lié à un hébergement spécifique
+    await Message.create({
+      name,
+      email,
+      phone,
+      content,
+      housingId: housingId // Associe le message à l'hébergement
+    });
+
+    // Rediriger l'utilisateur vers la page de l'hébergement après l'envoi du message
+    res.redirect(`/hebergements/${housingId}`);
+  } catch (err) {
+    console.error('Erreur lors de l\'envoi du message:', err);
+    res.status(500).json({ message: 'Erreur lors de l\'envoi du message.' });
+  }
+});
+
 
 // Route pour afficher les hébergements par thème
 router.get('/theme/:themeId', async (req, res) => {

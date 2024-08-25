@@ -52,8 +52,8 @@ module.exports = (sequelize, DataTypes) => {
   Housing.associate = function(models) {
     Housing.belongsTo(models.Theme, { foreignKey: 'themeId' });
     Housing.belongsTo(models.Destination, { foreignKey: 'destinationId' });
-    Housing.belongsTo(models.Owner, { foreignKey: 'ownerId' });
-    Housing.hasMany(models.Photo, { foreignKey: 'housingId', as: 'Photos' }); // Alias pour les photos
+    Housing.belongsTo(models.Owner, { foreignKey: 'ownerId', as: 'Owner' }); // Ajout d'un alias pour l'association
+    Housing.hasMany(models.Photo, { foreignKey: 'housingId', as: 'Photos' });
     Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
     Housing.belongsToMany(models.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId', as: 'Equipments' });
   };

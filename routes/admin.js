@@ -1,9 +1,11 @@
 // routes/admin.js
 const express = require('express');
 const router = express.Router();
-const { ensureAdmin } = require('../middleware/auth');
+const { ensureAuthenticated, ensureAdminOrHebergeur, ensureAdmin } = require('../middleware/auth');
 const db = require('../models');
+const { Op } = require('sequelize');  // Assurez-vous d'importer Op ici
 const upload = require('../config/multer');
+
 
 // Fonction pour récupérer les thèmes et les destinations
 const getCommonData = async () => {
@@ -12,11 +14,12 @@ const getCommonData = async () => {
   return { themes, destinations };
 };
 
-// Tableau de bord de l'administrateur
-router.get('/', ensureAdmin, async (req, res) => {
+// Tableau de bord de l'administrateur ou hébergeur
+router.get('/', ensureAdminOrHebergeur, async (req, res) => {
   const { themes, destinations } = await getCommonData();
   res.render('admin/dashboard', { title: 'Tableau de bord', partial: 'dashboard', themes, destinations });
 });
+
 
 // Thèmes -----------------------------------------------
 
@@ -160,14 +163,38 @@ router.post('/pages/edit/:id', ensureAdmin, async (req, res) => {
 // Hébergements -----------------------------------------------
 
 // Route pour afficher tous les hébergements
-router.get('/hebergements', ensureAdmin, async (req, res) => {
+router.get('/hebergements', ensureAdminOrHebergeur, async (req, res) => {
   try {
-    const hebergements = await db.Housing.findAll({
-      include: [
-        { model: db.Photo, as: 'Photos' }, // Spécifiez l'alias ici
-        { model: db.Equipment }
-      ]
-    });
+    let hebergements;
+
+    if (req.user.role === 'admin') {
+      // Si l'utilisateur est un admin, il peut voir tous les hébergements
+      hebergements = await db.Housing.findAll({
+        include: [
+          { model: db.Photo, as: 'Photos' },
+          { model: db.Equipment },
+          { model: db.Theme },
+          { model: db.Destination }
+        ]
+      });
+    } else if (req.user.role === 'hebergeur') {
+      // Si l'utilisateur est un hébergeur, il ne peut voir que ses propres hébergements
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner) {
+        return res.status(403).send('Accès refusé');
+      }
+
+      hebergements = await db.Housing.findAll({
+        where: { ownerId: owner.id },
+        include: [
+          { model: db.Photo, as: 'Photos' },
+          { model: db.Equipment },
+          { model: db.Theme },
+          { model: db.Destination }
+        ]
+      });
+    }
+
     const { themes, destinations } = await getCommonData();
     res.render('admin/dashboard', { title: 'Gestion des Hébergements', partial: 'hebergements', hebergements, themes, destinations });
   } catch (err) {
@@ -178,7 +205,7 @@ router.get('/hebergements', ensureAdmin, async (req, res) => {
 
 
 // Route pour afficher le formulaire de création d'un nouvel hébergement
-router.get('/hebergements/new', ensureAdmin, async (req, res) => {
+router.get('/hebergements/new', ensureAdminOrHebergeur, async (req, res) => {
   try {
     const { themes, destinations } = await getCommonData();
     const simpleEquipments = await db.Equipment.findAll({ where: { type: 'simple' } });
@@ -198,15 +225,16 @@ router.get('/hebergements/new', ensureAdmin, async (req, res) => {
   }
 });
 
-
 // Route pour créer un nouvel hébergement
-router.post('/hebergements/new', ensureAdmin, upload.array('images', 10), async (req, res) => {
+router.post('/hebergements/new', ensureAdminOrHebergeur, upload.array('images', 10), async (req, res) => {
   const transaction = await db.sequelize.transaction();
 
   try {
     const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
 
     const allEquipments = [].concat(simpleEquipments, premiumEquipments).map(Number);
+
+    const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
 
     const housing = await db.Housing.create({
       title,
@@ -216,7 +244,7 @@ router.post('/hebergements/new', ensureAdmin, upload.array('images', 10), async 
       capacity,
       themeId,
       destinationId,
-      ownerId: req.user.id
+      ownerId: owner.id
     }, { transaction });
 
     if (req.files && req.files.length > 0) {
@@ -242,12 +270,12 @@ router.post('/hebergements/new', ensureAdmin, upload.array('images', 10), async 
 
 
 // Route pour afficher le formulaire d'édition d'un hébergement
-router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
+router.get('/hebergements/edit/:id', ensureAdminOrHebergeur, async (req, res) => {
   try {
     const hebergement = await db.Housing.findByPk(req.params.id, {
       include: [
-        { model: db.Photo, as: 'Photos' }, // Inclusion des photos
-        { model: db.Equipment, as: 'Equipments' } // Inclusion des équipements associés
+        { model: db.Photo, as: 'Photos' },
+        { model: db.Equipment, as: 'Equipments' }
       ]
     });
     const { themes, destinations } = await getCommonData();
@@ -256,6 +284,13 @@ router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
 
     if (!hebergement) {
       return res.status(404).send('Hébergement non trouvé');
+    }
+
+    if (req.user.role === 'hebergeur') {
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner || hebergement.ownerId !== owner.id) {
+        return res.status(403).send('Accès refusé');
+      }
     }
     
     res.render('admin/dashboard', { 
@@ -273,13 +308,19 @@ router.get('/hebergements/edit/:id', ensureAdmin, async (req, res) => {
   }
 });
 
-
 // Route pour mettre à jour un hébergement
-router.post('/hebergements/edit/:id', ensureAdmin, upload.array('images', 10), async (req, res) => {
+router.post('/hebergements/edit/:id', ensureAdminOrHebergeur, upload.array('images', 10), async (req, res) => {
   try {
     const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
 
     const hebergement = await db.Housing.findByPk(req.params.id);
+
+    if (req.user.role === 'hebergeur') {
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner || hebergement.ownerId !== owner.id) {
+        return res.status(403).send('Accès refusé');
+      }
+    }
 
     await hebergement.update({
       title,
@@ -310,9 +351,17 @@ router.post('/hebergements/edit/:id', ensureAdmin, upload.array('images', 10), a
 });
 
 // Route pour supprimer un hébergement
-router.post('/hebergements/delete/:id', ensureAdmin, async (req, res) => {
+router.post('/hebergements/delete/:id', ensureAdminOrHebergeur, async (req, res) => {
   try {
     const hebergement = await db.Housing.findByPk(req.params.id);
+
+    if (req.user.role === 'hebergeur') {
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner || hebergement.ownerId !== owner.id) {
+        return res.status(403).send('Accès refusé');
+      }
+    }
+
     if (!hebergement) {
       req.flash('error', 'Hébergement non trouvé');
       return res.redirect('/admin/hebergements');
@@ -514,21 +563,49 @@ router.post('/blog/delete/:id', ensureAdmin, async (req, res) => {
 // Avis -----------------------------------------------
 
 // Route pour afficher tous les avis
-router.get('/avis', ensureAdmin, async (req, res) => {
+router.get('/avis', ensureAdminOrHebergeur, async (req, res) => {
   try {
-    const avis = await db.Comment.findAll({
-      include: [
-        { model: db.User, attributes: ['firstName', 'lastName'] },
-        { model: db.Housing, attributes: ['title'] }
-      ]
-    });
+    let avis;
+
+    if (req.user.role === 'admin') {
+      // L'admin peut voir tous les avis
+      avis = await db.Comment.findAll({
+        include: [
+          { model: db.User, attributes: ['firstName', 'lastName'] },
+          { model: db.Housing, attributes: ['title'] }
+        ]
+      });
+    } else if (req.user.role === 'hebergeur') {
+      // L'hébergeur ne voit que les avis sur ses propres hébergements
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner) {
+        return res.status(403).send('Accès refusé');
+      }
+
+      avis = await db.Comment.findAll({
+        include: [
+          { model: db.User, attributes: ['firstName', 'lastName'] },
+          { model: db.Housing, where: { ownerId: owner.id }, attributes: ['title'] }
+        ]
+      });
+    }
+
     const { themes, destinations } = await getCommonData();
-    res.render('admin/dashboard', { title: 'Gestion des Avis', partial: 'avis', avis, themes, destinations });
+    res.render('admin/dashboard', { 
+      title: 'Gestion des Avis', 
+      partial: 'avis', 
+      avis, 
+      themes, 
+      destinations,
+      userRole: req.user.role // Passer le rôle de l'utilisateur à la vue
+    });
   } catch (err) {
     console.error('Error fetching comments:', err);
     res.status(500).send('Error fetching comments');
   }
 });
+
+
 
 // Route pour afficher le formulaire d'édition d'un avis
 router.get('/avis/edit/:id', ensureAdmin, async (req, res) => {
@@ -565,6 +642,7 @@ router.post('/avis/delete/:id', ensureAdmin, async (req, res) => {
     res.status(500).send('Error deleting comment');
   }
 });
+
 
 
 // Utilisateurs -----------------------------------------------
@@ -613,8 +691,31 @@ router.get('/users/edit/:id', ensureAdmin, async (req, res) => {
 // Route pour mettre à jour un utilisateur
 router.post('/users/edit/:id', ensureAdmin, async (req, res) => {
   try {
+    const { username, email, role, firstName, lastName, phone, address } = req.body;
     const user = await db.User.findByPk(req.params.id);
-    await user.update(req.body);
+
+    // Vérifier si le rôle change à 'hebergeur'
+    if (role === 'hebergeur' && user.role !== 'hebergeur') {
+      const existingOwner = await db.Owner.findOne({ where: { UserId: user.id } });
+      if (!existingOwner) {
+        await db.Owner.create({
+          name: username,
+          contact: email,
+          UserId: user.id
+        });
+      }
+    }
+
+    await user.update({
+      username,
+      email,
+      role,
+      firstName,
+      lastName,
+      phone,
+      address
+    });
+
     res.redirect('/admin/users');
   } catch (err) {
     console.error('Error updating user:', err);
@@ -623,15 +724,31 @@ router.post('/users/edit/:id', ensureAdmin, async (req, res) => {
 });
 
 
-
 // Messages -----------------------------------------------
 
 // Route pour afficher les messages de contact
-router.get('/messages', ensureAdmin, async (req, res) => {
+router.get('/messages', ensureAdminOrHebergeur, async (req, res) => {
   try {
-    const messages = await db.Message.findAll();
-    const themes = await db.Theme.findAll();
-    const destinations = await db.Destination.findAll();
+    let messages;
+
+    if (req.user.role === 'admin') {
+      // L'admin voit tous les messages
+      messages = await db.Message.findAll({
+        include: [{ model: db.Housing }]
+      });
+    } else if (req.user.role === 'hebergeur') {
+      // L'hébergeur ne voit que les messages liés à ses hébergements
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner) {
+        return res.status(403).send('Accès refusé');
+      }
+
+      messages = await db.Message.findAll({
+        include: [{ model: db.Housing, where: { ownerId: owner.id } }]
+      });
+    }
+
+    const { themes, destinations } = await getCommonData();
     res.render('admin/dashboard', { title: 'Messages reçus', partial: 'messages', messages, themes, destinations });
   } catch (err) {
     console.error('Error fetching messages:', err);
@@ -640,18 +757,193 @@ router.get('/messages', ensureAdmin, async (req, res) => {
 });
 
 // Route pour afficher les détails d'un message
-router.get('/messages/:id', ensureAdmin, async (req, res) => {
+router.get('/messages/:id', ensureAdminOrHebergeur, async (req, res) => {
   try {
-    const message = await db.Message.findByPk(req.params.id);
+    const message = await db.Message.findByPk(req.params.id, {
+      include: [{ model: db.Housing }]
+    });
+
     if (!message) {
       return res.status(404).send('Message not found');
     }
+
+    // Vérification de l'accès pour les hébergeurs
+    if (req.user.role === 'hebergeur' && message.Housing && message.Housing.ownerId !== req.user.id) {
+      return res.status(403).send('Accès refusé');
+    }
+
     const themes = await db.Theme.findAll();
     const destinations = await db.Destination.findAll();
     res.render('admin/dashboard', { title: 'Détail du Message', partial: 'messageDetail', message, themes, destinations });
   } catch (err) {
     console.error('Error fetching message detail:', err);
     res.status(500).send('Server Error');
+  }
+});
+
+
+// Route pour afficher les messages de l'hébergeur connecté
+router.get('/hebergeur/messages', ensureAuthenticated, async (req, res) => {
+  try {
+      const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+      if (!owner) {
+          return res.status(403).send('Accès refusé');
+      }
+
+      const messages = await db.Message.findAll({
+          include: [{
+              model: db.Housing,
+              where: { ownerId: owner.id }
+          }]
+      });
+
+      res.render('admin/dashboard', { title: 'Mes Messages', partial: 'messages', messages });
+  } catch (err) {
+      console.error('Error fetching messages:', err);
+      res.status(500).send('Error fetching messages');
+  }
+});
+
+
+// Bookings -----------------------------------------------
+
+// Route pour afficher les réservations
+router.get('/bookings', ensureAdminOrHebergeur, async (req, res) => {
+    try {
+        let bookings;
+        let housings;
+
+        if (req.user.role === 'admin') {
+            bookings = await db.Booking.findAll({
+                include: [
+                    { model: db.Housing, as: 'housing' },
+                    { model: db.User, as: 'user' }
+                ]
+            });
+            housings = await db.Housing.findAll();
+        } else if (req.user.role === 'hebergeur') {
+            const owner = await db.Owner.findOne({ where: { UserId: req.user.id } });
+            if (!owner) {
+                return res.status(403).send('Accès refusé');
+            }
+
+            bookings = await db.Booking.findAll({
+                include: [
+                    { model: db.Housing, as: 'housing', where: { ownerId: owner.id } },
+                    { model: db.User, as: 'user' }
+                ]
+            });
+            housings = await db.Housing.findAll({ where: { ownerId: owner.id } });
+        }
+
+        res.render('admin/dashboard', { 
+            title: 'Gestion des Réservations',
+            partial: 'bookings',
+            bookings,
+            housings
+        });
+    } catch (err) {
+        console.error('Error fetching bookings:', err);
+        res.status(500).send('Erreur lors de la récupération des réservations.');
+    }
+});
+
+// Route pour modifier le statut d'une réservation
+router.post('/bookings/:id/status', ensureAdminOrHebergeur, async (req, res) => {
+    try {
+        const booking = await db.Booking.findByPk(req.params.id);
+
+        if (!booking) {
+            return res.status(404).send('Réservation non trouvée');
+        }
+
+        booking.status = req.body.status;
+        await booking.save();
+
+        res.status(200).send('Statut mis à jour avec succès');
+    } catch (err) {
+        console.error('Error updating booking status:', err);
+        res.status(500).send('Erreur lors de la mise à jour de la réservation.');
+    }
+});
+
+// Route pour récupérer les événements de réservation d'un hébergement
+router.get('/bookings/events/:housingId', ensureAdminOrHebergeur, async (req, res) => {
+    try {
+        const bookings = await db.Booking.findAll({
+            where: { HousingId: req.params.housingId },
+            attributes: ['id', 'startDate', 'endDate', 'status']
+        });
+
+        const events = bookings.map(booking => ({
+            id: booking.id,
+            title: booking.status === 'blocked' ? 'Bloqué' : 'Réservé',
+            start: booking.startDate.toISOString().split('T')[0],
+            end: booking.endDate.toISOString().split('T')[0],
+            color: booking.status === 'blocked' ? 'gray' : 'red',
+        }));
+
+        res.status(200).json(events); // Renvoi des événements correctement formatés en JSON
+    } catch (err) {
+        console.error('Error fetching booking events:', err);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+});
+
+// Route pour bloquer une date spécifique pour un hébergement
+router.post('/bookings/block', ensureAdminOrHebergeur, async (req, res) => {
+    try {
+        const { startDate, endDate, housingId } = req.body;
+
+        await db.Booking.create({
+            startDate: startDate,
+            endDate: endDate,
+            status: 'blocked',
+            HousingId: housingId
+        });
+
+        res.status(200).json({ message: 'Date bloquée avec succès' }); // Retourne un JSON au lieu d'un texte brut
+    } catch (err) {
+        console.error('Error blocking date:', err);
+        res.status(500).json({ message: 'Erreur lors du blocage du jour' });
+    }
+});
+
+// Route pour annuler une réservation spécifique pour un hébergement
+router.post('/bookings/cancel', ensureAdminOrHebergeur, async (req, res) => {
+  try {
+      const { startDate, endDate, housingId } = req.body;
+
+      console.log('Start Date:', startDate);
+      console.log('End Date:', endDate);
+      console.log('Housing ID:', housingId);
+
+      const { Op } = require('sequelize');
+
+      const booking = await db.Booking.findOne({
+          where: {
+              startDate: {
+                  [Op.gte]: new Date(startDate).setHours(0, 0, 0, 0)
+              },
+              endDate: {
+                  [Op.lte]: new Date(endDate).setHours(23, 59, 59, 999)
+              },
+              HousingId: housingId,
+              status: { [Op.ne]: 'cancelled' }
+          }
+      });
+
+      if (booking) {
+          booking.status = 'cancelled';
+          await booking.save();
+          res.status(200).json({ message: 'Réservation annulée avec succès' });
+      } else {
+          console.log('Réservation non trouvée');
+          res.status(404).json({ message: 'Réservation non trouvée' });
+      }
+  } catch (err) {
+      console.error('Error cancelling booking:', err);
+      res.status(500).json({ message: 'Erreur lors de l\'annulation de la réservation' });
   }
 });
 

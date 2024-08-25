@@ -54,7 +54,6 @@ const commentsRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
 const contactRoutes = require('./routes/contact');
 
-
 // Route pour la page d'accueil
 app.use('/', homeRoutes);
 
@@ -67,8 +66,10 @@ app.use(authRoutes);
 app.use('/bookings', bookingRoutes);
 app.use('/themes', themesRoutes);
 app.use('/comments', commentsRoutes);
-app.use('/admin', adminRoutes);
 app.use('/contact', contactRoutes);
+
+// Route pour le panneau d'administration
+app.use('/admin', require('./middleware/auth').ensureAdminOrHebergeur, adminRoutes);
 app.use('/admin/pages', pagesRoutes);
 
 // Routes pour les pages dynamiques
