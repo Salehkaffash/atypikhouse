@@ -1,67 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Creer votre compte sur Atypik House</title>
+  <meta name="description" content="La page de votre profile sur Atypikhouse" />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
+
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h2>Register</h2>
+  <div class=" py-5 bg-light">
+  <div class=" container d-flex justify-content-center  mt-5">
+    <div class="col-md-6 text-center">
+      <h1 class="h2 txt-blue fw5 pt-5">Creer votre compte</h1>
+      <p class="h6 fw3 pb-5">L'inscription de Atypikhouse est simple et rapide. Remplissez le formulaire ci-dessous et votre compte sera immédiatement créé.</p>
+    
     <% if (error) { %>
-      <div class="alert alert-danger"><%= error %></div>
+      <p><%= error %></p>
     <% } %>
-    <form action="/register" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="firstName" required>
+    <div class="text-start ">
+    <form class="gap-4 d-flex row" action="/register" method="POST" enctype="multipart/form-data">
+      <div class="col-md-12 text-start gap-3 d-flex">
+        <div class="col form-register">
+          <label for="firstName">Prénom</label>
+          <input type="text" class="form-control" id="firstName" name="firstName" required>
+        </div>
+        <div class="col form-register">
+          <label for="lastName">Nom</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" required>
+        </div>  
       </div>
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
+      <div class="col-md-12 form-register">
+        <label for="email">Votre Mail</label>
         <input type="email" class="form-control" id="email" name="email" required>
       </div>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+      <div class="col-md-12 text-start gap-3 d-flex">
+        <div class="col form-register">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="col form-register">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>  
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
+      <div class="col-md-12 text-start gap-3 d-flex">
+        <div class="col form-register">
+          <label for="phone">Numero de téléphone</label>
+          <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+        <div class="col form-register">
+          <label for="address">Votre address</label>
+          <input type="text" class="form-control" id="address" name="address">
+        </div>  
       </div>
-      <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="text" class="form-control" id="phone" name="phone">
-      </div>
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" class="form-control" id="address" name="address">
-      </div>
-      <div class="form-group">
-        <label for="photo">Photo</label>
-        <input type="file" class="form-control-file" id="photo" name="photo">
-      </div>
-      <div class="form-group">
-        <label for="role">Vous etes Acheteur ou Hébergeur ?</label>
+      <div class="col-md-12 py-3 form-register">
+        <label for="role">Vous etes Locataire ou Hébergeur ?</label>
         <select class="form-control" id="role" name="role" required>
-          <option value="acheteur">Acheteur</option>
+          <option value="acheteur">Locataire</option>
           <option value="hebergeur">Hébergeur</option>
         </select>
+        <p class="my-3">Si vous voulez devenir hébergeur chez nous, vous devez envoyer un mail avec le sujet de "Augmentation de niveau" et votre Username et Email à <strong>gestion@atypikhouse.com</strong></p>
       </div>
-      <div class="form-group">
-        <p>Si vous voulez devenir hébergeur chez nous, vous devez envoyer un mail avec le sujet de "Augmentation de niveau" et votre Username et Email à <strong>gestion@atypikhouse.com</strong></p>
+      
+      <div class="col-md-12 form-register">
+        <label for="photo">Votre photo de profile</label><br>
+        <input type="file" class="form-control-file mt-2" id="photo" name="photo">
       </div>
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="submit" class="btn fullwith btn-primary">Creez mon compte</button>
     </form>
   </div>
+  </div>
+</div>
+</div>
   <%- include('partials/footer') %>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,20 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
-  <title><%= article.title %></title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title><%- article.seoTitle %></title>
+  <meta name="description" content="<%- article.seoDescription %>" />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%- article.seoTitle %>" />
+  <meta property="og:description" content="<%- article.seoDescription %>" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h1 class="text-center"><%= article.title %></h1>
-    <img src="/<%= article.image %>" class="img-fluid" alt="<%= article.title %>">
-    <p class="text-muted text-center">Publié le <%= new Date(article.publishedAt).toLocaleDateString('fr-FR') %></p>
-    <div class="mt-4">
-      <%- article.content %>
+
+    <!-- File d'Ariane -->
+    <div class="fil-ariane">
+      <div class="container p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="/blog">Blog</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= article.title %></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+<div class="bg-green overflow-hidden">
+
+  <!-- Section Article -->
+  <div class="article-section-1" style="background-image: url(/<%= article.image %>);"></div>
+
+  <div class="bg-green  pb-5">
+    <div class="container">
+      <div class="row gap-3 body-article">
+        <h1 class="bold h1 txt-white mb-md-3 mb-0"><%= article.title %></h1>
+        <!-- Body d'article -->
+        <div class="col-md col-12  bg-white br20 p-4 p-md-5">
+            
+            <div class="d-flex blog-info">
+              <p class="fw4 txt-green"><i class="fa-solid fa-list"></i> Catégories : <span><%- article.categories %></span></p>
+              <p class="fw4 txt-green"><i class="fa-regular fa-calendar"></i>Publié le <span><%= new Date(article.publishedAt).toLocaleDateString('fr-FR') %></span></p>
+            </div>
+            <div class="content-article"><%- article.content %></div>
+        </div>
+         <!-- Photo d'article -->
+         <div class="col-md-4 col-12 ordermoins1 p-0 mt-md-0 mt-5">
+          <div class="photo-article-blog bg-white br20">
+            <img src="/<%= article.image %>" class="img-fluid br20" alt="<%= article.title %>">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+
   <%- include('partials/footer') %>
 </body>
 </html>

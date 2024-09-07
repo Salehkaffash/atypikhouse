@@ -31,7 +31,8 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
-  res.locals.error = req.flash('error');
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
   next();
 });
 
@@ -42,6 +43,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const homeRoutes = require('./routes/home');
+const searchRoutes = require('./routes/search');
 const pagesRoutes = require('./routes/pages');
 const destinationsRoutes = require('./routes/destinations');
 const hebergementsRoutes = require('./routes/hebergements');
@@ -53,11 +55,13 @@ const themesRoutes = require('./routes/themes');
 const commentsRoutes = require('./routes/comments');
 const adminRoutes = require('./routes/admin');
 const contactRoutes = require('./routes/contact');
+const newsletterRoutes = require('./routes/newsletter');
 
 // Route pour la page d'accueil
 app.use('/', homeRoutes);
 
 // Autres routes
+app.use('/', searchRoutes);
 app.use('/destinations', destinationsRoutes);
 app.use('/hebergements', hebergementsRoutes);
 app.use('/blog', blogRoutes);
@@ -67,6 +71,7 @@ app.use('/bookings', bookingRoutes);
 app.use('/themes', themesRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/contact', contactRoutes);
+app.use('/newsletter', newsletterRoutes);
 
 // Route pour le panneau d'administration
 app.use('/admin', require('./middleware/auth').ensureAdminOrHebergeur, adminRoutes);

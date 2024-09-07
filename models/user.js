@@ -3,12 +3,12 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      // unique: true, // Commenter cette ligne pour supprimer l'index unique
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: true, // Garder l'email comme unique
     },
     password: {
       type: DataTypes.STRING,

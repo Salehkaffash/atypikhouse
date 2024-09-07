@@ -1,43 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= housing.title %></title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title><%= housing.title %> | AtypikHouse</title>
+  <meta name="description" content="<%= housing.title %>, Découvrez cette manifique <%= housing.Theme.name %> à <%= housing.Destination.name %> !" />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%= housing.title %> | AtypikHouse" />
+  <meta property="og:description" content="<%= housing.title %>, Découvrez cette manifique <%= housing.Theme.name %> à <%= housing.Destination.name %> !" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
+ <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+-->
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
 
-    <!-- File d'Ariane -->
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="/hebergements">Hébergements</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= housing.title %></li>
-      </ol>
-    </nav>
+  <!-- File d'Ariane -->
+  <div class="fil-ariane">
+    <div class="container p-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb  m-0">
+          <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+          <li class="breadcrumb-item"><a href="/hebergements">Hébergements</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= housing.title %></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
 
-    <h1 class="text-center"><%= housing.title %></h1>
+<div class="bg-light">
 
-    <!-- Date de publication et auteur -->
-    <p class="text-muted">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %> par <%= housing.Owner ? housing.Owner.name : 'Inconnu' %></p>
+  <div class="container py-5">
 
-    <div class="row">
-      <div class="col-md-8">
+    <div class="row align-items-center py-3">
+      <div class="col-md-6">
+        <h1 class="txt-green h2 mb-3 bold"><%= housing.title %></h1>
+
+        <!-- Résumé des évaluations -->
+        <div class="mb-5">
+          <% 
+            let totalRating = 0;
+            let totalComments = housing.Comments ? housing.Comments.length : 0;
+            housing.Comments && housing.Comments.forEach(comment => {
+              totalRating += comment.rating;
+            });
+            let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
+          %>
+          <div class="d-flex gap-3 align-items-center">
+            <p class="mb-0"><%= averageRating %> / 5</p>
+            <div class="ml-3">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
+              <% } %>
+            </div>
+            <span class="ml-2">(<%= totalComments %> commentaires)</span>
+          </div>
+        </div>
+
+        <p class="h5 txt-blue mb-3 fw6">Prix : <%= housing.price %> €, la nuit</p>
+
+        <div class="d-flex mt-3 gap-2">
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Capacité : </span><%= housing.capacity %> personnes maximums</p>
+          </div>
+          <% if (housing.Destination) { %>
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Destination : </span><a href="/destinations/<%= housing.Destination.id %>" class="fw6"><%= housing.Destination.name %></a></p>
+          </div>
+          <% } %>
+        </div>        
+
+        <div class="d-flex mt-2 gap-2">
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Thème : </span><a href="/themes/<%= housing.Theme.id %>/hebergements" class="fw6"><%= housing.Theme.name %></a></p>
+          </div>
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Catégories : </span><% housing.type.split(',').forEach(category => { %><span class="badge badge-primary"><%= category.trim() %></span><% }); %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <% if (housing.Photos && housing.Photos.length > 0) { %>
               <% housing.Photos.forEach((photo, index) => { %>
                 <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-                  <img src="/<%= photo.path %>" class="d-block w-100" alt="<%= housing.title %>">
+                  <img src="/<%= photo.path %>" class="d-block w-100 br20" alt="<%= housing.title %>">
                 </div>
               <% }) %>
             <% } else { %>
               <div class="carousel-item active">
-                <img src="/path/to/default-image.jpg" class="d-block w-100" alt="Default Image">
+                <img src="/path/to/default-image.jpg" class="d-block w-100 br20" alt="Default Image">
               </div>
             <% } %>
           </div>
@@ -50,46 +138,44 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
+      </div>
 
-        <!-- Catégories -->
-        <p><strong>Catégories:</strong>
-          <% housing.type.split(',').forEach(category => { %>
-            <span class="badge badge-primary"><%= category.trim() %></span>
-          <% }); %>
-        </p>
+    </div>
 
-        <!-- Thème -->
-        <p><strong>Thème:</strong> <a href="/themes/<%= housing.Theme.id %>/hebergements"><%= housing.Theme.name %></a></p>
+    <div class="row py-3">
+      <form action="/bookings/add" method="POST">
+        <div class="bg-blue p-4 br20 d-flex align-items-end gap-3">
+        <input type="hidden" name="housingId" value="<%= housing.id %>">
+        <div class="form-group col-md-3">
+          <label for="startDate" class="txt-white p">Date d'arrivée</label>
+          <input type="date" class="form-control" id="startDate" name="startDate" required>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="endDate" class="txt-white p">Date de départ</label>
+          <input type="date" class="form-control" id="endDate" name="endDate" required>
+        </div>
+        <div class="form-group col-md">
+          <label for="guests" class="txt-white p">Nombre de personnes</label>
+          <input type="number" class="form-control" id="guests" name="guests" min="1" max="<%= housing.capacity %>" required>
+        </div>
+        <div class="form-group col-md-3">
+          <button type="submit" class="btn mt-3 fullwidth btn-green-light">Payer pour réserver</button>
+        </div>
+      </div>
+      </form>
+    </div>
+
+    <div class="row py-5">
+      <div class="col-md-8">
+        <h4 class="h4 txt-green mb-3">Informations complémentaires</h4>
+        <div class="p-4 bg-white br20 bs10">
+          <%- housing.description %>
+        </div>
       </div>
       <div class="col-md-4">
-        <h3>Prix: <%= housing.price %> €</h3>
-        <h4>Capacité: <%= housing.capacity %> personnes</h4>
-        <% if (housing.Destination) { %>
-          <p>Destination: <a href="/destinations/<%= housing.Destination.id %>"><%= housing.Destination.name %></a></p>
-        <% } %>
-        <form action="/bookings/add" method="POST">
-          <input type="hidden" name="housingId" value="<%= housing.id %>">
-          <div class="form-group">
-            <label for="startDate">Date d'arrivée</label>
-            <input type="date" class="form-control" id="startDate" name="startDate" required>
-          </div>
-          <div class="form-group">
-            <label for="endDate">Date de départ</label>
-            <input type="date" class="form-control" id="endDate" name="endDate" required>
-          </div>
-          <div class="form-group">
-            <label for="guests">Nombre de personnes</label>
-            <input type="number" class="form-control" id="guests" name="guests" min="1" max="<%= housing.capacity %>" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Réservez maintenant</button>
-        </form>
-
         <!-- Box des équipements -->
-        <div class="card mt-4">
-          <div class="card-header">
-            <h4>Équipements</h4>
-          </div>
-          <div class="card-body">
+        <h4 class="h4 txt-green mb-3">Équipements</h4>
+          <div class="bg-white p-4 br20 bs10">
             <% if (housing.Equipments && housing.Equipments.length > 0) { %>
               <ul class="list-group">
                 <% housing.Equipments.forEach(equipment => { %>
@@ -102,20 +188,17 @@
               <p>Aucun équipement disponible.</p>
             <% } %>
           </div>
-        </div>
-        
-
-      </div>
+          <h4 class="h4 txt-green my-4">Informations sur l'hôte</h4>
+          <div class="bg-white p-4 br20 bs10">
+            <p class="text-muted mb-3">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+            <p class="text-muted mb-4">Hôte : <strong><%= housing.Owner ? housing.Owner.name : 'Inconnu' %></strong></p>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#contactFormModal">Contacter l'hebergeur</button>
+          </div>
+          </div>
     </div>
 
-    <hr>
-    <h3>Informations complémentaires</h3>
-    <div class="mt-4">
-      <%- housing.description %>
-    </div>
 
-    <!-- Bouton pour le formulaire de contact -->
-    <button class="btn btn-primary" data-toggle="modal" data-target="#contactFormModal">Contacter l'hebergeur</button>
+ 
 
     
     <!-- Modal du formulaire de contact -->
@@ -146,9 +229,9 @@
                 <label for="content">Message</label>
                 <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
               </div>
-                <!-- Les autres champs du formulaire -->
-                <input type="hidden" name="housingId" value="<%= housing.id %>">
-                <button type="submit" class="btn btn-primary">Envoyer</button>
+              <!-- Les autres champs du formulaire -->
+              <input type="hidden" name="housingId" value="<%= housing.id %>">
+              <button type="submit" class="btn mt-3 btn-primary">Envoyer</button>
             </form>
           </div>
         </div>
@@ -156,27 +239,6 @@
     </div>
 
     
-    <!-- Résumé des évaluations -->
-    <div class="mt-5">
-      <h3>Résumé des évaluations</h3>
-      <% 
-        let totalRating = 0;
-        let totalComments = housing.Comments ? housing.Comments.length : 0;
-        housing.Comments && housing.Comments.forEach(comment => {
-          totalRating += comment.rating;
-        });
-        let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
-      %>
-      <div class="d-flex align-items-center">
-        <h4 class="mb-0"><%= averageRating %> / 5</h4>
-        <div class="ml-3">
-          <% for(let i = 1; i <= 5; i++) { %>
-            <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
-          <% } %>
-        </div>
-        <span class="ml-2">(<%= totalComments %> commentaires)</span>
-      </div>
-    </div>
 
     <!-- Section des commentaires -->
     <h3 class="mt-5">Commentaires</h3>
@@ -200,7 +262,7 @@
           <% if (comment.photo) { %>
             <img src="/uploads/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
           <% } %>
-          <% if (comment.User && comment.User.id === user.id) { %>
+          <% if (comment.User && user && comment.User.id === user.id) { %>
             <form action="/comments/<%= housing.id %>/comments/<%= comment.id %>/edit" method="POST" enctype="multipart/form-data" class="mt-2">
               <input type="hidden" name="_method" value="PUT">
               <div class="form-group">
@@ -227,53 +289,55 @@
     </div>
 
     <!-- Formulaire d'ajout de commentaire -->
-    <h4>Ajouter un commentaire</h4>
-    <form action="/comments/<%= housing.id %>/comments" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="content">Commentaire</label>
-        <textarea class="form-control" id="content" name="content" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="rating">Évaluation</label>
-        <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" required>
-      </div>
-      <div class="form-group">
-        <label for="photo">Photo</label>
-        <input type="file" class="form-control-file" id="photo" name="photo">
-      </div>
-      <button type="submit" class="btn btn-primary">Soumettre</button>
-    </form>
+    <% if (user) { %>
+      <h4>Ajouter un commentaire</h4>
+      <form action="/comments/<%= housing.id %>/comments" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="content">Commentaire</label>
+          <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rating">Évaluation</label>
+          <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" required>
+        </div>
+        <div class="form-group">
+          <label for="photo">Photo</label>
+          <input type="file" class="form-control-file" id="photo" name="photo">
+        </div>
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+      </form>
+    <% } else { %>
+      <p><a href="/login">Connectez-vous</a> pour ajouter un commentaire.</p>
+    <% } %>
   </div>
+</div>
+
+
   <%- include('partials/footer') %>
 
-<script>
-  $(document).ready(function() {
-    $('#contactFormModal form').on('submit', function(event) {
-      event.preventDefault(); // Empêcher le rechargement de la page
+  <script>
+    $(document).ready(function() {
+      $('#contactFormModal form').on('submit', function(event) {
+        event.preventDefault(); // Empêcher le rechargement de la page
 
-      var formData = $(this).serialize(); // Récupérer les données du formulaire
+        var formData = $(this).serialize(); // Récupérer les données du formulaire
 
-      $.ajax({
-        type: 'POST',
-        url: '/hebergements/sendMessage', // URL d'envoi du formulaire
-        data: formData,
-        success: function(response) {
-          $('#contactFormModal').modal('hide'); // Fermer le pop-up
-          alert('Message envoyé avec succès !'); // Afficher un message de succès
-          window.location.href = '/hebergements/' + $('input[name="housingId"]').val(); // Rediriger vers la page de l'hébergement
-        },
-        error: function() {
-          alert('Une erreur est survenue, veuillez réessayer.');
-        }
+        $.ajax({
+          type: 'POST',
+          url: '/hebergements/sendMessage', // URL d'envoi du formulaire
+          data: formData,
+          success: function(response) {
+            $('#contactFormModal').modal('hide'); // Fermer le pop-up
+            alert('Message envoyé avec succès !'); // Afficher un message de succès
+            window.location.href = '/hebergements/' + $('input[name="housingId"]').val(); // Rediriger vers la page de l'hébergement
+          },
+          error: function() {
+            alert('Une erreur est survenue, veuillez réessayer.');
+          }
+        });
       });
     });
-  });
-</script>
+  </script>
 
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </body>
 </html>

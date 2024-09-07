@@ -17,6 +17,7 @@ db.Destination = require('./destination')(sequelize, Sequelize.DataTypes);
 db.Page = require('./page')(sequelize, Sequelize.DataTypes);
 db.Blog = require('./blog')(sequelize, Sequelize.DataTypes);
 db.Photo = require('./photo')(sequelize, Sequelize.DataTypes);
+db.Newsletter = require('./newsletter')(sequelize, Sequelize.DataTypes);
 
 // Associations
 db.Housing.belongsToMany(db.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId' });

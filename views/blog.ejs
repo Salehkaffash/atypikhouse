@@ -1,29 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
-  <title>Blog</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Le Blog d'AtypikHouse : Explorez, Apprenez et Inspirez-vous</title>
+  <meta name="description" content="Découvrez le blog d'AtypikHouse pour des conseils pratiques, des récits inspirants et des actualités sur le tourisme durable. Explorez nos articles pour enrichir vos voyages." />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Le Blog d'AtypikHouse : Explorez, Apprenez et Inspirez-vous" />
+  <meta property="og:description" content="Découvrez le blog d'AtypikHouse pour des conseils pratiques, des récits inspirants et des actualités sur le tourisme durable. Explorez nos articles pour enrichir vos voyages." />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h1 class="text-center">Blog</h1>
-    <div class="row">
-      <% articles.forEach(article => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img src="/<%= article.image %>" class="card-img-top" alt="<%= article.title %>">
-            <div class="card-body">
-              <h5 class="card-title"><a href="/blog/<%= article.url %>"><%= article.title %></a></h5>
-              <p class="card-text"><%= article.content.substring(0, 100) %>...</p>
-              <p class="card-text"><small class="text-muted">Publié le <%= new Date(article.publishedAt).toLocaleDateString('fr-FR') %></small></p>
-            </div>
-          </div>
+
+    <!-- File d'Ariane -->
+    <div class="fil-ariane">
+      <div class="container p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blog</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+
+  <div class="blog-photo">
+    <div class="blog-photo-1">
+      <div class="container align-items-center p-5 d-flex h-100">
+        <div class="col-md-6">
+          <h1 class="bold txt-white">Notre Blog</h1>
+          <h2 class="fw3 h3 txt-white">Inspirations, Conseils et Actualités pour un Tourisme Durable</h2>
         </div>
-      <% }) %>
+      </div>
     </div>
   </div>
+
+
+  <div class="blog-section bg-white">
+    <div class="container py-5">
+      <div class="row py-5 d-flex">
+          <% articles.forEach(article => { %>
+            <div class="col-sm-12 col-md-3 col-xl-3">
+              <a href="/blog/<%= article.url %>">
+              <div class="card-article">
+                <div class="article-photo">
+                  <% if (article.image) { %>
+                    <img src="/<%= article.image %>" class="card-img-top" alt="<%= article.title %>">
+                  <% } else { %>
+                    <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+                  <% } %>
+                </div>
+                <div class="article-photo-g"></div>
+                  <h4><%= article.title %></h4>
+                  <p class="card-text">Publié à <%= new Date(article.publishedAt).toLocaleDateString('fr-FR') %></p>
+              </div>
+              </a>
+            </div>
+          <% }) %>
+      </div>
+    </div>
+  </div>
+
+
+
   <%- include('partials/footer') %>
 </body>
 </html>

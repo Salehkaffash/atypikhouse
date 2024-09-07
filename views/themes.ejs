@@ -1,30 +1,95 @@
-<!-- views/themes.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thèmes</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Nos Thèmes de Séjour Uniques | AtypikHouse</title>
+  <meta name="description" content="Explorez les différents thèmes de séjour proposés par AtypikHouse, de la yourte traditionnelle à la maison hobbit fantastique. Chaque thème offre une expérience unique et mémorable en pleine nature." />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Nos Thèmes de Séjour Uniques | AtypikHouse" />
+  <meta property="og:description" content="Explorez les différents thèmes de séjour proposés par AtypikHouse, de la yourte traditionnelle à la maison hobbit fantastique. Chaque thème offre une expérience unique et mémorable en pleine nature." />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
+
   <%- include('partials/nav') %>
+
+    <!-- File d'Ariane -->
+    <div class="fil-ariane">
+      <div class="container p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Themes</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  <div class="theme-header">
+    <div class="theme-header-1">
+      <div class="container align-items-center p-5 d-flex h-100">
+        <div class="col-md-6 col-12">
+          <h1 class="bold lh12 mb-3 txt-white">Thèmes de Séjour</h1>
+          <p class="fw3 h5 lh14 txt-white">Explorez tous les thèmes de séjour proposés par AtypikHouse, Trouvez l'expérience parfaite pour vos vacances.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="container mt-5">
-    <h1 class="text-center">Thèmes</h1>
+    <h2 class="h3 mb-3 py-5 txt-green fw6 text-center">Découvrez nos Thèmes de Séjour Uniques</h2>
     <div class="row">
       <% themes.forEach(theme => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <% if (theme.image) { %>
-              <img src="/<%= theme.image %>" class="card-img-top" alt="<%= theme.name %>">
-            <% } %>
-            <div class="card-body">
-              <h5 class="card-title"><%= theme.name %></h5>
-              <h6 class="card-subtitle mb-2 text-muted"><%= theme.subtitle %></h6>
-              <p class="card-text"><%= theme.description %></p>
-              <a href="/themes/<%= theme.id %>/hebergements" class="btn btn-primary">Voir les hébergements</a>
+        <div class="col-md-6">
+          <a href="/themes/<%= theme.id %>/hebergements">
+            <div class="card-themes mb-4">
+              <% if (theme.image) { %>
+                <img src="/<%= theme.image %>" class="card-img-top" alt="<%= theme.name %>">
+              <% } %>
+              <div class="themes-photo-g"></div>
+              <div class="themes-body">
+                <h3><%= theme.name %></h3>
+                <h4><%= theme.subtitle %></h4>
+                <p><%= theme.description %></p>
+              </div>
             </div>
-          </div>
+          </a>
         </div>
       <% }) %>
     </div>

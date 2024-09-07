@@ -1,30 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hébergements - <%= theme.name %></title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Hébergements en <%= theme.name %> (<%= theme.subtitle %>)</title>
+  <meta name="description" content="Atypik House - " />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-        <li class="breadcrumb-item"><a href="/themes">Thèmes</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= theme.name %></li>
-      </ol>
-    </nav>
-    <h1 class="text-center"><%= theme.name %></h1>
-    <h2 class="text-center text-muted"><%= theme.subtitle %></h2>
-    <div class="text-center mb-4">
-      <% if (theme.image) { %>
-        <img src="/<%= theme.image %>" class="img-fluid" alt="<%= theme.name %>">
-      <% } %>
+
+  <!-- File d'Ariane -->
+  <div class="fil-ariane">
+    <div class="container p-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+          <li class="breadcrumb-item"><a href="/themes">Thèmes</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= theme.name %></li>
+        </ol>
+      </nav>
     </div>
-    <p><%= theme.description %></p>
-    <div class="text-center mb-4">
+  </div>
+
+  <!-- Section Single Theme -->
+  <div class="single-theme-section-1" style="background-image: url(/<%= theme.image %>);"></div>
+  <div class="single-theme-section">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-md-6">
+          <h1 class="txt-white fw6"><%= theme.name %></h1>
+          <h2 class="h3 mb-3 txt-white">(<%= theme.subtitle %>)</h2>
+          <p class="h5 fw3 lh15 txt-white"><%= theme.description %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="bg-green">
+  <div class="container py-5">
+    <div class=" d-flex flex-wrap align-items-center gap-3 mb-5">
+      <p class="h4 m-0 txt-white">Trier par :</p>
       <a href="/themes/<%= theme.id %>/hebergements?sortBy=recent" class="btn btn-info">Les plus récentes</a>
       <a href="/themes/<%= theme.id %>/hebergements?sortBy=popular" class="btn btn-info">Les plus populaires</a>
       <a href="/themes/<%= theme.id %>/hebergements?sortBy=expensive" class="btn btn-info">Les plus chères</a>
@@ -32,23 +85,29 @@
     </div>
     <div class="row">
       <% housings.forEach(housing => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <% if (housing.Photos && housing.Photos.length > 0) { %>
-              <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
-            <% } else { %>
-              <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
-            <% } %>
-            <div class="card-body">
-              <h5 class="card-title"><%= housing.title %></h5>
-              <p class="card-text"><%= housing.description.substring(0, 100) %>...</p>
-              <a href="/hebergements/<%= housing.id %>" class="btn btn-primary">Voir plus</a>
-            </div>
+        <div class="col-md-3">
+          <div class="card-host">
+            <a href="/hebergements/<%= housing.id %>" class="">
+              
+              <% if (housing.Photos && housing.Photos.length > 0) { %>
+                <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
+              <% } else { %>
+                <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+              <% } %>
+              <div class="body-host">
+                <h4><%= housing.title %></h4>
+                <p>Prix : <%= housing.price %> € <span><%= housing.capacity %> personnes max</span></p>
+                
+              </div>
+            </a>
           </div>
         </div>
+
       <% }) %>
     </div>
   </div>
+</div>
+
   <%- include('partials/footer') %>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

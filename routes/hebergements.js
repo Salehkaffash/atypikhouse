@@ -71,7 +71,11 @@ router.get('/add', ensureAuthenticated, async (req, res) => {
 // Route pour ajouter un nouvel hébergement
 router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, res) => {
   try {
-    const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [] } = req.body;
+    const { title, description, type, price, capacity, themeId, destinationId, simpleEquipments = [], premiumEquipments = [], newSimpleEquipment, newPremiumEquipment } = req.body;
+
+    // Si simpleEquipments ou premiumEquipments ne sont pas des tableaux, convertissez-les en tableaux
+    const selectedSimpleEquipments = Array.isArray(simpleEquipments) ? simpleEquipments : [simpleEquipments];
+    const selectedPremiumEquipments = Array.isArray(premiumEquipments) ? premiumEquipments : [premiumEquipments];
 
     let owner = await Owner.findOne({ where: { UserId: req.user.id } });
     if (!owner) {
@@ -97,6 +101,24 @@ router.post('/add', ensureAuthenticated, upload.array('images', 5), async (req, 
       await Photo.bulkCreate(photos);
     }
 
+    // Ajout de nouveaux équipements simples
+    if (newSimpleEquipment && newSimpleEquipment.trim() !== "") {
+      const simpleEquipment = await Equipment.create({
+        name: newSimpleEquipment.trim(),
+        type: "simple",
+      });
+      selectedSimpleEquipments.push(simpleEquipment.id);
+    }
+
+    // Ajout de nouveaux équipements premium
+    if (newPremiumEquipment && newPremiumEquipment.trim() !== "") {
+      const premiumEquipment = await Equipment.create({
+        name: newPremiumEquipment.trim(),
+        type: "premium",
+      });
+      selectedPremiumEquipments.push(premiumEquipment.id);
+    }
+    
     const allEquipments = [].concat(simpleEquipments, premiumEquipments);
     
     if (allEquipments.length > 0) {
@@ -225,5 +247,6 @@ router.post('/hebergements/edit/:id', ensureAdmin, upload.array('images', 5), as
     res.status(500).send('Error updating hebergement');
   }
 });
+
 
 module.exports = router;

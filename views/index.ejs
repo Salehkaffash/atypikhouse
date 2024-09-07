@@ -1,19 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Atypik House - </title>
+  <meta name="description" content="Atypik House - " />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h1 class="text-center">Bienvenue sur notre site de location de logements !</h1>
+
+  <!-- Section Héros -->
+<div class="header-p">
+  <div class="hero-section-1"></div>
+  <div class="hero-section">
+    <div class="container d-flex h-100 align-items-center">
+      <div class="row">
+        <div class="col-md-6">
+          <h1 class="bold mb-5 pb-5 text-start">Offrez-vous des vacances dans l'une de nos Atypikhouse</h1>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
+  <!-- Section Serach -->
+  <div class="search-section bg-green">
+      <div class="container">
+        <div class="row">
+          <div class="search-p">
+            <h2 class="h5 mb-3 txt-white text-start">Trouvez votre hébergements insolites ici :</h2>
+            <form class="search-form gap-3 bg-white br20 row" action="/search" method="GET">
+              <div class="form-group col-md-2">
+                <label for="destination" class="sr-only">Destination</label>
+                <select id="destination" name="destination" class="form-control" required>
+                  <option value="" disabled selected>Sélectionnez une destination</option>
+                  <% destinations.forEach(destination => { %>
+                    <option value="<%= destination.id %>"><%= destination.name %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="category" class="sr-only">Catégorie</label>
+                <select id="category" name="category" class="form-control" required>
+                  <option value="" disabled selected>Sélectionnez une catégorie</option>
+                  <% themes.forEach(theme => { %>
+                    <option value="<%= theme.id %>"><%= theme.name %></option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="startDate" class="sr-only">Date d'arrivée</label>
+                <input type="date" id="startDate" name="startDate" class="form-control" required>
+              </div>
+              <div class="form-group col-md-2">
+                <label for="endDate" class="sr-only">Date de départ</label>
+                <input type="date" id="endDate" name="endDate" class="form-control" required>
+              </div>
+              <div class="form-group col-md">
+                <label for="guests" class="sr-only">Personnes</label>
+                <input type="number" id="guests" name="guests" class="form-control" placeholder="Personnes" min="1" required>
+              </div>
+              <div class="form-group col-md-2 text-center">
+                <button type="submit" class="btn fullwidth btn-primary btn-block mtbs">RECHERCHER</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Section KPIs -->
+  <div class="kpi-section pt-5 bg-green">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-3 col-6 text-center p-3">
+          <i class="fa-solid h3 mb-3 txt-green-light fa-tent"></i>
+          <h3 class="h4 mb-3 txt-white">+100 d'Habitats Insolites</h3>
+          <p class="txt-light lh12 fw3">15 logements uniques, allant des cabanes dans les arbres aux yourtes et cabanes flottantes.</p>
+        </div>
+        <div class="col-md-3 col-6 text-center p-3">
+          <i class="fa-regular h3 mb-3 txt-green-light fa-thumbs-up"></i>
+          <h3 class="h4 mb-3 txt-white">95% Satisfaction Client </h3>
+          <p class="txt-light lh12 fw3">95% de clients satisfaits grâce à des séjours personnalisés et authentiques.</p>
+        </div>
+        <div class="col-md-3 col-6 text-center p-3">
+          <i class="fa-regular h3 mb-3 txt-green-light fa-calendar-check"></i>
+          <h3 class="h4 mb-3 txt-white">Réservations Annuelles</h3>
+          <p class="txt-light lh12 fw3">Plus de 1200 réservations par an, montrant une forte demande et une croissance continue.</p>
+        </div>
+        <div class="col-md-3 col-6 text-center p-3">
+          <i class="fa-solid h3 mb-3 txt-green-light fa-leaf"></i>
+          <h3 class="h4 mb-3 txt-white">Engagement Écologique</h3>
+          <p class="txt-light lh12 fw3">100% des habitats respectent des pratiques durables, minimisant l'impact environnemental.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Qui sommes-nous -->
+  <div class="about-section bg-green">
+    <div class="container py-5">
+      <div class="row py-5 align-items-center justify-content-center">
+        <div class="col-md-7">
+          <h2 class="h3 txt-white mb-2 fw-7">Qui sommes-nous ?</h2>
+          <h3 class="h4 txt-green-light mb-3">Vivez une Expérience Unique en Harmonie avec la Nature</h3>
+          <p class="txt-light lh16 fw3">Bienvenue chez AtypikHouse, votre destination pour des séjours inoubliables dans des habitats insolites. Nous offrons des cabanes dans les arbres, des yourtes et des cabanes flottantes, tous conçus pour vous reconnecter avec la nature. Chaque séjour est personnalisé pour garantir une expérience unique et authentique, respectueuse de l'environnement et de vos attentes.</p>
+          <a href="/about" class="btn btn-primary">Découvrez notre histoire</a>
+        </div>
+        <div class="col-md-5 ordermoins1">
+          <img src="/images/atypikhouse-presentation.webp" alt="Qui sommes-nous ?" title="Atypikhouse presentation" width="100%">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Themes -->
+  <div class="themes-section">
+    <div class="container py-5">
+      <div class="row py-5 justify-content-center">
+        <div class="col-md-8 text-center">
+          <h2 class="h3 txt-blue fw5">Trouvez votre thèmes de séjour ici !</h2>
+          <p class="txt-black h6 lh16 fw2">Explorez nos différents thèmes de séjour, chacun conçu pour offrir une expérience unique et mémorable, en parfaite harmonie avec la nature.</p>
+        </div>
+        <div class="d-flex gap-3 flex-wrap justify-content-center py-5">
+          <div class="card-theme">
+            <a href="/themes/1/hebergements">
+            <img class="w-100" src="/images/Yourte.webp" alt="Séjour Traditionnel dans un Yourte" title="Yourte">
+            <div class="theme-photo-g"></div>
+            <h3>Yourte<span>Séjour Traditionnel</span></h3>
+            </a>
+          </div>
+          <div class="card-theme">
+            <a href="/themes/1/hebergements">
+            <img class="w-100" src="/images/Tiny-House.webp" alt="Séjour Écologique dans un Tiny House" title="Tiny House">
+            <div class="theme-photo-g"></div>
+            <h3>Tiny House<span>Séjour Écologique</span></h3>
+            </a>
+          </div>
+          <div class="card-theme">
+            <a href="/themes/1/hebergements">
+            <img class="w-100" src="/images/chalet.webp" alt="Séjour Familial dans un Chalet" title="Chalet">
+            <div class="theme-photo-g"></div>
+            <h3>Chalet<span>Séjour Familial</span></h3>
+            </a>
+          </div>
+          <div class="card-theme">
+            <a href="/themes/1/hebergements">
+            <img class="w-100" src="/images/bulle.webp" alt="Séjour Glamping dans un bulle" title="Bulle">
+            <div class="theme-photo-g"></div>
+            <h3>Bulle<span>Séjour Glamping</span></h3>
+            </a>
+          </div>
+          <div class="card-theme">
+            <a href="/themes/1/hebergements">
+            <img class="w-100" src="/images/Maison-Hobbit.webp" alt="Séjour Fantastique dans une Maison Hobbit" title="Maison Hobbit">
+            <div class="theme-photo-g"></div>
+            <h3>Maison Hobbit<span>Séjour Fantastique</span></h3>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-12 text-center">
+          <a href="/themes" class="btn btn-green-light">Découvrez les autres themes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section hebergements -->
+  <div class="hebergements-section bg-light">
+    <div class="container py-5">
+      <div class="row py-5 justify-content-center">
+        <div class="col-md-12 mb-5 text-center">
+          <h3 class="h3 txt-green fw5">Les séjours insolites disponibles</h3>
+        </div>
+        <% recentHousings.forEach(housing => { %>
+          <div class="col-md-3">
+            <div class="card-host bs10">
+              <a href="/hebergements/<%= housing.id %>" class="">
+                <p class="card-categorie"><%= housing.Theme.name %></p>
+                <% if (housing.Photos && housing.Photos.length > 0) { %>
+                  <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
+                <% } else { %>
+                  <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+                <% } %>
+                <div class="body-host">
+                  <h4><%= housing.title %></h4>
+                  <p>Prix : <%= housing.price %> € <span><%= housing.capacity %> personnes max</span></p>
+                  
+                </div>
+              </a>
+            </div>
+          </div>
+        <% }) %>
+        <div class="col-md-12 pt-5 text-center">
+          <a href="/hebergements" class="btn btn-secondary">Découvrez les autres hebergements</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Section des derniers avis -->
+  <div class="avis-section bg-green">
+    <div class="container py-5">
+      <div class="row py-5 justify-content-center">
+        <div class="col-md-12 mb-5 text-center">
+          <h4 class="h3 txt-green-light fw5">Les avis de nos voyageurs</h4>
+        </div>
+        <div id="recentCommentsCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+              <% recentComments.forEach((comment, index) => { if (index % 3 === 0) { %>
+                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                  <div class="row">
+                  <% } %>
+                    <div class="col-md-4">
+                      <div class="card-avis mb-4" style="width: 100%;">
+                        <div class="photo-avis">
+                        <% if (comment.User.photo) { %>
+                          <img src="/<%= comment.User.photo %>" class="card-img-top" alt="<%= comment.User.firstName %> <%= comment.User.lastName %>">
+                        <% } else { %>
+                          <img src="/path/to/default-profile-image.jpg" class="card-img-top" alt="Default Image">
+                        <% } %>
+                      </div>
+                      <div class="card-avis-body">
+                          <h5 class="card-title"><%= comment.User.firstName %> <%= comment.User.lastName %></h5>
+                          <div class="d-flex align-items-center">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                              <i class="fas fa-star <%= i <= comment.rating ? 'text-warning' : 'text-muted' %>"></i>
+                            <% } %>
+                          </div>
+                          <p class="card-text"><%= comment.content %></p>
+                          
+                        </div>
+                      </div>
+                    </div>
+                <% if (index % 3 === 2 || index === recentComments.length - 1) { %> <!-- Ferme le groupe de 3 éléments -->
+                  </div>
+                </div>
+            <% } 
+            }) %>
+          </div>
+          <a class="carousel-control-prev" href="#recentCommentsCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#recentCommentsCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Section des derniers avis -->
+  <div class="blog-section bg-white">
+    <div class="container py-5">
+      <div class="row py-5 justify-content-center">
+        <div class="col-md-12 mb-5 text-center">
+          <h3 class="h3 txt-blue fw5">Nos derniers Articles</h3>
+        </div>
+        <div class="row d-flex">
+          <% recentArticles.forEach(article => { %>
+            <div class="col-sm-12 col-md-3 col-xl-3">
+              <a href="/blog/<%= article.url %>">
+              <div class="card-article">
+                <div class="article-photo">
+                  <% if (article.image) { %>
+                    <img src="/<%= article.image %>" class="card-img-top" alt="<%= article.title %>">
+                  <% } else { %>
+                    <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+                  <% } %>
+                </div>
+                <div class="article-photo-g"></div>
+                  <h4><%= article.title %></h4>
+                  <p class="card-text">Publié à <%= new Date(article.publishedAt).toLocaleDateString() %></p>
+                </div>
+              </a>
+            </div>
+          <% }) %>
+        </div>
+        <div class="col-md-12 pt-5 text-center">
+          <a href="/blog" class="btn btn-primary">Découvrez notre blog</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Section Newsletter -->
+  <div class="newsletter-section bg-green-light py-5">
+    <div class="container align-items-center text-center">
+      <div class="row">
+        <div class="col-md-3" style="margin-top: -9em;margin-bottom: -1em;">
+          <img src="/images/enveloppe.webp" alt="Green Newsletter" title="Green Newsletter" width="100%">
+        </div>
+        <div class="col-md-9 text-start">
+          <h3 class="h3 txt-white fw5">Notre Green Newsletter</h3>
+          <p class="fw4 txt-black mb-3">Ne manquez pas notre newsletter mensuelle et laissez-vous inspirer pour profiter pleinement de votre séjour en Atypik house.</p>
+          <div id="newsletterResponse" class="d-flex flex-wrap align-items-center gap-3">
+            <div class="col-12 col-md-6 ">
+              <form class="form-inline form-group bg-newsletter d-flex gap-3" id="newsletterForm" action="/newsletter/subscribe" method="POST" >
+                <input type="email" name="email" class="form-control" id="email" placeholder="Votre email" required>
+                <button type="submit" class="btn btn-primary">S'inscrire</button>
+              </form>
+            </div>
+            <div class=" col col-md-4 ">
+              <a href="/newsletter" class="btn fullwidth btn-secondary">Pourquoi notre Newsletter ?</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <%- include('partials/footer') %>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Empêche le formulaire de soumettre de manière classique
+
+    const email = document.getElementById('email').value;
+    const responseElement = document.getElementById('newsletterResponse');
+
+    if (!email) {
+      responseElement.innerHTML = "<p class='text-danger'>L'email est requis.</p>";
+      return;
+    }
+
+    try {
+      const response = await fetch('/newsletter/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        responseElement.innerHTML = "<p class='text-success'>" + data.message + "</p>";
+      } else {
+        responseElement.innerHTML = "<p class='text-danger'>" + data.message + "</p>";
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription à la newsletter :', error);
+      responseElement.innerHTML = "<p class='text-danger'>Une erreur est survenue. Veuillez réessayer.</p>";
+    }
+  });
+</script>
+
 </body>
 </html>

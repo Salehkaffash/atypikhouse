@@ -1,0 +1,38 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Gestion des Inscriptions à la Newsletter</h4>
+            <p class="card-category">Liste des adresses email inscrites</p>
+          </div>
+          <div class="card-body">
+            <% if (newsletters.length > 0) { %>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Date d'inscription</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% newsletters.forEach((newsletter, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td>
+                      <td><%= newsletter.email %></td>
+                      <td><%= new Date(newsletter.createdAt).toLocaleDateString() %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } else { %>
+              <p>Aucune inscription à la newsletter pour le moment.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

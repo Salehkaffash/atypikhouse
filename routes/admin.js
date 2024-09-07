@@ -948,4 +948,25 @@ router.post('/bookings/cancel', ensureAdminOrHebergeur, async (req, res) => {
 });
 
 
+// Newsletter  -----------------------------------------------
+
+// Route pour afficher les emails inscrits à la newsletter
+router.get('/newsletters', ensureAdmin, async (req, res) => {
+  try {
+    const newsletters = await db.Newsletter.findAll();
+    const { themes, destinations } = await getCommonData();
+    res.render('admin/dashboard', {
+      title: 'Gestion des Inscriptions à la Newsletter',
+      partial: 'newsletters',
+      newsletters,
+      themes,
+      destinations
+    });
+  } catch (err) {
+    console.error('Error fetching newsletter emails:', err);
+    res.status(500).send('Error fetching newsletter emails');
+  }
+});
+
+
 module.exports = router;

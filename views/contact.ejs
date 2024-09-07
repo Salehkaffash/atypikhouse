@@ -1,44 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contactez-nous</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Contactez AtypikHouse | Informations et Support</title>
+  <meta name="description" content="Besoin d'aide ou d'informations ? Contactez AtypikHouse pour toute question sur nos hébergements insolites ou pour des conseils personnalisés. Nous sommes là pour vous répondre rapidement." />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contactez AtypikHouse | Informations et Support" />
+  <meta property="og:description" content="Besoin d'aide ou d'informations ? Contactez AtypikHouse pour toute question sur nos hébergements insolites ou pour des conseils personnalisés. Nous sommes là pour vous répondre rapidement." />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
 
-  <div class="container mt-5">
-    <h1>Contactez-nous</h1>
-    <div class="row">
+    <!-- File d'Ariane -->
+    <div class="fil-ariane">
+      <div class="container p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+<div class="newsletter-intro bg-light ">
+  <div class="container py-5">
+    <div class="row py-5 align-items-start">
       <div class="col-md-6">
-        <form action="/contact/send" method="POST">
-          <div class="form-group">
+        <h1 class="h2 fw6 mt-0 mt-md-5 txt-blue">Contactez-nous</h1>
+        <p class="h5 fw4 mb-5">Pour toute question ou réservation, n'hésitez pas à nous contacter. Nous sommes à votre disposition pour vous aider à planifier votre séjour inoubliable chez AtypikHouse.</p>
+        <p class="p-2"><i class="fa-solid fa-location-dot me-3"></i> <strong>Adresse :</strong> 9 rue square de l'échiquier, Pierrefonds, Oise, France</p>
+        <p class="p-2"><i class="fa-solid fa-phone me-3"></i> <strong>Téléphone :</strong> +33 1 23 45 67 89</p>
+        <p class="p-2"><i class="fa-solid fa-envelope-open-text me-3"></i> <strong>Email :</strong> contact@atypikhouse.fr</p>
+      </div>
+      <div class="col-md-6">
+        <form class="bg-white br20 p-5" action="/contact/send" method="POST">
+          <div class="form-group mb-3">
             <label for="name">Nom et Prénom</label>
             <input type="text" class="form-control" id="name" name="name" required>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" required>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="phone">Numéro (facultatif)</label>
             <input type="text" class="form-control" id="phone" name="phone">
           </div>
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="content">Message</label>
             <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
-      </div>
-      <div class="col-md-6">
-        <h3>Informations de contact</h3>
-        <p>Pour toute question ou réservation, n'hésitez pas à nous contacter. Nous sommes à votre disposition pour vous aider à planifier votre séjour inoubliable chez AtypikHouse.</p>
-        <p><strong>Adresse :</strong> 9 rue square de l'échiquier, Pierrefonds, Oise, France</p>
-        <p><strong>Téléphone :</strong> +33 1 23 45 67 89</p>
-        <p><strong>Email :</strong> contact@atypikhouse.fr</p>
       </div>
     </div>
     <% if (typeof success !== 'undefined' && success) { %>
@@ -47,10 +97,8 @@
         </div>
       <% } %>      
   </div>
+</div>
 
   <%- include('partials/footer') %>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

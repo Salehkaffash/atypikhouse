@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résultats de Recherche</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/nav') %>
+
+  <div class="container mt-5">
+    <h1 class="text-center">Résultats de Recherche</h1>
+    <div class="row">
+      <% if (housings.length > 0) { %>
+        <% housings.forEach(housing => { %>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <% if (housing.Photos && housing.Photos.length > 0) { %>
+                <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
+              <% } else { %>
+                <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+              <% } %>
+              <div class="card-body">
+                <h5 class="card-title"><%= housing.title %></h5>
+                <p class="card-text">Prix: <%= housing.price %> €</p>
+                <p class="card-text">Capacité: <%= housing.capacity %> personnes</p>
+                <a href="/hebergements/<%= housing.id %>" class="btn btn-primary">Voir plus</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-center">Aucun hébergement trouvé correspondant à vos critères.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+
+</body>
+</html>

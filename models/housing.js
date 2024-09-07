@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     Housing.belongsTo(models.Owner, { foreignKey: 'ownerId', as: 'Owner' }); // Ajout d'un alias pour l'association
     Housing.hasMany(models.Photo, { foreignKey: 'housingId', as: 'Photos' });
     Housing.hasMany(models.Comment, { foreignKey: 'HousingId' });
+    Housing.hasMany(models.Booking, { foreignKey: 'HousingId', as: 'bookings' });
     Housing.belongsToMany(models.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId', as: 'Equipments' });
   };
 
