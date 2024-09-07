@@ -1,40 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
   <title>Résultats de Recherche</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="description" content="Résultats de Recherche" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
 
-  <div class="container mt-5">
-    <h1 class="text-center">Résultats de Recherche</h1>
-    <div class="row">
-      <% if (housings.length > 0) { %>
-        <% housings.forEach(housing => { %>
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <% if (housing.Photos && housing.Photos.length > 0) { %>
-                <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
-              <% } else { %>
-                <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
-              <% } %>
-              <div class="card-body">
-                <h5 class="card-title"><%= housing.title %></h5>
-                <p class="card-text">Prix: <%= housing.price %> €</p>
-                <p class="card-text">Capacité: <%= housing.capacity %> personnes</p>
-                <a href="/hebergements/<%= housing.id %>" class="btn btn-primary">Voir plus</a>
-              </div>
-            </div>
-          </div>
-        <% }) %>
-      <% } else { %>
-        <p class="text-center">Aucun hébergement trouvé correspondant à vos critères.</p>
-      <% } %>
+  <!-- File d'Ariane -->
+  <div class="fil-ariane">
+    <div class="container-full px-5 p-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Résultats de Recherche</li>
+        </ol>
+      </nav>
     </div>
   </div>
+
+
+<div class="bg-light py-5">
+  <div class="container">
+    <h1 class="h2 txt-blue mb-5 text-center">Résultats de votre recherche</h1>
+    <div class="row">
+        <div class="row">
+            <% if (housings.length > 0) { %>
+            <% housings.forEach(housing => { %>
+              <div class="col-md-3">
+                <div class="card-host bs10">
+                  <a href="/hebergements/<%= housing.id %>" class="">
+                    
+                    <% if (housing.Photos && housing.Photos.length > 0) { %>
+                      <img src="/<%= housing.Photos[0].path %>" class="card-img-top" alt="<%= housing.title %>">
+                    <% } else { %>
+                      <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+                    <% } %>
+      
+                    <div class="body-host">
+                      <h4><%= housing.title %></h4>
+                      <p>Prix : <%= housing.price %> € <span><%= housing.capacity %> personnes max</span></p>
+                      
+                    </div>
+                  </a>
+                </div>
+              </div>
+      
+              <% }) %>
+              <% } else { %>
+                <p class="text-center">Aucun hébergement trouvé correspondant à vos critères.</p>
+              <% } %>
+          </div>
+        
+    </div>
+  </div>
+</div>
 
   <%- include('partials/footer') %>
 

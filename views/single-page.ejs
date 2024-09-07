@@ -1,45 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page.seoTitle || page.title %></title>
-  <meta name="description" content="<%= page.seoDescription || '' %>">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title><%= page.seoTitle %> | AtypikHouse</title>
+  <meta name="description" content="<%- page.seoDescription %>" />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="<%- page.seoTitle %> | AtypikHouse" />
+  <meta property="og:description" content="<%- page.seoDescription %>" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
 
     <!-- File d'Ariane -->
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= page.title %></li>
-      </ol>
-    </nav>
-
-    <h1 class="text-center"><%= page.title %></h1>
-
-    <!-- Date de publication -->
-    <p class="text-muted text-center">Publié le <%= new Date(page.createdAt).toLocaleDateString() %></p>
-
-    <!-- Photo de la page -->
-    <% if (page.photo) { %>
-      <div class="text-center">
-        <img src="/uploads/<%= page.photo %>" alt="<%= page.title %>" class="img-fluid mb-4">
+    <div class="fil-ariane">
+      <div class="container-full px-5 p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= page.title %></li>
+          </ol>
+        </nav>
       </div>
-    <% } %>
-
-    <!-- Contenu de la page -->
-    <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-12">
-            <p><%- page.content %></p>
-          </div>
-        </div>     
     </div>
+
+<div class="bg-green overflow-hidden">
+
+  <!-- Section Article -->
+  <div class="article-section-1" style="background-image: url(/uploads/<%= page.photo %>);"></div>
+
+  <div class="bg-green  pb-5">
+    <div class="container">
+      <div class="row gap-3 justify-content-center body-article">
+        <h1 class="bold h2 text-center txt-white mb-md-3 mb-0"><%= page.title %></h1>
+
+        <!-- Photo d'article -->
+        <div class="col-md-10 col-12 ordermoins1 p-0 mt-md-0 mt-5">
+          <div class="photo-article-blog bg-white br20">
+            <% if (page.photo) { %>
+                <img src="/uploads/<%= page.photo %>" class="img-fluid br20" alt="<%= page.title %>">
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Body d'article -->
+        <div class="col-md-10 col-12  bg-white br20 p-4 p-md-5">
+            <div class="d-flex blog-info">
+              <p class="fw4 txt-green"><i class="fa-regular fa-calendar"></i>Publié le <span><%= new Date(page.createdAt).toLocaleDateString() %></span></p>
+            </div>
+            <div class="content-article"><%- page.content %></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 
   </div>
   <%- include('partials/footer') %>

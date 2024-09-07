@@ -212,6 +212,15 @@ ul, li {
 
 .header-p {padding-top: 5em;}
 
+.form-check-p {
+    display: block;
+    width: 25% !important;
+    float: left;
+    min-height: 1rem;
+    padding-left: 0em;
+    margin-bottom: 1rem;
+}
+
 /* --------- Hero Section ---------- */
 
   .hero-section-1 {
@@ -850,26 +859,82 @@ p.card-categorie{
     margin-top: -500px;
   }
 
-    /* --------- Hebergements Section ---------- */
+/* --------- Hebergements Section ---------- */
 
-    .hebergement-section-1 {
-        background-image: url('/images/nos-hebergements.webp');
-        background-size: cover;
-        background-position: center;
-        padding: 0;
-        height: 80vh;
-        color: var(--white);
-        text-align: center;
-      }
-      .hebergement-section {
-        background: linear-gradient(0deg, #003333 0 5%, transparent 45%);
-        padding: 5em 0 5em;
-        height: 80vh;
-        color: var(--white);
-        text-align: center;
-        margin-top: -80vh;
-      }
+.hebergement-section-1 {
+    background-image: url('/images/nos-hebergements.webp');
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    height: 80vh;
+    color: var(--white);
+    text-align: center;
+}
+.hebergement-section {
+    background: linear-gradient(0deg, #003333 0 5%, transparent 45%);
+    padding: 5em 0 5em;
+    height: 80vh;
+    color: var(--white);
+    text-align: center;
+    margin-top: -80vh;
+    }
 
+
+/* --------- Themes ---------- */
+
+
+.destination-header{
+    background-image: url(/images/destination-sejour.webp);
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    height: 500px;
+    color: var(--white);
+}
+.destination-header-1 {
+    background: rgb(1 51 52 / 66%);
+    height: 100%;
+}
+
+
+.card-destination {
+    width: 100% !important;
+    background: var(--green);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px px rgb(1 51 52 / 40%);
+    transition: all 0.3s;
+}
+.card-destination:hover {
+    box-shadow: 0px 10px 20px 5px rgb(1 51 52 / 40%);
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+}
+.theme-photo-g {
+    height: 200px;
+    margin-top: -200px;
+    background: linear-gradient(0deg, #003333 0 0%, transparent 66%);
+    width: 100%;
+    position: relative;
+}
+.card-destination h3 {
+    font-size: 1.8em !important;
+    color: var(--white);
+    font-weight: 700;
+    padding: 0px 25px 25px 25px;
+    position: relative;
+    margin: -25px 0px 0px 0px !important;
+}
+.card-destination span {
+    font-size: 0.6em !important;
+    display: block;
+    margin-top: 5px;
+    line-height: 1em;
+    color: var(--green-light);
+}
   /* ------------------------------------- responsive perso --------------------------------------- */
   
   
@@ -903,6 +968,11 @@ p.card-categorie{
     .article-section-1 {height: 1000px;padding: 0;}
     .article-section {height: 1000px;padding: 0;margin-top: -900px;}
     .body-article {margin-top: -1000px !important;}
+
+    .form-check-p {
+        width: 100% !important;
+        float: left;
+    }
 
   }
   

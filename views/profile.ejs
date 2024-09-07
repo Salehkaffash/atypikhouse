@@ -46,8 +46,21 @@
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="bg-light pt-5">
-    <div class="container mt-5 py-5">
+
+    <!-- File d'Ariane -->
+<div class="fil-ariane">
+  <div class="container-full px-5 p-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Mon Profile</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+  <div class="bg-light py-5">
+    <div class="container">
       <div class="profile-card text-center">
         <img src="<%= user.photo %>" alt="Profile Photo" class="profile-photo">
         <h2><%= user.firstName %> <%= user.lastName %></h2>

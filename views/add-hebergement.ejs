@@ -1,12 +1,38 @@
-<!-- views/add-hebergement.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
   <title>Ajouter un Hébergement</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="description" content="Ajouter un Hébergement" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
   <script src="https://cdn.tiny.cloud/1/zdtcfe1fvgcryohoophq1f4hs9lv8tbcyklegpll2gkylova/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
   <script>
     tinymce.init({
@@ -18,89 +44,122 @@
       }
     });
   </script>
+
 </head>
 <body>
+
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h1 class="text-center">Ajouter un Hébergement</h1>
-    <form action="/hebergements/add" method="POST" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="title">Titre</label>
-        <input type="text" class="form-control" id="title" name="title" required>
+
+    <!-- File d'Ariane -->
+    <div class="fil-ariane">
+      <div class="container-full px-5 p-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ajouter un hebergement</li>
+          </ol>
+        </nav>
       </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="type">Type</label>
-        <input type="text" class="form-control" id="type" name="type" required>
-      </div>
-      <div class="form-group">
-        <label for="price">Prix</label>
-        <input type="number" class="form-control" id="price" name="price" required>
-      </div>
-      <div class="form-group">
-        <label for="capacity">Capacité</label>
-        <input type="number" class="form-control" id="capacity" name="capacity" required>
-      </div>
-      <div class="form-group">
-        <label for="themeId">Thème</label>
-        <select class="form-control" id="themeId" name="themeId" required>
-          <% themes.forEach(theme => { %>
-            <option value="<%= theme.id %>"><%= theme.name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="destinationId">Destination</label>
-        <select class="form-control" id="destinationId" name="destinationId" required>
-          <% destinations.forEach(destination => { %>
-            <option value="<%= destination.id %>"><%= destination.name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="images">Photos</label>
-        <input type="file" class="form-control-file" id="images" name="images" multiple>
-      </div>
-      <!-- Simples équipements -->
-      <div class="form-group">
-        <h4>Équipements Simples</h4>
-        <% simpleEquipments.forEach(equipment => { %>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="simpleEquipments" value="<%= equipment.id %>">
-            <label class="form-check-label"><%= equipment.name %></label>
-          </div>
-        <% }) %>
-      </div>
-      <!-- Champ pour ajouter un nouvel équipement simple -->
-      <div class="form-group mt-2">
-        <label for="newSimpleEquipment">Ajouter un nouvel équipement simple</label>
-        <input type="text" class="form-control" id="newSimpleEquipment" name="newSimpleEquipment" placeholder="Nom du nouvel équipement simple"/>
-      </div>
-      <!-- Équipements Premiums -->
-      <div class="form-group">
-        <h4>Équipements Premiums</h4>
-        <% premiumEquipments.forEach(equipment => { %>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="premiumEquipments" value="<%= equipment.id %>">
-            <label class="form-check-label"><%= equipment.name %></label>
-          </div>
-        <% }) %>
-      </div>
-      <!-- Champ pour ajouter un nouvel équipement premium -->
-      <div class="form-group mt-2">
-        <label for="newPremiumEquipment">Ajouter un nouvel équipement premium</label>
-        <input type="text" class="form-control" id="newPremiumEquipment" name="newPremiumEquipment" placeholder="Nom du nouvel équipement premium"/>
-      </div>
+    </div>
+
+
+<div class="bg-light py-5">
+  <div class="container">
+    <h1 class="h2 text-center txt-blue ">Ajouter un nouveau hébergement</h1>
+    <div class="row bg-white br20 bs10 my-5 p-md-5 p-4">
       
-      <button type="submit" class="btn btn-primary">Ajouter</button>
-    </form>
+      <form action="/hebergements/add" method="POST" enctype="multipart/form-data">
+        <div class="mb-5">
+          <label class="mb-3 bold" for="title">Titre de votre hébegrment <span class="text-muted"> (8 mots maximums)</span></label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-5">
+          <label class="mb-3 bold" for="description">Description <span class="text-muted"> (Expliquez bien votre hebergement, et utiliser les mots et les phrase qui convincre les gents de reserver votre hébergements)</span></label>
+          <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="mb-5">
+          <label class="mb-3 bold" for="type">Categories <span class="text-muted"> (Séparez les categories par un virgule comme : Nature , Musicale)</span></label>
+          <input type="text" class="form-control" id="type" name="type" required>
+        </div>
+        <div class="mb-5 d-flex flex-md-nowrap flex-wrap gap-4">
+          <div class="col-md-6 col-12">
+            <label class="mb-3 bold" for="capacity">Capacité <span class="text-muted"> (Nombre de personne, par exemple : 5)</span></label>
+            <input type="number" class="form-control" id="capacity" name="capacity" required>
+          </div>
+          <div class="col-md-6 col-12">
+            <label class="mb-3 bold" for="price">Prix <span class="text-muted"> (Prix de la nuit)</span></label>
+            <input type="number" class="form-control" id="price" name="price" required>
+          </div>
+        </div>
+        <div class="mb-5 d-flex flex-md-nowrap flex-wrap gap-4">
+          <div class="col-md-6 col-12">
+            <label class="mb-3 bold" for="themeId">Thème <span class="text-muted"> (Choisissez un théme de la liste)</span></label>
+            <select class="form-control" id="themeId" name="themeId" required>
+              <% themes.forEach(theme => { %>
+                <option value="<%= theme.id %>"><%= theme.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-md-6 col-12">
+            <label class="mb-3 bold" for="destinationId">Destination <span class="text-muted"> (Choisissez une destination de la liste)</span></label>
+            <select class="form-control" id="destinationId" name="destinationId" required>
+              <% destinations.forEach(destination => { %>
+                <option value="<%= destination.id %>"><%= destination.name %></option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="py-5 mb-4">
+          <label class="mb-3 bold" for="images">Photos <span class="text-muted"> (Choisissez maximums 5 photos de votre hébergements)</span></label><br>
+          <input type="file" class="form-control-file" id="images" name="images" multiple>
+        </div>
+
+        <div class="mb-5 pt-5 d-flex flex-wrap">
+            <!-- Simples équipements -->
+            <div class="col-12">
+              <p class="bold h4 txt-blue mb-3">Équipements Simples <span class="text-muted p mb-3">(Choisissez les équipements simple de votre hébergements de la liste)</span></p>
+              <% simpleEquipments.forEach(equipment => { %>
+                <div class="form-check-p">
+                  <input class="form-check-input" type="checkbox" name="simpleEquipments" value="<%= equipment.id %>">
+                  <label class="form-check-label"><%= equipment.name %></label>
+                </div>
+              <% }) %>
+            </div>
+            <!-- Champ pour ajouter un nouvel équipement simple -->
+            <div class="col-12 mt-5">
+              <label class="mb-3 bold" for="newSimpleEquipment">Ajouter un nouvel équipement simple <span class="text-muted mb-3">(Ajoutez les équipements simple de votre hébergements s'ils ne sont pas disponible dans la liste)</span></label>
+              <input type="text" class="form-control" id="newSimpleEquipment" name="newSimpleEquipment" placeholder="Nom du nouvel équipement simple"/>
+            </div>
+        </div>
+
+        <div class="mb-5 pt-5 d-flex flex-wrap">
+            <!-- Équipements Premiums -->
+            <div class="col-12">
+              <p class="bold h4 txt-blue mb-3">Équipements Premiums <span class="text-muted p mb-3">(Choisissez les équipements premiums de votre hébergements de la liste)</span></p>
+              <% premiumEquipments.forEach(equipment => { %>
+                <div class="form-check-p">
+                  <input class="form-check-input" type="checkbox" name="premiumEquipments" value="<%= equipment.id %>">
+                  <label class="form-check-label"><%= equipment.name %></label>
+                </div>
+              <% }) %>
+            </div>
+            <!-- Champ pour ajouter un nouvel équipement premium -->
+            <div class="col-12 mt-5">
+              <label class="mb-3 bold" for="newPremiumEquipment">Ajouter un nouvel équipement premium <span class="text-muted mb-3">(Ajoutez les équipements premiums de votre hébergements s'ils ne sont pas disponible dans la liste)</span></label>
+              <input type="text" class="form-control" id="newPremiumEquipment" name="newPremiumEquipment" placeholder="Nom du nouvel équipement premium"/>
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn fullwidth btn-primary">Ajouter</button>
+      </form>
+    </div>
   </div>
+</div>
+
+
   <%- include('partials/footer') %>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

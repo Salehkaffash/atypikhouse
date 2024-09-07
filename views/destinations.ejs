@@ -1,34 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+  <!-- Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Destinations</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta name='robots' content='index, follow' />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000"/>
+  <link rel="shortcut icon" type="image/png" href="/images/favicon.png"/>
+  <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
+
+  <!-- Page Info -->
+  <title>Destinations Inoubliables : Explorez Nos Séjours Insolites - AtypikHouse</title>
+  <meta name="description" content="Découvrez les destinations uniques et inoubliables d'AtypikHouse. Des hébergements insolites en pleine nature, des lieux magiques pour des expériences mémorables. Explorez et réservez votre prochaine aventure !" />
+
+  <!-- SEO -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Destinations Inoubliables : Explorez Nos Séjours Insolites - AtypikHouse" />
+  <meta property="og:description" content="Découvrez les destinations uniques et inoubliables d'AtypikHouse. Des hébergements insolites en pleine nature, des lieux magiques pour des expériences mémorables. Explorez et réservez votre prochaine aventure !" />
+  <meta property="og:url" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image" content="https://dsp-dev-g5-sk-as-lm.fr/" />
+  <meta property="og:image:width" content="150" />
+  <meta property="og:image:height" content="180" />
+  <meta property="og:site_name" content="AtypikHouse" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- js Files -->
+  <script src="/js/bootstrap.js"></script>
+  <script src="/js/bootstrap.bundle.js"></script>
+
+  <!-- Saira Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons Fontawesome -->
+  <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
-  <div class="container mt-5">
-    <h1 class="text-center">Destinations</h1>
+
+  <!-- File d'Ariane -->
+  <div class="fil-ariane">
+    <div class="container-full px-5 p-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Destinations</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Section Hote -->
+  <div class="destination-header">
+    <div class="destination-header-1">
+      <div class="container align-items-center p-5 d-flex h-100">
+        <div class="col-md-6 col-12">
+          <h1 class="bold lh12 mb-3 txt-white">Nos Destinations</h1>
+          <p class="fw3 h5 lh14 txt-white">Explorez Nos Hébergements Insolites à Travers le Monde</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="bg-light py-5">
+  <div class="container">
     <div class="row">
       <% destinations.forEach(destination => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img src="<%= destination.image %>" class="card-img-top" alt="<%= destination.name %>">
-            <div class="card-body">
-              <h5 class="card-title"><%= destination.name %></h5>
-              <p class="card-text"><%= destination.description %></p>
-              <p class="card-text"><strong>Lieu :</strong> <%= destination.location %></p>
-              <a href="/destinations/<%= destination.id %>" class="btn btn-primary">Voir plus</a>
-            </div>
+        <div class="col-md-3">
+          <div class="card-destination">
+            <a href="/destinations/<%= destination.id %>">
+            <img class="w-100" src="<%= destination.image %>" alt="<%= destination.name %>" title="<%= destination.name %>">
+            <div class="theme-photo-g"></div>
+            <h3><%= destination.name %><span><%= destination.location %></span></h3>
+            </a>
           </div>
         </div>
       <% }) %>
     </div>
   </div>
+</div>
+
   <%- include('partials/footer') %>
+  
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

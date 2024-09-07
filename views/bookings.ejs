@@ -49,7 +49,7 @@
 
     <!-- File d'Ariane -->
     <div class="fil-ariane">
-      <div class="container p-3">
+      <div class="container-full px-5 p-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb  m-0">
             <li class="breadcrumb-item"><a href="/">Accueil</a></li>
@@ -59,66 +59,103 @@
       </div>
     </div>
 
-  <div class="container mt-5">
-    <h1 class="text-center">Mes Réservations</h1>
-
-    <h3>Réservations en cours</h3>
+<div class="bg-light">
+  <div class="container">
+    <h1 class="txt-blue bold text-center py-5">Mes Réservations</h1>
     <div class="row">
+      <h2 class="h4 txt-green mb-4">Réservations en cours</h2>
       <% ongoingBookings.forEach(booking => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img src="/<%= booking.housing.image %>" class="card-img-top" alt="<%= booking.housing.title %>">
-            <div class="card-body">
-              <h5 class="card-title"><%= booking.housing.title %></h5>
-              <p class="card-text">Début : <%= booking.startDate.toDateString() %></p>
-              <p class="card-text">Fin : <%= booking.endDate.toDateString() %></p>
-              <p class="card-text">Statut : <%= booking.status %></p>
-              <form action="/bookings/cancel/<%= booking.id %>" method="POST">
-                <button type="submit" class="btn btn-danger">Annuler la réservation</button>
-              </form>
-            </div>
-          </div>
+      <div class="col-md-12 flex-wrap align-items-center bg-white p-3 bs10 br20 gap-3 d-flex">
+        <div class="col-md-1 col-12">
+          <% if (booking.housing.Photos && booking.housing.Photos.length > 0) { %>
+            <img src="/<%= booking.housing.Photos[0].path %>" class=" br15 card-img-top" alt="<%= booking.housing.title %>">
+          <% } else { %>
+            <img src="/path/to/default-image.jpg" class="br15 card-img-top" alt="Image non disponible">
+          <% } %>
         </div>
+        <div class="col-md-3 col-12">
+          <h3 class="txt-green h4 bold"><%= booking.housing.title %></h3>
+        </div>
+        <div class="col-md-2 col-6">
+          <p class="card-text">Début : <%= booking.startDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md-2 col-6">
+          <p class="card-text">Fin : <%= booking.endDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md col-12">
+          <p class="card-text">Statut : <%= booking.status %></p>
+        </div>
+        <div class="col-md-2 col-12">
+          <form action="/bookings/cancel/<%= booking.id %>" method="POST">
+            <button type="submit" class="btn btn-danger">Annuler la réservation</button>
+          </form>
+        </div>
+      </div>
       <% }) %>
-    </div>
 
-    <h3>Réservations passées</h3>
-    <div class="row">
+
+      <h2 class="h4 txt-green mt-5 mb-4">Réservations passées</h2>
       <% pastBookings.forEach(booking => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img src="/<%= booking.housing.image %>" class="card-img-top" alt="<%= booking.housing.title %>">
-            <div class="card-body">
-              <h5 class="card-title"><%= booking.housing.title %></h5>
-              <p class="card-text">Début : <%= booking.startDate.toDateString() %></p>
-              <p class="card-text">Fin : <%= booking.endDate.toDateString() %></p>
-              <p class="card-text">Statut : <%= booking.status %></p>
-            </div>
-          </div>
+      <div class="col-md-12 flex-wrap align-items-center bg-white p-3 bs10 br20 gap-3 d-flex">
+        <div class="col-md-1">
+          <% if (booking.housing.Photos && booking.housing.Photos.length > 0) { %>
+            <img src="/<%= booking.housing.Photos[0].path %>" class=" br15 card-img-top" alt="<%= booking.housing.title %>">
+          <% } else { %>
+            <img src="/path/to/default-image.jpg" class="br15 card-img-top" alt="Image non disponible">
+          <% } %>
         </div>
+        <div class="col-md-3 col-12">
+          <h3 class="txt-green h4 bold"><%= booking.housing.title %></h3>
+        </div>
+        <div class="col-md-2 col-12">
+          <p class="card-text">Début : <%= booking.startDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md-2 col-12">
+          <p class="card-text">Fin : <%= booking.endDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md col-12">
+          <p class="card-text">Statut : <%= booking.status %></p>
+        </div>
+        <div class="col-md-2 col-12">
+          
+        </div>
+      </div>
       <% }) %>
-    </div>
 
-    <h3>Réservations annulées</h3>
-    <div class="row">
+
+
+      <h2 class="h4 txt-green mt-5 mb-4">Réservations annulées</h2>
       <% cancelledBookings.forEach(booking => { %>
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <img src="/<%= booking.housing.image %>" class="card-img-top" alt="<%= booking.housing.title %>">
-            <div class="card-body">
-              <h5 class="card-title"><%= booking.housing.title %></h5>
-              <p class="card-text">Début : <%= booking.startDate.toDateString() %></p>
-              <p class="card-text">Fin : <%= booking.endDate.toDateString() %></p>
-              <p class="card-text">Statut : <%= booking.status %></p>
-            </div>
-          </div>
+      <div class="col-md-12 flex-wrap align-items-center bg-white p-3 bs10 br20 gap-3 d-flex">
+        <div class="col-md-1">
+          <% if (booking.housing.Photos && booking.housing.Photos.length > 0) { %>
+            <img src="/<%= booking.housing.Photos[0].path %>" class=" br15 card-img-top" alt="<%= booking.housing.title %>">
+          <% } else { %>
+            <img src="/path/to/default-image.jpg" class="br15 card-img-top" alt="Image non disponible">
+          <% } %>
         </div>
+        <div class="col-md-3 col-12">
+          <h3 class="txt-green h4 bold"><%= booking.housing.title %></h3>
+        </div>
+        <div class="col-md-2 col-12">
+          <p class="card-text">Début : <%= booking.startDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md-2 col-12">
+          <p class="card-text">Fin : <%= booking.endDate.toDateString('fr-FR') %></p>
+        </div>
+        <div class="col-md col-12">
+          <p class="card-text">Statut : <%= booking.status %></p>
+        </div>
+        <div class="col-md-2 col-12">
+          
+        </div>
+      </div>
       <% }) %>
+
     </div>
   </div>
+</div>
+
   <%- include('partials/footer') %>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

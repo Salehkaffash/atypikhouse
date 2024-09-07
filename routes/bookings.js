@@ -27,9 +27,18 @@ router.get("/", ensureAuthenticated, async (req, res) => {
         {
           model: db.Housing,
           as: "housing",
-        },
+          include: [
+            {
+              model: db.Photo,
+              as: "Photos"
+            }
+          ]
+        }
       ],
     });
+
+    
+
 
     // Trier les réservations par statut
     const ongoingBookings = bookings.filter(
