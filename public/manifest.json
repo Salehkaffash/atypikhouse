@@ -1,0 +1,41 @@
+{
+    "name": "AtypikHouse",
+    "short_name": "Atypik",
+    "description": "Explorez et réservez des hébergements insolites.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#003333",
+    "icons": [
+      {
+        "src": "/images/192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/images/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/images/1280.png",
+        "sizes": "1280x720",
+        "type": "image/png",
+        "form_factor": "wide" 
+      },
+      {
+        "src": "/images/720.png",
+        "sizes": "720x1280",
+        "type": "image/png",
+        "form_factor": "narrow" 
+      },
+      {
+        "src": "/images/800.png",
+        "sizes": "800x600",
+        "type": "image/png" 
+      }
+    ]
+  }
+  

@@ -169,7 +169,7 @@
   }
   
   a {
-    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    color: var(--blue);
     text-decoration: none !important;
   }
   a:hover {
@@ -879,6 +879,25 @@ p.card-categorie{
     margin-top: -80vh;
     }
 
+.badge-premium{
+    background: var(--blue);
+    color: var(--white);
+    padding: 0.5em 0.5em;
+    border-radius: 10px;
+    font-size: 0.8em;
+    float: right;
+}
+
+.badge-simple{
+    display: none;
+}
+
+.list-equipement-item{
+    padding: 0.5em !important;
+    background: #f8f9fa;
+    margin-bottom: 5px !important;
+    border-radius: 15px;
+}
 
 /* --------- Themes ---------- */
 

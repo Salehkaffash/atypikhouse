@@ -68,10 +68,12 @@
 
     <div class="row align-items-center py-3">
       <div class="col-md-6">
-        <h1 class="txt-green h2 mb-3 bold"><%= housing.title %></h1>
+        <p class="text-muted pb-4">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+
+        <h1 class="txt-green h2 pb-2 bold"><%= housing.title %></h1>
 
         <!-- Résumé des évaluations -->
-        <div class="mb-5">
+        <div>
           <% 
             let totalRating = 0;
             let totalComments = housing.Comments ? housing.Comments.length : 0;
@@ -91,7 +93,7 @@
           </div>
         </div>
 
-        <p class="h5 txt-blue mb-3 fw6">Prix : <%= housing.price %> €, la nuit</p>
+        <p class="h5 txt-green mt-5 py-3">Prix : <span class="txt-blue fw6"><%= housing.price %> €</span>, la nuit</p>
 
         <div class="d-flex mt-3 gap-2">
           <div class="col-6 bs10 bg-white br20 p-3">
@@ -99,17 +101,17 @@
           </div>
           <% if (housing.Destination) { %>
           <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Destination : </span><a href="/destinations/<%= housing.Destination.id %>" class="fw6"><%= housing.Destination.name %></a></p>
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Destination : </span><a href="/destinations/<%= housing.Destination.id %>" class="fw6 txt-blue"><%= housing.Destination.name %></a></p>
           </div>
           <% } %>
         </div>        
 
         <div class="d-flex mt-2 gap-2">
           <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Thème : </span><a href="/themes/<%= housing.Theme.id %>/hebergements" class="fw6"><%= housing.Theme.name %></a></p>
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Thème : </span><a href="/themes/<%= housing.Theme.id %>/hebergements" class="fw6 txt-blue"><%= housing.Theme.name %></a></p>
           </div>
           <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Catégories : </span><% housing.type.split(',').forEach(category => { %><span class="badge badge-primary"><%= category.trim() %></span><% }); %></p>
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Catégories : </span><% housing.type.split(',').forEach(category => { %> <span class="txt-green fw6"><%= category.trim() %></span><% }); %></p>
           </div>
         </div>
       </div>
@@ -177,10 +179,10 @@
         <h4 class="h4 txt-green mb-3">Équipements</h4>
           <div class="bg-white p-4 br20 bs10">
             <% if (housing.Equipments && housing.Equipments.length > 0) { %>
-              <ul class="list-group">
+              <ul>
                 <% housing.Equipments.forEach(equipment => { %>
-                  <li class="list-group-item">
-                    <%= equipment.name %> - <span class="badge <%= equipment.type === 'premium' ? 'badge-warning' : 'badge-secondary' %>"><%= equipment.type %></span>
+                  <li class="list-equipement-item">
+                    <%= equipment.name %> <span class=" <%= equipment.type === 'premium' ? 'badge-premium' : 'badge-simple ' %>"><%= equipment.type %></span>
                   </li>
                 <% }) %>
               </ul>
@@ -190,7 +192,6 @@
           </div>
           <h4 class="h4 txt-green my-4">Informations sur l'hôte</h4>
           <div class="bg-white p-4 br20 bs10">
-            <p class="text-muted mb-3">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
             <p class="text-muted mb-4">Hôte : <strong><%= housing.Owner ? housing.Owner.name : 'Inconnu' %></strong></p>
             <button class="btn btn-primary" data-toggle="modal" data-target="#contactFormModal">Contacter l'hebergeur</button>
           </div>
@@ -207,7 +208,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="contactFormModalLabel">Contacter l'hôte pour <%= housing.title %></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close btn-green-light" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -240,17 +241,49 @@
 
     
 
-    <!-- Section des commentaires -->
-    <h3 class="mt-5">Commentaires</h3>
+      <h3 class="h4 txt-green py-3">Les commentaires de cet hébergements</h3>
+      <div class="d-flex gap-3 pb-5 align-items-center">
+        <p class="mb-0"><%= averageRating %> / 5</p>
+        <div class="ml-3">
+          <% for(let i = 1; i <= 5; i++) { %>
+            <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
+          <% } %>
+        </div>
+        <span class="ml-2">(<%= totalComments %> commentaires)</span>
+    </div>
+
+
+    <!-- Formulaire d'ajout de commentaire -->
+    <div class="bg-white p-3 p-md-5 mb-5 bs10 br20">
+    <% if (user) { %>
+      <h4 class="fw6 pb-3 txt-blue">Ajouter un commentaire</h4>
+      <form action="/comments/<%= housing.id %>/comments" method="POST" enctype="multipart/form-data">
+        <div class="pb-3">
+          <label class="fw6 pb-2 m-0 p bold" for="content">Commentaire</label>
+          <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+        <div class="pb-3">
+          <label class="fw6 pb-2 m-0 p bold" for="rating">Évaluation</label>
+          <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" required>
+        </div>
+        <div class="pb-3">
+          <label class="fw6 pb-2 m-0 p bold" for="photo">Photo</label><br>
+          <input type="file" class="form-control-file" id="photo" name="photo">
+        </div>
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+      </form>
+    <% } else { %>
+      <p><a href="/login">Connectez-vous</a> pour ajouter un commentaire.</p>
+    <% } %>
+  </div>
+
+
     <div class="list-group">
       <% housing.Comments && housing.Comments.forEach(comment => { %>
-        <div class="list-group-item">
+        <div class="list-group-item br20 p-3 p-md-5 mb-3">
           <div class="d-flex align-items-center">
-            <% if (comment.User && comment.User.photo) { %>
-              <img src="/uploads/<%= comment.User.photo %>" alt="Profile Photo" class="rounded-circle mr-3" style="width: 50px; height: 50px;">
-            <% } %>
             <div>
-              <h5><%= comment.User ? comment.User.firstName + ' ' + comment.User.lastName : 'Anonyme' %></h5>
+              <h5 class="h5 txt-green fw6 p-0 m-0"><%= comment.User ? comment.User.firstName + ' ' + comment.User.lastName : 'Anonyme' %></h5>
               <div>
                 <% for(let i = 1; i <= 5; i++) { %>
                   <i class="fas fa-star <%= i <= comment.rating ? 'text-warning' : 'text-muted' %>"></i>
@@ -258,7 +291,7 @@
               </div>
             </div>
           </div>
-          <p class="mt-2"><%= comment.content %></p>
+          <p class="pt-4"><%= comment.content %></p>
           <% if (comment.photo) { %>
             <img src="/uploads/<%= comment.photo %>" alt="Comment Photo" class="img-thumbnail" style="max-width: 200px;">
           <% } %>
@@ -288,27 +321,6 @@
       <% }) %>
     </div>
 
-    <!-- Formulaire d'ajout de commentaire -->
-    <% if (user) { %>
-      <h4>Ajouter un commentaire</h4>
-      <form action="/comments/<%= housing.id %>/comments" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="content">Commentaire</label>
-          <textarea class="form-control" id="content" name="content" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="rating">Évaluation</label>
-          <input type="number" class="form-control" id="rating" name="rating" min="0" max="5" required>
-        </div>
-        <div class="form-group">
-          <label for="photo">Photo</label>
-          <input type="file" class="form-control-file" id="photo" name="photo">
-        </div>
-        <button type="submit" class="btn btn-primary">Soumettre</button>
-      </form>
-    <% } else { %>
-      <p><a href="/login">Connectez-vous</a> pour ajouter un commentaire.</p>
-    <% } %>
   </div>
 </div>
 
