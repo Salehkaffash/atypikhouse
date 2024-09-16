@@ -1,30 +1,29 @@
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Modifier la destination</h4>
-          </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
+        <div class="card-header card-header-primary">
+          <h4 class="txt-green h2">Modifier la destination</h4>
+        </div>
           <div class="card-body">
             <form action="/admin/destinations/edit/<%= destination.id %>" method="POST" enctype="multipart/form-data">
-              <div class="form-group">
+              <div class="form-group pt-4">
                 <label for="name">Nom de la destination</label>
                 <input type="text" class="form-control" id="name" name="name" value="<%= destination.name %>" required>
               </div>
-              <div class="form-group">
+              <div class="form-group pt-4">
                 <label for="description">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="5" required><%= destination.description %></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group pt-4">
                 <label for="location">Emplacement</label>
                 <input type="text" class="form-control" id="location" name="location" value="<%= destination.location %>" required>
               </div>
-              <div class="form-group">
+              <div class="form-group pt-4">
                 <label for="categories">Catégories</label>
                 <input type="text" class="form-control" id="categories" name="categories" value="<%= destination.categories %>" required>
               </div>
-              <div class="form-group">
+              <div class="form-group pt-4">
                 <label for="image">Image</label>
                 <input type="file" class="form-control-file" id="image" name="image">
                 <% if (destination.image) { %>
@@ -32,11 +31,10 @@
                 <% } %>
                 <input type="hidden" name="existingImage" value="<%= destination.image %>">
               </div>
-              <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+              <button type="submit" class="btn mt-4 btn-primary">Enregistrer les modifications</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
