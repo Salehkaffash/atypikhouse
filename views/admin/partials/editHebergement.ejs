@@ -1,10 +1,9 @@
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
           <div class="card-header card-header-primary">
-            <h4 class="card-title">Modifier l'hébergement</h4>
+          <h4 class="txt-green h2">Modifier l'hébergement</h4>
           </div>
           <div class="card-body">
             <form action="/admin/hebergements/edit/<%= hebergement.id %>" method="POST" enctype="multipart/form-data">
@@ -88,14 +87,14 @@
                 <% }) %>
               </div>
 
-              <button type="submit" class="btn btn-primary">Mettre à jour</button>
+              <button type="submit" class="btn mt-4 btn-primary">Mettre à jour</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
 <script>
   tinymce.init({
     selector: 'textarea#description',

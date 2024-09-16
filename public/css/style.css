@@ -388,7 +388,23 @@ ul, li {
     color: var(--white) !important;
 }
 
+button.btn-notif {
+    background: rgb(0 0 0 / 20%);
+    border: 0;
+    border-radius: 15px;
+    font-size: 1em;
+    color: #fff;
+    padding: 0.5em 1em;
+}
 
+.unread {
+    background-color: var(--blue); /* couleur pour une notification non lue */
+  }
+  
+  .read {
+    background-color: var(--light); /* couleur pour une notification lue */
+  }
+  
 .mtbs{
     margin-top: 29px;
 }
@@ -658,12 +674,10 @@ p.card-categorie{
     margin-top: 0.5em;
 }
 .carousel-inner{
-    width: 90% !important;
+    width: 100% !important;
     margin: auto !important;
 }
-.carousel-control-prev , .carousel-control-next {
-    width: 2.5% !important;
-}
+
 
 /* --------- Breadcrumb ---------- */
 

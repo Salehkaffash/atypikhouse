@@ -3,76 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/material-dashboard.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="https://cdn.tiny.cloud/1/obuvcqs9576s28bsa9j1b7921z1gljr2khea3mo8hzbrdm5x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <title>Admin Dashboard</title>
+
+      <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/material-dashboard.css">
+
+    <!-- js Files -->
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+
+    <!-- Saira Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">    
+    <script src="https://cdn.tiny.cloud/1/zdtcfe1fvgcryohoophq1f4hs9lv8tbcyklegpll2gkylova/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.8/index.global.min.css" rel="stylesheet">
+
+    <style>
+        #calendar {
+            margin-bottom: 20px;
+        }
+        .explanation {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="sidebar" data-color="purple" data-background-color="white">
-            <div class="logo">
-                <a href="#" class="simple-text logo-normal">Atypikhouse</a>
-            </div>
-            <div class="sidebar-wrapper">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/hebergements">
-                            <p>Hébergements</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/bookings">
-                            <p>Réservations</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/avis">
-                            <p>Avis</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/messages">
-                            <p>Messages</p>
-                        </a>
-                    </li>
-
-                    <% if (user.role === 'admin') { %>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/admin/pages">
-                                <p>Pages</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/destinations">
-                                <p>Destinations</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/themes">
-                                <p>Thèmes</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/blog">
-                                <p>Blog</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/newsletters">
-                                <p>Newsletter</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/users">
-                                <p>Utilisateurs</p>
-                            </a>
-                        </li>                         
-                    <% } %>
-                </ul>
+<div class="bg-light">
+    <div class="container">
+        <div class="row py-3">
+            <div class="col-md-12">
+                <div class="sidebar" data-color="purple" data-background-color="white">
+                    <div class="sidebar-wrapper">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link bold" href="/admin">My Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/hebergements">Hébergements</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/bookings">Réservations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/avis">Avis</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/messages">Messages</a>
+                            </li>
+        
+                            <% if (user.role === 'admin') { %>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/admin/pages">Pages</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/destinations">Destinations</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/themes">Thèmes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/blog">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/newsletters">Newsletter</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/users">Utilisateurs</a>
+                                </li>                         
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
+
+        
         <div class="main-panel">
             <%- include(`partials/${partial}`, { 
                 themes: typeof themes !== 'undefined' ? themes : [], 
@@ -80,7 +128,6 @@
                 article: typeof article !== 'undefined' ? article : null 
             }) %>
         </div>
-    </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

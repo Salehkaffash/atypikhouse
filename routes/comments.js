@@ -1,7 +1,7 @@
 // routes/comments.js
 const express = require('express');
 const router = express.Router();
-const { Comment, Housing, Booking, User } = require('../models');
+const { Comment, Housing, Booking, User, Notification } = require('../models'); // Ajoutez Notification ici
 const upload = require('../config/multer');
 const { ensureAuthenticated } = require('../middleware/auth');
 
@@ -20,6 +20,12 @@ router.post('/:housingId/comments', ensureAuthenticated, upload.single('photo'),
       return res.status(403).send('Vous devez réserver cet hébergement pour laisser un commentaire.');
     }
 
+    const housing = await Housing.findByPk(housingId);
+
+    if (!housing) {
+      return res.status(404).send('Hébergement non trouvé.');
+    }
+
     await Comment.create({
       content,
       rating,
@@ -28,12 +34,31 @@ router.post('/:housingId/comments', ensureAuthenticated, upload.single('photo'),
       HousingId: housingId
     });
 
+    // Notifier l'hébergeur
+    await Notification.create({
+      type: 'comment',
+      content: `Nouvel avis laissé pour l'hébergement ${housing.title} par ${req.user.firstName}`,
+      UserId: housing.ownerId // Notifier l'hébergeur
+    });
+
+    // Notifier également l'administrateur
+    const admin = await User.findOne({ where: { role: 'admin' } });
+    if (admin) {
+      await Notification.create({
+        type: 'comment',
+        content: `Nouvel avis pour l'hébergement ${housing.title}`,
+        UserId: admin.id // Notifier l'administrateur
+      });
+    }
+
     res.redirect(`/hebergements/${housingId}`);
   } catch (err) {
     console.error('Error adding comment:', err);
     res.status(500).send('Server Error');
   }
 });
+
+
 
 // Modifier un commentaire
 router.post('/:housingId/comments/:id/edit', ensureAuthenticated, upload.single('photo'), async (req, res) => {
@@ -72,5 +97,6 @@ router.post('/:housingId/comments/:id/delete', ensureAuthenticated, async (req, 
     res.status(500).send('Server Error');
   }
 });
+
 
 module.exports = router;

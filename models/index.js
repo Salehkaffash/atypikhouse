@@ -18,15 +18,18 @@ db.Page = require('./page')(sequelize, Sequelize.DataTypes);
 db.Blog = require('./blog')(sequelize, Sequelize.DataTypes);
 db.Photo = require('./photo')(sequelize, Sequelize.DataTypes);
 db.Newsletter = require('./newsletter')(sequelize, Sequelize.DataTypes);
+db.Message = require('./message')(sequelize, Sequelize.DataTypes);
+db.Notification = require('./notification')(sequelize, Sequelize.DataTypes);
 
-// Associations
+// Associations pour Housing et Equipment
 db.Housing.belongsToMany(db.Equipment, { through: 'HousingEquipments', foreignKey: 'HousingId' });
 db.Equipment.belongsToMany(db.Housing, { through: 'HousingEquipments', foreignKey: 'EquipmentId' });
 
-// Ajout du modèle Message
-db.Message = require('./message')(sequelize, Sequelize.DataTypes);
+// Association pour Notification et User
+db.Notification.belongsTo(db.User, { foreignKey: 'UserId' });
+db.User.hasMany(db.Notification, { foreignKey: 'UserId' });
 
-// Associations
+// Associations pour les autres modèles
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

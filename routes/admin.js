@@ -14,11 +14,36 @@ const getCommonData = async () => {
   return { themes, destinations };
 };
 
+
 // Tableau de bord de l'administrateur ou hébergeur
 router.get('/', ensureAdminOrHebergeur, async (req, res) => {
-  const { themes, destinations } = await getCommonData();
-  res.render('admin/dashboard', { title: 'Tableau de bord', partial: 'dashboard', themes, destinations });
+  try {
+    // Récupérer les notifications de l'utilisateur (admin ou hébergeur)
+    const notifications = await db.Notification.findAll({
+      where: {
+        UserId: req.user.id
+      },
+      order: [['createdAt', 'DESC']]  // Optionnel : trier les notifications par date
+    });
+
+    // Récupérer les thèmes et destinations
+    const themes = await db.Theme.findAll();
+    const destinations = await db.Destination.findAll();
+
+    // Rendre la vue avec les notifications
+    res.render('admin/dashboard', {
+      title: 'Tableau de bord',
+      partial: 'dashboard',
+      themes,
+      destinations,
+      notifications // Ajouter les notifications ici
+    });
+  } catch (err) {
+    console.error('Error fetching dashboard data:', err);
+    res.status(500).send('Server Error');
+  }
 });
+
 
 
 // Thèmes -----------------------------------------------
@@ -967,6 +992,48 @@ router.get('/newsletters', ensureAdmin, async (req, res) => {
     res.status(500).send('Error fetching newsletter emails');
   }
 });
+
+
+// Notifications  -----------------------------------------------
+
+// Route pour afficher les notifications
+router.get('/notifications', ensureAuthenticated, async (req, res) => {
+  const notifications = await db.Notification.findAll({
+    where: { UserId: req.user.id },
+    order: [['createdAt', 'DESC']]
+  });
+  res.render('admin/dashboard', { partial: 'notifications', notifications });
+});
+
+
+// Route pour marquer une notification comme lue
+router.post('/notifications/:id/mark-as-read', ensureAdminOrHebergeur, async (req, res) => {
+  try {
+    const notification = await db.Notification.findByPk(req.params.id);
+    if (notification) {
+      console.log('Notification trouvée:', notification);
+
+      if (notification.UserId === req.user.id) {
+        notification.read = true;
+        await notification.save();
+        console.log('Notification mise à jour dans la base de données:', notification);
+      } else {
+        console.log('L\'utilisateur n\'est pas autorisé à modifier cette notification');
+        return res.status(403).send('Non autorisé');
+      }
+
+      res.redirect('/admin');
+    } else {
+      console.log('Notification non trouvée');
+      res.status(404).send('Notification non trouvée');
+    }
+  } catch (err) {
+    console.error('Error marking notification as read:', err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 
 
 module.exports = router;

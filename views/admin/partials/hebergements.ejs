@@ -1,20 +1,18 @@
-<div class="content">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="card">
+        <div class="py-5">
           <div class="card-header card-header-primary">
-            <h4 class="card-title">Gestion des Hébergements</h4>
-            <p class="card-category">Liste des hébergements existants</p>
+            <h4 class="txt-green h2">Gestion des Hébergements</h4>
+            <p class="txt-green">Liste des hébergements existants</p>
           </div>
           <div class="card-body">
-            <a href="/admin/hebergements/new" class="btn btn-primary">Ajouter un nouvel hébergement</a>
+            <a href="/admin/hebergements/new" class="btn txt-white btn-green">Ajouter un nouvel hébergement</a>
             <div class="table-responsive">
               <table class="table">
                 <thead class="text-primary">
                   <th>ID</th>
                   <th>Titre</th>
-                  <th>Description</th>
                   <th>Type</th>
                   <th>Prix</th>
                   <th>Capacité</th>
@@ -27,7 +25,6 @@
                     <tr>
                       <td><%= hebergement.id %></td>
                       <td><%= hebergement.title %></td>
-                      <td><%= hebergement.description %></td>
                       <td><%= hebergement.type %></td>
                       <td><%= hebergement.price %></td>
                       <td><%= hebergement.capacity %></td>
@@ -55,4 +52,3 @@
       </div>
     </div>
   </div>
-</div>

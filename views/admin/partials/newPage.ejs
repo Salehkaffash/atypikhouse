@@ -1,38 +1,37 @@
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Ajouter une nouvelle page</h4>
-          </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
+        <div class="card-header card-header-primary">
+          <h4 class="txt-green h2">Ajouter une nouvelle page</h4>
+        </div>
           <div class="card-body">
             <form action="/admin/pages/add" method="POST" enctype="multipart/form-data">
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="title">Titre de la page</label>
                 <input type="text" class="form-control" id="title" name="title" required>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="url">URL de la page</label>
                 <input type="text" class="form-control" id="url" name="url" required>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="content">Contenu</label>
                 <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="photo">Photo</label>
                 <input type="file" class="form-control" id="photo" name="photo">
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="seoTitle">SEO Title</label>
                 <input type="text" class="form-control" id="seoTitle" name="seoTitle">
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="seoDescription">Meta Description</label>
                 <textarea class="form-control" id="seoDescription" name="seoDescription" rows="3"></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group mt-4">
                 <label for="status">Statut</label>
                 <select class="form-control" id="status" name="status">
                   <option value="draft">Brouillon</option>
@@ -40,14 +39,14 @@
                   <option value="archived">Archivé</option>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Ajouter</button>
+              <button type="submit" class="btn mt-4 btn-primary">Ajouter</button>
             </form>            
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
 <script>
   tinymce.init({
     selector: 'textarea#content',

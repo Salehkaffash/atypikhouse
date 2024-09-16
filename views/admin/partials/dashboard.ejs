@@ -1,17 +1,71 @@
-<div class="content">
-    <div class="container-fluid">
+<div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-primary">
-                        <h4 class="card-title">Tableau de bord</h4>
-                        <p class="card-category">Bienvenue sur le tableau de bord de l'administrateur</p>
+                <div class="py-5">
+                    <div class="d-flex gap-3">
+                        <div class="col-md">
+                            <h1 class="txt-green h2">Tableau de bord</h1>
+                            <p class="txt-green">Bienvenue sur le tableau de bord de l'administrateur</p>
+                        </div>
+                    <div class="col-md-6 text-end">
+                        <a href="/admin/hebergements/new" class="btn txt-white mt-3 btn-green">Ajouter un hébergement</a>
+                        <a href="/admin/pages/new" class="btn txt-white mt-3 btn-green">Ajouter une page</a> - 
+                        <a href="/" class="btn txt-white mt-3 btn btn-blue">Voir le site</a>
                     </div>
-                    <div class="card-body">
-                        <p>Utilisez le menu de gauche pour naviguer entre les différentes sections de l'administration.</p>
                     </div>
+                    <div class="notifications-section mt-5">
+                        <h4 class="txt-green">Notifications</h4>
+                        <ul class="">
+                            <% if (notifications && notifications.length > 0) { %>
+                                <% notifications.forEach(notification => { %>
+                                    <li class=" d-flex justify-content-between align-items-center p-2 br20 my-3 <%= notification.read ? 'read' : 'unread' %>">
+                                        <p class="m-0 txt-white ps-2 bold"><%= notification.content %></p>
+                                        <form action="/admin/notifications/<%= notification.id %>/mark-as-read" method="POST">
+                                            <button class="btn-notif" type="submit">Marquer comme lu</button>
+                                        </form>
+                                        
+                                    </li>
+                                <% }) %>
+                            <% } else { %>
+                                <li>Aucune notification</li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    
+                      
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script>
+  document.querySelectorAll('.btn-notif').forEach(button => {
+    button.addEventListener('click', async function (event) {
+      event.preventDefault();
+
+      const form = this.closest('form');
+      const url = form.action;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        });
+
+        if (response.ok) {
+          // Si la notification est marquée comme lue, on peut mettre à jour l'UI
+          form.closest('li').classList.add('read');
+          // Optionnel : supprimer la notification après l'avoir marquée comme lue
+          form.closest('li').remove();
+        } else {
+          console.error('Erreur lors du marquage de la notification comme lue');
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête', error);
+      }
+    });
+  });
+</script>
+

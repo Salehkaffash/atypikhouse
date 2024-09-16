@@ -64,59 +64,10 @@
 
 <div class="bg-light">
 
-  <div class="container py-5">
+  <div class="container py-3 py-md-5">
 
-    <div class="row align-items-center py-3">
-      <div class="col-md-6">
-        <p class="text-muted pb-4">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
-
-        <h1 class="txt-green h2 pb-2 bold"><%= housing.title %></h1>
-
-        <!-- Résumé des évaluations -->
-        <div>
-          <% 
-            let totalRating = 0;
-            let totalComments = housing.Comments ? housing.Comments.length : 0;
-            housing.Comments && housing.Comments.forEach(comment => {
-              totalRating += comment.rating;
-            });
-            let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
-          %>
-          <div class="d-flex gap-3 align-items-center">
-            <p class="mb-0"><%= averageRating %> / 5</p>
-            <div class="ml-3">
-              <% for(let i = 1; i <= 5; i++) { %>
-                <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
-              <% } %>
-            </div>
-            <span class="ml-2">(<%= totalComments %> commentaires)</span>
-          </div>
-        </div>
-
-        <p class="h5 txt-green mt-5 py-3">Prix : <span class="txt-blue fw6"><%= housing.price %> €</span>, la nuit</p>
-
-        <div class="d-flex mt-3 gap-2">
-          <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Capacité : </span><%= housing.capacity %> personnes maximums</p>
-          </div>
-          <% if (housing.Destination) { %>
-          <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Destination : </span><a href="/destinations/<%= housing.Destination.id %>" class="fw6 txt-blue"><%= housing.Destination.name %></a></p>
-          </div>
-          <% } %>
-        </div>        
-
-        <div class="d-flex mt-2 gap-2">
-          <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Thème : </span><a href="/themes/<%= housing.Theme.id %>/hebergements" class="fw6 txt-blue"><%= housing.Theme.name %></a></p>
-          </div>
-          <div class="col-6 bs10 bg-white br20 p-3">
-            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Catégories : </span><% housing.type.split(',').forEach(category => { %> <span class="txt-green fw6"><%= category.trim() %></span><% }); %></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
+    <div class="row align-items-center gap-4 py-3">
+      <div class="col-md">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
             <% if (housing.Photos && housing.Photos.length > 0) { %>
@@ -142,11 +93,60 @@
         </div>
       </div>
 
+      <div class="col-md-7">
+        <p class="text-muted pb-2">Publié le <%= new Date(housing.createdAt).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+
+        <h1 class="txt-green h2 pb-2 bold"><%= housing.title %></h1>
+
+        <!-- Résumé des évaluations -->
+        <div>
+          <% 
+            let totalRating = 0;
+            let totalComments = housing.Comments ? housing.Comments.length : 0;
+            housing.Comments && housing.Comments.forEach(comment => {
+              totalRating += comment.rating;
+            });
+            let averageRating = totalComments ? (totalRating / totalComments).toFixed(1) : 0;
+          %>
+          <div class="d-flex gap-3 align-items-center">
+            <p class="mb-0"><%= averageRating %> / 5</p>
+            <div class="ml-3">
+              <% for(let i = 1; i <= 5; i++) { %>
+                <i class="fas fa-star <%= i <= averageRating ? 'text-warning' : 'text-muted' %>"></i>
+              <% } %>
+            </div>
+            <span class="ml-2">(<%= totalComments %> commentaires)</span>
+          </div>
+        </div>
+
+        <p class="h5 txt-green mt-2 mt-md-3 py-3">Prix : <span class="txt-blue fw6"><%= housing.price %> €</span>, la nuit</p>
+
+        <div class="d-flex mt-3 gap-2">
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Capacité : </span><%= housing.capacity %> personnes maximums</p>
+          </div>
+          <% if (housing.Destination) { %>
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Destination : </span><a href="/destinations/<%= housing.Destination.id %>" class="fw6 txt-blue"><%= housing.Destination.name %></a></p>
+          </div>
+          <% } %>
+        </div>        
+
+        <div class="d-flex mt-2 gap-2">
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Thème : </span><a href="/themes/<%= housing.Theme.id %>/hebergements" class="fw6 txt-blue"><%= housing.Theme.name %></a></p>
+          </div>
+          <div class="col-6 bs10 bg-white br20 p-3">
+            <p class="txt-green m-0 fw6"><span class="mb-2 text-muted fw5">Catégories : </span><% housing.type.split(',').forEach(category => { %> <span class="txt-green fw6"><%= category.trim() %></span><% }); %></p>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="row py-3">
       <form action="/bookings/add" method="POST">
-        <div class="bg-blue p-4 br20 d-flex align-items-end gap-3">
+        <div class="bg-blue p-4 align-items-end search-form gap-3 br20 row">
         <input type="hidden" name="housingId" value="<%= housing.id %>">
         <div class="form-group col-md-3">
           <label for="startDate" class="txt-white p">Date d'arrivée</label>
@@ -167,8 +167,8 @@
       </form>
     </div>
 
-    <div class="row py-5">
-      <div class="col-md-8">
+    <div class="row py-5 gap-3">
+      <div class="col-md">
         <h4 class="h4 txt-green mb-3">Informations complémentaires</h4>
         <div class="p-4 bg-white br20 bs10">
           <%- housing.description %>
@@ -176,7 +176,7 @@
       </div>
       <div class="col-md-4">
         <!-- Box des équipements -->
-        <h4 class="h4 txt-green mb-3">Équipements</h4>
+        <h4 class="h4 txt-green mb-3">Équipements / Services</h4>
           <div class="bg-white p-4 br20 bs10">
             <% if (housing.Equipments && housing.Equipments.length > 0) { %>
               <ul>

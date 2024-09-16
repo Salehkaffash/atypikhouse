@@ -16,7 +16,6 @@ function paypalClient() {
     )
   );
 }
-1;
 
 // Route pour afficher les réservations de l'utilisateur
 router.get("/", ensureAuthenticated, async (req, res) => {
@@ -30,15 +29,12 @@ router.get("/", ensureAuthenticated, async (req, res) => {
           include: [
             {
               model: db.Photo,
-              as: "Photos"
-            }
-          ]
-        }
+              as: "Photos",
+            },
+          ],
+        },
       ],
     });
-
-    
-
 
     // Trier les réservations par statut
     const ongoingBookings = bookings.filter(
@@ -189,25 +185,48 @@ router.post("/add", ensureAuthenticated, async (req, res) => {
       },
     });
 
-    // Exécution de la commande PayPal
-    const order = await paypalClient().execute(request);
+    try {
+      // Exécution de la commande PayPal
+      const order = await paypalClient().execute(request);
 
-    // Enregistrement des données de réservation dans la session
-    req.session.bookingData = {
-      UserId: req.user.id,
-      HousingId: housingId,
-      startDate,
-      endDate,
-      status: "pending",
-      orderId: order.result.id,
-      totalPrice, // Ajouter le prix total pour la réservation
-    };
+      // Enregistrement des données de réservation dans la session
+      req.session.bookingData = {
+        UserId: req.user.id,
+        HousingId: housingId,
+        startDate,
+        endDate,
+        status: "pending",
+        orderId: order.result.id,
+        totalPrice, // Ajouter le prix total pour la réservation
+      };
 
-    // Récupération de l'URL d'approbation PayPal
-    const approvalUrl = order.result.links.find(
-      (link) => link.rel === "approve"
-    ).href;
-    res.redirect(approvalUrl);
+      // Récupérer l'admin
+      const admin = await db.User.findOne({ where: { role: "admin" } });
+      if (admin) {
+        await db.Notification.create({
+          type: "booking",
+          content: `Nouvelle réservation pour l'hébergement ${housing.title}`,
+          UserId: admin.id, // Utilisez l'ID de l'admin récupéré
+        });
+      }
+
+      // Notification de l'hébergeur
+      await db.Notification.create({
+        type: "booking",
+        content: `Nouvelle réservation pour l'hébergement ${housing.title} du ${startDate} au ${endDate}`,
+        UserId: housing.ownerId, // Envoyer la notification à l'hébergeur
+      });
+
+      // Récupération de l'URL d'approbation PayPal
+      const approvalUrl = order.result.links.find(
+        (link) => link.rel === "approve"
+      ).href;
+
+      res.redirect(approvalUrl);
+    } catch (err) {
+      console.error("Erreur lors de la création de la commande PayPal:", err);
+      res.status(500).send("Erreur serveur lors de la création de la commande PayPal");
+    }
   } catch (err) {
     console.error("Error creating booking:", err);
     res.status(500).send("Server Error");

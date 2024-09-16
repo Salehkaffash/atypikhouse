@@ -1,42 +1,41 @@
-<div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Modifier l'utilisateur</h4>
-            </div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
+        <div class="card-header card-header-primary">
+          <h4 class="txt-green h2">Modifier l'utilisateur</h4>
+        </div>
             <div class="card-body">
               <form action="/admin/users/edit/<%= user.id %>" method="POST">
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="username">Nom d'utilisateur</label>
                   <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="email">Email</label>
                   <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="firstName">Prénom</label>
                   <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.firstName %>" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="lastName">Nom</label>
                   <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="phone">Téléphone</label>
                   <input type="text" class="form-control" id="phone" name="phone" value="<%= user.phone %>">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="address">Adresse</label>
                   <input type="text" class="form-control" id="address" name="address" value="<%= user.address %>">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="photo">Photo</label>
                   <input type="text" class="form-control" id="photo" name="photo" value="<%= user.photo %>">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="role">Rôle</label>
                   <select class="form-control" id="role" name="role" required>
                     <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
@@ -44,7 +43,7 @@
                     <option value="acheteur" <%= user.role === 'acheteur' ? 'selected' : '' %>>Acheteur</option>
                   </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                <button type="submit" class="btn mt-4 btn-primary">Enregistrer les modifications</button>
               </form>
             </div>
           </div>

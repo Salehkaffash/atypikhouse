@@ -1,26 +1,25 @@
-<div class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Ajouter un nouvel utilisateur</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
+        <div class="card-header card-header-primary">
+          <h4 class="txt-green h2">Ajouter un nouvel utilisateur</h4>
             </div>
             <div class="card-body">
               <form action="/admin/users/new" method="POST">
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="username">Nom d'utilisateur</label>
                   <input type="text" class="form-control" id="username" name="username" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="email">Email</label>
                   <input type="email" class="form-control" id="email" name="email" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="password">Mot de passe</label>
                   <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="role">Rôle</label>
                   <select class="form-control" id="role" name="role" required>
                     <option value="admin">Admin</option>
@@ -28,32 +27,31 @@
                     <option value="acheteur">Acheteur</option>
                   </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="firstName">Prénom</label>
                   <input type="text" class="form-control" id="firstName" name="firstName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="lastName">Nom</label>
                   <input type="text" class="form-control" id="lastName" name="lastName" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="phone">Téléphone</label>
                   <input type="text" class="form-control" id="phone" name="phone">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="address">Adresse</label>
                   <input type="text" class="form-control" id="address" name="address">
                 </div>
-                <div class="form-group">
+                <div class="form-group mt-4">
                   <label for="photo">Photo</label>
                   <input type="text" class="form-control" id="photo" name="photo">
                 </div>
-                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <button type="submit" class="btn mt-4 btn-primary">Ajouter</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   

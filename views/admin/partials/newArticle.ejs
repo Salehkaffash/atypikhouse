@@ -1,10 +1,9 @@
-<div class="content">
-    <div class="container-fluid">
-        <div class="row">
+        <div class="container">
+            <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="py-5">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"><%= article ? 'Modifier l\'article' : 'Ajouter un nouvel article' %></h4>
+                        <h4 class="txt-green h2"><%= article ? 'Modifier l\'article' : 'Ajouter un nouvel article' %></h4>
                     </div>
                     <div class="card-body">
                         <form action="<%= article ? '/admin/blog/edit/' + article.id : '/admin/blog/new' %>" method="POST" enctype="multipart/form-data">
@@ -46,7 +45,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <script>
   tinymce.init({
     selector: 'textarea#content',

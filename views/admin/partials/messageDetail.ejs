@@ -1,13 +1,12 @@
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title">Détail du Message</h4>
-            <p class="card-category">Détails du message reçu</p>
-          </div>
-          <div class="card-body">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="py-5">
+        <div class="card-header card-header-primary">
+          <h4 class="txt-green h2">Détail du Message</h4>
+          <p class="txt-green">Détails du message reçu</p>
+        </div>
+          <div class="bg-light br20 p-4">
             <div>
               <p><strong>Nom :</strong> <%= message.name %></p>
               <p><strong>Email :</strong> <%= message.email %></p>
@@ -23,11 +22,12 @@
                 <p><strong>Provenance :</strong> Page de Contact Général</p>
               <% } %>
 
-              <a href="/admin/messages" class="btn btn-secondary">Retour à la liste</a>
             </div>
           </div>
+            <a href="/admin/messages" class="btn mt-4 btn-secondary">Retour à la liste</a>
+          
         </div>
       </div>
     </div>
   </div>
-</div>
+

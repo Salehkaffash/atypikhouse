@@ -4,13 +4,13 @@
       <div class="col-md-3 py-5">
         <img src="/images/logo-footer.svg" height="60" class="mb-3" alt="Logo">
         <h2 class="h4 fw6 txt-blue">AtypikHouse</h2>
-        <p class="fw4 txt-green">Des séjours uniques dans des habitats insolites en pleine nature. Vivez une expérience inoubliable !</p>
+        <p class="fw4 lh16 txt-green">Des séjours uniques dans des habitats insolites en pleine nature. Vivez une expérience inoubliable !</p>
         <p class="fw2 lh12 txt-green">Suivez-nous sur les réseaux sociaux :</p>
         <div class="social-media gap-2 d-flex">
-          <a class="facebook" title="#"><i class="fa-brands fa-facebook-f"></i></a>
-          <a class="instagram" title="#"><i class="fa-brands fa-instagram"></i></a>
-          <a class="linkedin" title="#"><i class="fa-brands fa-linkedin-in"></i></a>
-          <a class="tiktok" title="#"><i class="fa-brands fa-tiktok"></i></a>
+          <a class="facebook" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a class="instagram" href="https://www.instagram.com/atyyypikhouse/"><i class="fa-brands fa-instagram"></i></a>
+          <a class="linkedin" href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="tiktok" href="#"><i class="fa-brands fa-tiktok"></i></a>
         </div>
       </div>
       <div class="col-md-3 col-6 py-5">
@@ -21,7 +21,7 @@
           <li><a href="/contact">Contactez-nous</a></li>
           <li><a href="/hote">Devenir hôte</a></li>
           <li><a href="/blog">Blog</a></li>
-          <li><a href="/">Politique de confidentialité</a></li>
+          <li><a href="/politique">Politique de confidentialité</a></li>
           <li><a href="/presentation">Mentions légales</a></li>
         </ul>
       </div>
@@ -33,16 +33,18 @@
           <li><a href="/reservation">Mes réservations</a></li>
           <li><a href="/paiement">Service de Paiement</a></li>
           <li><a href="/mapsite">Plan du site</a></li>
-          <li><a href="/mapsite">Notre newsletter</a></li>
+          <li><a href="/newsletter">Notre newsletter</a></li>
         </ul>
       </div>
       <div class="col-md-3 py-5">
         <p class="h4 fw6 txt-blue">Notre applications</p>
-        
+        <p class="my-3 lh16 txt-green">Vous pouvez facilement installer notre application à partir de votre navigateur.</p>
+        <button class="add-to-home-btn btn btn-green-light txt-green"><i class="fa-solid fa-download me-2"></i> Installer notre Application</button>
       </div>
     </div>
   </div>
 </div>
+
 <footer class="bg-green text-center text-lg-start">
   <div class="text-center txt-white p-3">
     © 2024 AtypikHouse. Tous droits réservés.
@@ -51,6 +53,65 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  let deferredPrompt;
+  const addBtn = document.querySelector('.add-to-home-btn');
+  
+  // Détecter iOS
+  const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  }
+
+  // Vérifier si l'utilisateur est sur iOS
+  const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+  if (isIos() && !isInStandaloneMode()) {
+    // Afficher un message personnalisé pour les utilisateurs iOS
+    addBtn.style.display = 'block';
+    addBtn.textContent = 'Ajouter à l\'écran d\'accueil';
+    
+    addBtn.addEventListener('click', () => {
+      alert('Pour ajouter cette application à votre écran d\'accueil : \n1. Cliquez sur l\'icône de partage en bas de l\'écran. \n2. Sélectionnez "Ajouter à l\'écran d\'accueil".');
+    });
+  } else {
+    // Cacher le bouton par défaut
+    addBtn.style.display = 'none';
+
+    // Écouter l'événement beforeinstallprompt (fonctionne pour Android et autres)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Empêcher l'affichage automatique de la bannière d'installation
+      e.preventDefault();
+      // Stocker l'événement pour déclencher plus tard
+      deferredPrompt = e;
+      // Afficher le bouton
+      addBtn.style.display = 'block';
+
+      addBtn.addEventListener('click', () => {
+        // Cacher le bouton après le clic
+        addBtn.style.display = 'none';
+        // Afficher la bannière d'installation native
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('L\'utilisateur a accepté d\'installer l\'application');
+          } else {
+            console.log('L\'utilisateur a refusé d\'installer l\'application');
+          }
+          deferredPrompt = null;
+        });
+      });
+    });
+  }
+
+  // Optionnel : surveiller si l'application a été installée
+  window.addEventListener('appinstalled', (evt) => {
+    console.log('L\'application a été installée');
+  });
+</script>
+
+
 
   <script>
   if ('serviceWorker' in navigator) {
