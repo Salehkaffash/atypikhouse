@@ -41,9 +41,9 @@
                 <p class="text-muted mb-1"><%= user.email %></p>
               </div>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/profile">Ma profile</a>
+              <a class="dropdown-item" href="/profile">Mon profile</a>
               <% if (user.role === 'admin' || user.role === 'hebergeur') { %>
-              <a class="dropdown-item" href="/admin">Mon panel admin</a>
+              <a class="dropdown-item" href="/admin">Mon Tableau de bord</a>
               <% } %>
               <a class="dropdown-item" href="/bookings">Mes Réservations</a>
               <div class="dropdown-divider"></div>

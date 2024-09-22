@@ -21,18 +21,16 @@
           <li><a href="/contact">Contactez-nous</a></li>
           <li><a href="/hote">Devenir hôte</a></li>
           <li><a href="/blog">Blog</a></li>
-          <li><a href="/politique">Politique de confidentialité</a></li>
-          <li><a href="/presentation">Mentions légales</a></li>
+          <li><a href="/mentions-legales">Mentions légales</a></li>
         </ul>
       </div>
       <div class="col-md-3 col-6 py-5">
         <p class="h4 fw6 txt-blue">Nos services</p>
         <ul class="menu-footer">
           <li><a href="/register">Creer un compte</a></li>
-          <li><a href="/profile">Ma profile</a></li>
+          <li><a href="/profile">Mon profile</a></li>
           <li><a href="/reservation">Mes réservations</a></li>
-          <li><a href="/paiement">Service de Paiement</a></li>
-          <li><a href="/mapsite">Plan du site</a></li>
+          <li><a href="/sitemap.xml">Plan du site</a></li>
           <li><a href="/newsletter">Notre newsletter</a></li>
         </ul>
       </div>
@@ -44,7 +42,6 @@
     </div>
   </div>
 </div>
-
 <footer class="bg-green text-center text-lg-start">
   <div class="text-center txt-white p-3">
     © 2024 AtypikHouse. Tous droits réservés.
@@ -54,6 +51,94 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<!-- Popup de consentement des cookies -->
+<div id="cookieConsent" class="cookie-consent">
+  <p>Nous utilisons des cookies pour vous offrir la meilleure expérience sur notre site. En continuant, vous acceptez notre <a href="/privacy-policy" target="_blank">politique de confidentialité</a>.</p>
+  <button id="acceptCookies" class="cookie-btn">Accepter</button>
+  <button id="declineCookies" class="cookie-btn">Refuser</button>
+</div>
+
+<!-- Styles pour la popup des cookies -->
+<style>
+  .cookie-consent {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 9999;
+  }
+  .cookie-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  .cookie-btn:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<script>
+  // Vérifie si l'utilisateur a déjà donné son consentement
+  const cookieConsent = document.getElementById('cookieConsent');
+  const acceptCookiesBtn = document.getElementById('acceptCookies');
+  const declineCookiesBtn = document.getElementById('declineCookies');
+
+  // Fonction pour créer un cookie
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
+
+  // Fonction pour lire un cookie
+  function getCookie(name) {
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    name = name + "=";
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Afficher la popup si l'utilisateur n'a pas encore donné son consentement
+  if (!getCookie('cookieConsent')) {
+    cookieConsent.style.display = 'block';
+  }
+
+  // Lorsque l'utilisateur accepte les cookies
+  acceptCookiesBtn.addEventListener('click', function() {
+    setCookie('cookieConsent', 'accepted', 365);
+    cookieConsent.style.display = 'none';
+    // Vous pouvez ajouter ici des scripts ou activer des fonctionnalités de cookies si nécessaire
+    console.log('Cookies accepted');
+  });
+
+  // Lorsque l'utilisateur refuse les cookies
+  declineCookiesBtn.addEventListener('click', function() {
+    setCookie('cookieConsent', 'declined', 365);
+    cookieConsent.style.display = 'none';
+    // Vous pouvez désactiver certains scripts ou fonctionnalités qui utilisent des cookies ici
+    console.log('Cookies declined');
+  });
+</script>
+ 
 <script>
   let deferredPrompt;
   const addBtn = document.querySelector('.add-to-home-btn');

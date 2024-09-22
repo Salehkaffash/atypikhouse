@@ -50,6 +50,10 @@
   <link rel="manifest" href="/js/manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="/images/192.png">
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVQHXD756X"></script>
+  <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-HVQHXD756X'); </script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
@@ -61,7 +65,7 @@
     <div class="container d-flex h-100 align-items-center">
       <div class="row">
         <div class="col-md-6">
-          <h1 class="bold mb-5 pb-5 text-start">Offrez-vous des vacances dans l'une de nos Atypikhouse</h1>
+          <h1 class="bold mb-5 pb-5 text-start">Offrez-vous des vacances dans l'une de nos AtypikHouse</h1>
         </div>
       </div>
     </div>
@@ -73,7 +77,7 @@
       <div class="container">
         <div class="row">
           <div class="search-p">
-            <h2 class="h5 mb-3 txt-white text-start">Trouvez votre hébergements insolites ici :</h2>
+            <h2 class="h5 mb-3 txt-white text-start">Trouvez vos hébergements insolites ici :</h2>
             <form class="search-form gap-3 bg-white br20 row" action="/search" method="GET">
               <div class="form-group col-md-2">
                 <label for="destination" class="sr-only">Destination</label>
@@ -164,7 +168,7 @@
     <div class="container py-5">
       <div class="row py-5 justify-content-center">
         <div class="col-md-8 text-center">
-          <h2 class="h3 txt-blue fw5">Trouvez votre thèmes de séjour ici !</h2>
+          <h2 class="h3 txt-blue fw5">Trouvez votre thème de séjour ici !</h2>
           <p class="txt-black h6 lh16 fw2">Explorez nos différents thèmes de séjour, chacun conçu pour offrir une expérience unique et mémorable, en parfaite harmonie avec la nature.</p>
         </div>
         <div class="d-flex gap-3 flex-wrap justify-content-center py-5">
@@ -176,28 +180,28 @@
             </a>
           </div>
           <div class="card-theme">
-            <a href="/themes/1/hebergements">
+            <a href="/themes/2/hebergements">
             <img class="w-100" src="/images/Tiny-House.webp" alt="Séjour Écologique dans un Tiny House" title="Tiny House">
             <div class="theme-photo-g"></div>
             <h3>Tiny House<span>Séjour Écologique</span></h3>
             </a>
           </div>
           <div class="card-theme">
-            <a href="/themes/1/hebergements">
+            <a href="/themes/3/hebergements">
             <img class="w-100" src="/images/chalet.webp" alt="Séjour Familial dans un Chalet" title="Chalet">
             <div class="theme-photo-g"></div>
             <h3>Chalet<span>Séjour Familial</span></h3>
             </a>
           </div>
           <div class="card-theme">
-            <a href="/themes/1/hebergements">
+            <a href="/themes/4/hebergements">
             <img class="w-100" src="/images/bulle.webp" alt="Séjour Glamping dans un bulle" title="Bulle">
             <div class="theme-photo-g"></div>
             <h3>Bulle<span>Séjour Glamping</span></h3>
             </a>
           </div>
           <div class="card-theme">
-            <a href="/themes/1/hebergements">
+            <a href="/themes/5/hebergements">
             <img class="w-100" src="/images/Maison-Hobbit.webp" alt="Séjour Fantastique dans une Maison Hobbit" title="Maison Hobbit">
             <div class="theme-photo-g"></div>
             <h3>Maison Hobbit<span>Séjour Fantastique</span></h3>
@@ -287,11 +291,11 @@
           </div>
           <a class="carousel-control-prev" href="#recentCommentsCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">Précédent</span>
           </a>
           <a class="carousel-control-next" href="#recentCommentsCarousel" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
+            <span class="sr-only">suivant</span>
           </a>
         </div>
       </div>
@@ -343,7 +347,7 @@
         </div>
         <div class="col-md-9 text-start">
           <h3 class="h3 txt-white fw5">Notre Green Newsletter</h3>
-          <p class="fw4 txt-black mb-3">Ne manquez pas notre newsletter mensuelle et laissez-vous inspirer pour profiter pleinement de votre séjour en Atypik house.</p>
+          <p class="fw4 txt-black mb-3">Ne manquez pas notre newsletter mensuelle et laissez-vous inspirer pour profiter pleinement de votre séjour en AtypikHouse.</p>
           <div id="newsletterResponse" class="d-flex flex-wrap align-items-center gap-3">
             <div class="col-12 col-md-6 ">
               <form class="form-inline form-group bg-newsletter d-flex gap-3" id="newsletterForm" action="/newsletter/subscribe" method="POST" >

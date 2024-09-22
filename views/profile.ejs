@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
 
   <!-- Page Info -->
-  <title>Ma Profile - Atypik House</title>
+  <title>Mon Profile - AtypikHouse</title>
   <meta name="description" content="La page de votre profile sur Atypikhouse" />
 
   <!-- SEO -->
@@ -43,6 +43,10 @@
   <!-- Icons Fontawesome -->
   <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVQHXD756X"></script>
+  <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-HVQHXD756X'); </script>
+
 </head>
 <body>
   <%- include('partials/nav') %>
@@ -67,9 +71,9 @@
         <p><%= user.email %></p>
         <p><%= user.phone %></p>
         <p><%= user.address %></p>
-        <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
-        <button class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteProfileModal">Delete Account</button>
-        <a href="/logout" class="btn btn-secondary mt-3">Logout</a>
+        <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#editProfileModal">Modifier Profile</button>
+        <button class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteProfileModal">Supprimer Profile</button>
+        <a href="/logout" class="btn btn-secondary mt-3">Se deconnecter</a>
       </div>
       <% if (error) { %>
         <p><%= error %></p>
@@ -84,7 +88,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+            <h5 class="modal-title" id="editProfileModalLabel">Modifier Profile</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -92,11 +96,11 @@
           <form action="/profile" method="POST" enctype="multipart/form-data">
             <div class="modal-body">
               <div class="form-group">
-                <label for="firstName">First Name</label>
+                <label for="firstName">Prénom</label>
                 <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.firstName %>" required>
               </div>
               <div class="form-group">
-                <label for="lastName">Last Name</label>
+                <label for="lastName">Nom</label>
                 <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>" required>
               </div>
               <div class="form-group">
@@ -104,15 +108,15 @@
                 <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
               </div>
               <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Nom d'utilisateur</label>
                 <input type="text" class="form-control" id="username" name="username" value="<%= user.username %>" disabled>
               </div>
               <div class="form-group">
-                <label for="phone">Phone</label>
+                <label for="phone">Téléphone</label>
                 <input type="text" class="form-control" id="phone" name="phone" value="<%= user.phone %>">
               </div>
               <div class="form-group">
-                <label for="address">Address</label>
+                <label for="address">Adresse</label>
                 <input type="text" class="form-control" id="address" name="address" value="<%= user.address %>">
               </div>
               <div class="form-group">
@@ -120,17 +124,17 @@
                 <input type="file" class="form-control-file" id="photo" name="photo">
               </div>
               <div class="form-group">
-                <label for="password">New Password</label>
+                <label for="password">Mot de passe</label>
                 <input type="password" class="form-control" id="password" name="password">
               </div>
               <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
+                <label for="confirmPassword">Confirmer mot de passe</label>
                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">férmer</button>
+              <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
             </div>
           </form>
         </div>
@@ -142,7 +146,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteProfileModalLabel">Delete Account</h5>
+            <h5 class="modal-title" id="deleteProfileModalLabel">Supprimer Profile</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -151,9 +155,9 @@
             Are you sure you want to delete your account? This action cannot be undone.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Férmer</button>
             <form action="/profile/delete" method="POST">
-              <button type="submit" class="btn btn-danger">Delete Account</button>
+              <button type="submit" class="btn btn-danger">Supprimer profile</button>
             </form>
           </div>
         </div>

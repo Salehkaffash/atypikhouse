@@ -617,7 +617,7 @@ p.card-categorie{
 .body-host{
     padding: 1em;
 }
-.body-host h4 {
+.body-host h3, .body-host h4 {
     margin: 0 !important;
     font-size: 1.2em !important;
     line-height: 1.2em !important;

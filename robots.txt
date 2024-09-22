@@ -1,0 +1,20 @@
+User-agent: *
+Disallow: /admin
+Disallow: /index.php
+Disallow: */trackback
+Disallow: /*/feed$
+Disallow: */feed*/$
+Disallow: /*/comments
+Disallow: /cgi-bin
+Disallow: /*.php$
+Disallow: /*.inc$
+Disallow: /*.gz
+Disallow: /*.cgi
+Disallow: /feed/
+Disallow: /slider
+Disallow: /*?filter_by=
+Disallow: /*/?sa=*
+Disallow: /*/?s=*
+
+
+Sitemap: https://dsp-dev-g5-sk-as-lm.fr/sitemap.xml

@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://dsp-dev-g5-sk-as-lm.fr/" />
 
   <!-- Page Info -->
-  <title>Se connecter - Atypik House</title>
+  <title>Se connecter - AtypikHouse</title>
   <meta name="description" content="Se connecter dans votre compte de Atypikhouse" />
 
   <!-- SEO -->
@@ -54,7 +54,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb m-0">
         <li class="breadcrumb-item"><a href="/">Accueil</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Me connecter</li>
+        <li class="breadcrumb-item active" aria-current="page">Se connecter</li>
       </ol>
     </nav>
   </div>
@@ -63,7 +63,7 @@
   <div class=" py-5 bg-light">
   <div class=" container d-flex justify-content-center  mt-5">
     <div class="col-md-6 text-center">
-      <h1 class="h2 txt-blue fw5 pt-5">Me connecter</h1>
+      <h1 class="h2 txt-blue fw5 pt-5">Se connecter</h1>
       <p class="h6 fw3 pb-5">Connectez-vous à votre compte AtypikHouse et découvrez le potentiel des services AtypikHouse que vous utilisez.</p>
     
     <% if (error) { %>
@@ -75,11 +75,11 @@
       <% } %>
     <form class="gap-4 d-flex row" action="/login" method="POST">
         <div class="col-md-12 text-start form-register">
-          <label for="username">Votre Username</label>
+          <label for="username">Nom d'utilisateur</label>
           <input type="text" class="form-control" id="username" name="username" required>
         </div>
         <div class="col-md-12 text-start form-register">
-          <label for="password">Password</label>
+          <label for="password">Mot de passe</label>
           <input type="password" class="form-control" id="password" name="password" required>
         </div>  
       <button type="submit" class="btn fullwith btn-primary">Allez, on y va !</button>

@@ -42,6 +42,11 @@
 
   <!-- Icons Fontawesome -->
   <script src="https://kit.fontawesome.com/9923ee27af.js" crossorigin="anonymous"></script>
+  
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HVQHXD756X"></script>
+  <script>   window.dataLayer = window.dataLayer || [];   function gtag(){dataLayer.push(arguments);}   gtag('js', new Date());   gtag('config', 'G-HVQHXD756X'); </script>
+
 
 </head>
 <body>
@@ -94,10 +99,10 @@
         </form>
       </div>
       <div class="col-md-8 justify-content-end text-right align-items-center gap-3 d-flex py-3">
-          <% if (user.role === 'admin' || user.role === 'hebergeur') { %>
-            <p class="txt-white m-0">Si vous voulez ajouter un hebergement, cliquez sur ce bouton :</p>
-            <a href="/hebergements/add" class="btn btn-primary">Ajouter un hébergement</a>
-        <% } %>
+          <% if (typeof user !== 'undefined' && (user.role === 'admin' || user.role === 'hebergeur')) { %>
+    <p class="txt-white m-0">Si vous voulez ajouter un hébergement, cliquez sur ce bouton :</p>
+    <a href="/hebergements/add" class="btn btn-primary">Ajouter un hébergement</a>
+<% } %>
       </div>
     </div>
 
@@ -117,7 +122,7 @@
               <% } %>
 
               <div class="body-host">
-                <h4><%= housing.title %></h4>
+                <h3><%= housing.title %></h3>
                 <p>Prix : <%= housing.price %> € <span><%= housing.capacity %> personnes max</span></p>
                 
               </div>
